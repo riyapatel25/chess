@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.sqc": "sql",
+        "xstring": "cpp",
+        "iostream": "cpp"
+    }
+}
