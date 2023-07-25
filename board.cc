@@ -14,13 +14,38 @@ using namespace std;
 
 //----big 5---//
     //constructor
-    Board::Board() {
+    Board::Board(type1: string, type2: string, isSetup: bool, setupString: string) { //type1
     setupBoard();
     turn = true; //white is true
     whiteWins = 0
     blackWins = 0
-    //initalize 2 players
+    initPlayer(type1)
+    initPlayer(type2)
+    this.currScore = new Score();
     }
+
+    initPlayer(type1: string, type2: string){
+        if(type1 == "human" && type2 == "human"){
+            this.player1 = new Human(1);
+            this.player2 = new Human(0);
+        } 
+        else if(type1 == "computer" && type2 == "computer"){
+            this.player1 = new Computer(1);
+            this.player2 = new Computer(0);
+        }
+        else if(type1 == "human" && type2 == "computer"){
+            this.player1 = new Human(1);
+            this.player2 = new Computer(0);
+        }
+        else if(type1 == "computer" && type2 == "human"){
+            this.player1 = new Computer(1);
+            this.player2 = new Human(0);
+        }
+        else{
+            cerr << "not a valid type";
+        }
+    }
+
     //destructor
     Board::~Board() {
     // Implement destructor to delete dynamically allocated pieces

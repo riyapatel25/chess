@@ -7,21 +7,21 @@
 
 class Board {
     private:
-    Board();
+    Board(type1: string, type2: string, isSetup: bool, setupString: string);
     static Board *currBoard;
-    static double whiteWins;
-	static double blackWins;
+    Score currScore;
     bool turn;
-    //2 player objects
+    Player player1; //white player
+    Player player2; //black player
 
 	public:
 	~Board();
-    vector<vector<Piece>> getPieces();
+    vector<vector<Piece* >> getPieces();
     bool isCheckmate(turn: bool);
     bool getTurn();
     void setPiece(row: int, col: int);
     void setTurn(turn: bool);
-    void Play(input: string);
+    void play(input: string);
     bool isTaken(row: int, col: int);
     void displayErrorHnadling(message: string);
     void setupBoard();
