@@ -1,8 +1,7 @@
-#ifndef HUMAN_H_
-#define HUMAN_H_
+#ifndef PLAYERMOVE_H_
+#define PLAYERMOVE_H_
 
 #include <iostream>
-#include "player.h"
 
 using namespace std;
 
