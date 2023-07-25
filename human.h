@@ -8,9 +8,8 @@ using namespace std;
 
 class human : player {
     public:
-        human(string turn);
+        human(intstring type);
         void makeMove(string input);
-        void levelOne();
 };
 
 #endif
