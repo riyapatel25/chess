@@ -19,6 +19,7 @@ using namespace std;
     turn = true; //white is true
     whiteWins = 0
     blackWins = 0
+    //initalize 2 players
     }
     //destructor
     Board::~Board() {

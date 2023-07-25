@@ -12,6 +12,7 @@ class Board {
     static double whiteWins;
 	static double blackWins;
     bool turn;
+    //2 player objects
 
 	public:
 	~Board();
