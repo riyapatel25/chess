@@ -4,16 +4,13 @@
 class Piece {
 
 protected:
-    // int row;
-    // int col;
-    // int newRow;
-    // int newCol;
-
+    bool color;
 public:
-    virtual bool playerMove (int row, int col, int newRow, int newCol) = 0;
+    // pure virtual
+    virtual void playerMove (int row, int col, int newRow, int newCol, Board& chessBoard) = 0;
     virtual bool canPlayerKill (int row, int col) = 0;
     bool isCheck (int row, int col, int newRow, int newCol);
-    void getPlayerMove (string input);
+    void getPlayerMove (int row, int col, int newRow, int newCol, Board& chessBoard);
     virtual ~Piece();
 };
 

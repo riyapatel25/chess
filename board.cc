@@ -93,3 +93,15 @@ using namespace std;
     }
 
 
+//output operator
+ostream& operator<<(ostream& os, const Board& chessBoard) {
+
+    for (const auto& row: chessBoard) {
+        for (const auto& column: row) {
+            os << '|' << chessBoard[row][column] << '|';
+        }
+        os << '\n';
+    }
+    return os;
+
+}
