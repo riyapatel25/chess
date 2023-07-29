@@ -9,19 +9,69 @@
 #include "knight.h"
 #include "rook.h"
 #include "pawn.h"
+#include "empty.h"
 
 using namespace std;
 
 //----big 5---//
     //constructor
-    Board::Board(type1: string, type2: string, isSetup: bool, setupString: string) { //type1
-    setupBoard();
+    Board::Board(type1: string, type2: string, isDefault: bool, setupString: string) { // type1
+    setupBoard(isDefault: bool);
     turn = true; //white is true
     whiteWins = 0
     blackWins = 0
-    initPlayer(type1)
-    initPlayer(type2)
+    initPlayer("human") //take in type1
+    initPlayer("human") //take in type2
     this.currScore = new Score();
+    }
+
+    void Board::setupBoard(bool defaultOrInput, Board& board){
+
+    if(defaultOrInput){
+        // Create an 8x8 chessboard with empty spaces
+        board.currBoard = vector<vector<Piece*>>(8, vector<Piece*>(8, nullptr));
+
+        // Initialize white pieces
+        currBoard[0][0] = new Rook(true);
+        currBoard[0][1] = new Knight(true);
+        currBoard[0][2] = new Bishop(true);
+        currBoard[0][3] = new Queen(true);
+        currBoard[0][4] = new King(true);
+        currBoard[0][5] = new Bishop(true);
+        currBoard[0][6] = new Knight(true);
+        currBoard[0][7] = new Rook(true);
+
+        for (int col = 0; col < 8; col++) {
+            pieces[1][col] = new Pawn(true);
+        }
+
+        // Initialize black pieces
+        currBoard[7][0] = new Rook(false);
+        currBoard[7][1] = new Knight(false);
+        currBoard[7][2] = new Bishop(false);
+        currBoard[7][3] = new Queen(false);
+        currBoard[7][4] = new King(false);
+        currBoard[7][5] = new Bishop(false);
+        currBoard[7][6] = new Knight(false);
+        currBoard[7][7] = new Rook(false);
+
+        for (int col = 0; col < 8; col++) {
+            currBoard[6][col] = new Pawn(false);
+        }
+
+        // Fill the rest of the board with empty spaces
+        for (int row = 2; row < 6; row++) {
+            for (int col = 0; col < 8; col++) {
+                currBoard[row][col] = new EmptySpace();
+            }
+        }
+
+    }
+    else{
+        //manual board input
+        cout << "not implemented yet";
+    }
+        
     }
 
     initPlayer(type1: string, type2: string){
@@ -72,8 +122,17 @@ using namespace std;
     void Board::setTurn(turn: bool){
 
     }
-    void Board::Play(input: string){
-          return 0;
+    void Board::play(input: string){
+
+        
+          //find what the starting and ending coords are based on input (move e1 g1)
+          pair <int,int> startCoord;
+          pair <int,int> endCoord;
+
+        //whos turn
+
+
+
     }
     bool Board::isTaken(row: int, col: int){
           return 0;
@@ -81,9 +140,7 @@ using namespace std;
     void Board::displayErrorHnadling(message: string){
           return 0;
     }
-    void Board::setupBoard(){
-          return 0;
-    }
+  
 
 //the board contains exactly one white king and exactly one black king; 
 //that no pawns are on the first or last row of the board
@@ -91,6 +148,10 @@ using namespace std;
     bool isConfigurationValid(board: &Board const){
         return 0;
     }
+
+const vector<vector<Piece*>>& Board::getPieces() const {
+    return currBoard;
+}
 
 
 //output operator
