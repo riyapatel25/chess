@@ -7,11 +7,11 @@ using namespace std;
 Horse::Horse(bool playerWhiteOrBlack) : Piece{playerWhiteOrBlack} {}
 
 
-void Horse::playerMove(int row, int col, int newRow, int newCol, const Board &chessBoard)
+bool Horse::playerMove(int row, int col, int newRow, int newCol, const Board &chessBoard)
 {
 
     if (!((newRow >= 0 && newRow < 8) && (newCol >= 0 && newCol < 8)))
-        return;
+        return false;
 
     int rowDifference = abs(newRow - row);
     int columnDifference = abs(newCol - col);
@@ -19,11 +19,14 @@ void Horse::playerMove(int row, int col, int newRow, int newCol, const Board &ch
     if ((rowDifference == 1 && columnDifference == 2) ||
         (rowDifference == 2 && columnDifference == 1))
     {
-        chessBoard.movePiece(row, col, newRow, newCol);
+        // chessBoard.movePiece(row, col, newRow, newCol);
+        return true;
     }
-    else
+    else{
         cout << "Invalid move, try again" << endl;
+        return false;
+    }
 }
 bool Horse::canPlayerKill(int row, int col){
     return false;
-};
+}

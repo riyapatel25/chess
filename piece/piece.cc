@@ -15,42 +15,36 @@ using namespace std;
 Piece::Piece(bool color) : color{color} {}
 bool isCheck (int row, int col, int newRow, int newCol) {};
 
-void getPlayerMove (int row, int col, int newRow, int newCol, const Board& chessBoard) {
+// bool getPlayerMove (int row, int col, int newRow, int newCol, const Board& chessBoard) {
 
-    /*
-    Here,
-    based on the piece type at the board position, call the respective piece type.
-    Also, need to split commands like E8 so that E->5, since that is the column number.
-    */
-
-   if(chessBoard[row][col].pieceName == "Queen") {
-    Queen queen;
-    queen.playerMove(row, col, newRow, newCol, chessBoard);
-   }
-    else if (chessBoard[row][col].pieceName == "Rook") {
-        Rook rook; 
-        rook.playerMove(row, col, newRow, newCol, chessBoard); 
-    } 
-    else if (chessBoard[row][col].pieceName == "Bishop") {
-        Bishop bishop; 
-        bishop.playerMove(row, col, newRow, newCol, chessBoard); 
-    }
-    else if (chessBoard[row][col].pieceName == "King") {
-        King king; 
-        king.playerMove(row, col, newRow, newCol, chessBoard); 
-    }
-    else if (chessBoard[row][col].pieceName == "Pawn") {
-        Pawn pawn; 
-        pawn.playerMove(row, col, newRow, newCol, chessBoard); 
-    }
-    else if (chessBoard[row][col].pieceName == "Horse") {
-        Horse horse; 
-        horse.playerMove(row, col, newRow, newCol, chessBoard); 
-    }
-        else if (chessBoard[row][col].pieceName == "Empty") {
-        Empty empty; 
-        empty.playerMove(row, col, newRow, newCol, chessBoard); 
-    }
+//     /*
+//     Here,
+//     based on the piece type at the board position, call the respective piece type.
+//     Also, need to split commands like E8 so that E->5, since that is the column number.
+//     */
+//      *chessBoard[row][col].playerMove(row, col, newRow, newCol, chessBoard);
+// //    if(chessBoard[row][col].pieceName == "Queen") {
+// //     *chessBoard[row][col].playerMove(row, col, newRow, newCol, chessBoard);
+// //    }
+// //     else if (chessBoard[row][col].pieceName == "Rook") {
+// //         *chessBoard[row][col].playerMove(row, col, newRow, newCol, chessBoard); 
+// //     } 
+// //     else if (chessBoard[row][col].pieceName == "Bishop") {
+// //         *chessBoard[row][col].playerMove(row, col, newRow, newCol, chessBoard); 
+// //     }
+// //     else if (chessBoard[row][col].pieceName == "King") {
+// //         *chessBoard[row][col].playerMove(row, col, newRow, newCol, chessBoard); 
+// //     }
+// //     else if (chessBoard[row][col].pieceName == "Pawn") {
+// //         *chessBoard[row][col].playerMove(row, col, newRow, newCol, chessBoard); 
+// //     }
+// //     else if (chessBoard[row][col].pieceName == "Horse") {
+// //         *chessBoard[row][col].playerMove(row, col, newRow, newCol, chessBoard); 
+// //     }
+// //         else if (chessBoard[row][col].pieceName == "Empty") {
+// //         Empty empty; 
+// //         empty.playerMove(row, col, newRow, newCol, chessBoard); 
+// //     }
 
 
-}
+// }

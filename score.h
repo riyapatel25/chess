@@ -13,8 +13,8 @@ class Score {
     Score();
 	~Score();
     void updateScore(double score, bool whichPlayer);
-    double getWhiteScore(double score);
-    double getBlackScore(double score);
+    double getWhiteScore();
+    double getBlackScore();
     void clearScore();
     bool leadingScore(); //who's winning 
 

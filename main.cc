@@ -1,12 +1,13 @@
 #include <iostream>
 using namespace std;
-#include "piece.h"
+#include "./piece/piece.h"
 #include "board.h"
 #include <vector>
 
+
 int main() {
 
-    Board *chessGame = new Board("human", "human", true, "");
+    Board chessGame = Board("human", "human", true, "");
     bool inSetupMode = false;
 
     std::string command;
@@ -27,7 +28,7 @@ int main() {
         } else if (command == "done") {
             if (!inSetupMode) {
                 std::cout << "Not in setup mode.\n";
-            } else if (!chessGame.verifySetup()) {
+            } else if (chessGame.isConfigurationValid() == false) {
                 std::cout << "Invalid setup. Please verify the board.\n";
             } else {
                 inSetupMode = false;
@@ -50,47 +51,38 @@ int main() {
                 }
 
                 // Start a new game with the specified players
-                chessGame.startNewGame(whitePlayer, blackPlayer);
+                // chessGame.startNewGame(whitePlayer, blackPlayer);
             }
         } else if (inSetupMode) {
             chessGame.processSetupCommand(command);
         } else {
-            chessGame.processMoveCommand(command);
+            chessGame.play('a', 'b', 'c', 'd');
         }
     }
 
     return 0;
 
+// cout << "Chess!" << endl;
 
 
+//     Board myBoard = Board("human", "human", true, "");
 
-    
+//     // Get the pieces on the board
+//     vector<vector<Piece*>> pieces = myBoard.currBoard;
 
-cout << "Chess!" << endl;
+//     // Display the board
+//     for (int row = 7; row >= 0; row--) {
+//         for (int col = 0; col < 8; col++) {
+//             if (pieces[row][col]) {
+//                 cout << pieces[row][col]->getSymbol() << " ";
+//             } else {
+//                 cout << "__ ";
+//             }
+//         }
+//         cout << endl;
+//     }
 
-
-    Board myBoard = Board("human", "human", true, "");
-
-    // Get the pieces on the board
-    vector<vector<Piece*>> pieces = myBoard.currBoard;
-
-    // Display the board
-    for (int row = 7; row >= 0; row--) {
-        for (int col = 0; col < 8; col++) {
-            if (pieces[row][col]) {
-                cout << pieces[row][col]->getSymbol() << " ";
-            } else {
-                cout << "__ ";
-            }
-        }
-        cout << endl;
-    }
-
-    return 0;
+//     return 0;
 
 }
 
-
-
-
-    

@@ -13,9 +13,9 @@ protected:
     int color;
 public:
     Player(int color);
-    virtual bool makeMove(int row, int col, int newRow, int newCol, const Board& board) const = 0;
-    virtual void levelOne() const = 0;
-    virtual ~Player();
+    virtual bool makeMove(int row, int col, int newRow, int newCol,  Board& board) = 0;
+    // virtual void levelOne() const = 0;
+    // virtual ~Player();
 };
 
 #endif
