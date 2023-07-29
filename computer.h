@@ -6,11 +6,11 @@
 
 using namespace std;
 
-class Computer : Player {
+class Computer : public Player {
 public:
     Computer(int color);
-    bool makeMove(string input);
-    void levelOne();
+    bool makeMove(int row, int col, int newRow, int newCol,  Board& board)  override;
+    // void levelOne();
 };
 
 #endif

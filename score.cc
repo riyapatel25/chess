@@ -14,11 +14,11 @@ void Score::updateScore(double score, bool whichPlayer) {
     }
 }
 
-int Score::getWhiteScore() {
+double Score::getWhiteScore() {
     return whiteWins;
 }
 
-int Score::getBlackScore() {
+double Score::getBlackScore() {
     return blackWins;
 }
 

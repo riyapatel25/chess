@@ -10,22 +10,25 @@ using namespace std;
 
 Queen::Queen(bool playerWhiteOrBlack) : Piece{playerWhiteOrBlack} {}
 
-void Queen::playerMove (int row, int col, int newRow, int newCol, const Board& chessBoard){
+bool Queen::playerMove (int row, int col, int newRow, int newCol, const Board& chessBoard){
 
     if (!((newRow >= 0 && newRow < 8) && (newCol >=0 && newCol < 8)))
-        return;
+        return false;
 
     int rowDifference = abs(newRow - row);
     int columnDifference = abs(newCol - col);
 
     // scenarios for a valid move
     if (row == newRow || col == newCol || rowDifference == columnDifference){
-        chessBoard.movePiece(row, col, newRow, newCol);
-    } else
+        // chessBoard.movePiece(row, col, newRow, newCol);
+        return true;
+    } else{
     cout << "Invalid move, try again" << endl;
+    return false;
+    }
 
-};
+}
 
 bool Queen::canPlayerKill (int row, int col) {
-
-};
+    return false;
+}
