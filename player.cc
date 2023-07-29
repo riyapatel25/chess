@@ -2,4 +2,4 @@
 
 Player::~Player() {}
 
-Player::Player(int color) : color{color} {};
+Player::Player(int color) : color{color} {}

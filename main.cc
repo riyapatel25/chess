@@ -1,7 +1,70 @@
 #include <iostream>
 using namespace std;
+#include "piece.h"
+#include "board.h"
+#include <vector>
 
 int main() {
+
+    Board *chessGame = new Board("human", "human", true, "");
+    bool inSetupMode = false;
+
+    std::string command;
+    while (true) {
+        
+        std::getline(std::cin, command);
+
+        if (command == "exit") {
+            break; // Exit the program
+        } else if (command == "setup") {
+            if (inSetupMode) {
+                std::cout << "Already in setup mode.\n";
+            } else {
+                inSetupMode = true;
+                chessGame.enterSetupMode();
+                std::cout << "Entered setup mode.\n";
+            }
+        } else if (command == "done") {
+            if (!inSetupMode) {
+                std::cout << "Not in setup mode.\n";
+            } else if (!chessGame.verifySetup()) {
+                std::cout << "Invalid setup. Please verify the board.\n";
+            } else {
+                inSetupMode = false;
+                std::cout << "Exited setup mode.\n";
+            }
+        } else if (command.substr(0, 5) == "game ") {
+            if (inSetupMode) {
+                std::cout << "Cannot start a game in setup mode.\n";
+            } else {
+                // Extract white-player and black-player from the command
+                std::string whitePlayer = command.substr(5);
+                std::string blackPlayer;
+                size_t spacePos = whitePlayer.find(' ');
+                if (spacePos != std::string::npos) {
+                    blackPlayer = whitePlayer.substr(spacePos + 1);
+                    whitePlayer = whitePlayer.substr(0, spacePos);
+                } else {
+                    std::cout << "Invalid command. Usage: game white-player black-player\n";
+                    continue;
+                }
+
+                // Start a new game with the specified players
+                chessGame.startNewGame(whitePlayer, blackPlayer);
+            }
+        } else if (inSetupMode) {
+            chessGame.processSetupCommand(command);
+        } else {
+            chessGame.processMoveCommand(command);
+        }
+    }
+
+    return 0;
+
+
+
+
+    
 
 cout << "Chess!" << endl;
 
@@ -26,3 +89,8 @@ cout << "Chess!" << endl;
     return 0;
 
 }
+
+
+
+
+    
