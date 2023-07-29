@@ -4,7 +4,7 @@
 #include "board.h"
 using namespace std;
 
-Horse::Horse(bool playerWhiteOrBlack) : color{playerWhiteOrBlack} {}
+Horse::Horse(bool playerWhiteOrBlack) : Piece{playerWhiteOrBlack} {}
 
 
 void Horse::playerMove(int row, int col, int newRow, int newCol, Board &chessBoard)

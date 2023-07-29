@@ -7,7 +7,7 @@
 #include "./piece/king.h"
 #include "./piece/queen.h"
 #include "./piece/bishop.h"
-#include "./piece/knight.h"
+#include "./piece/horse.h"
 #include "./piece/rook.h"
 #include "./piece/pawn.h"
 #include "./piece/empty.h"
@@ -34,12 +34,12 @@ using namespace std;
 
         // Initialize white pieces
         currBoard[0][0] = new Rook(true);
-        currBoard[0][1] = new Knight(true);
+        currBoard[0][1] = new Horse(true);
         currBoard[0][2] = new Bishop(true);
         currBoard[0][3] = new Queen(true);
         currBoard[0][4] = new King(true);
         currBoard[0][5] = new Bishop(true);
-        currBoard[0][6] = new Knight(true);
+        currBoard[0][6] = new Horse(true);
         currBoard[0][7] = new Rook(true);
 
         for (int col = 0; col < 8; col++) {
@@ -48,12 +48,12 @@ using namespace std;
 
         // Initialize black pieces
         currBoard[7][0] = new Rook(false);
-        currBoard[7][1] = new Knight(false);
+        currBoard[7][1] = new Horse(false);
         currBoard[7][2] = new Bishop(false);
         currBoard[7][3] = new Queen(false);
         currBoard[7][4] = new King(false);
         currBoard[7][5] = new Bishop(false);
-        currBoard[7][6] = new Knight(false);
+        currBoard[7][6] = new Horse(false);
         currBoard[7][7] = new Rook(false);
 
         for (int col = 0; col < 8; col++) {

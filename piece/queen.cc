@@ -8,7 +8,7 @@ using namespace std;
     and then it will make the change on the board.
 */
 
-Queen::Queen(bool playerWhiteOrBlack): color{playerWhiteOrBlack} {}
+Queen::Queen(bool playerWhiteOrBlack) : Piece{playerWhiteOrBlack} {}
 
 void Queen::playerMove (int row, int col, int newRow, int newCol, const Board& chessBoard){
 
