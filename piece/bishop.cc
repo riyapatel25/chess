@@ -4,6 +4,8 @@
 #include "board.h"
 using namespace std;
 
+Bishop::Bishop(bool playerWhiteOrBlack) : color{playerWhiteOrBlack} {}
+
 void Bishop::playerMove (int row, int col, int newRow, int newCol, Board& chessBoard){
 
     if (!((newRow >= 0 && newRow < 8) && (newCol >=0 && newCol < 8)))

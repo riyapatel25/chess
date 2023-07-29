@@ -7,7 +7,8 @@ using namespace std;
 /* playerMove will contain the implementation for first checking if it is a valid move,
     and then it will make the change on the board.
 */
-Queen::Queen(bool playerWhiteOrBlack) {}
+
+Queen::Queen(bool playerWhiteOrBlack): color{playerWhiteOrBlack} {}
 
 void Queen::playerMove (int row, int col, int newRow, int newCol, const Board& chessBoard){
 

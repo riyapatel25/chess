@@ -4,7 +4,7 @@
 class Piece {
 
 protected:
-    bool color;
+    static bool color;
 public:
     // pure virtual
     virtual void playerMove (int row, int col, int newRow, int newCol, Board& chessBoard) = 0;
