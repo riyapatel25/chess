@@ -4,7 +4,7 @@
 #include "board.h"
 using namespace std;
 
-
+King::King(bool playerWhiteOrBlack) : color{playerWhiteOrBlack} {}
 
 
 void King::playerMove (int row, int col, int newRow, int newCol, Board& chessBoard){
