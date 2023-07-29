@@ -18,7 +18,7 @@ bool King::playerMove (int row, int col, int newRow, int newCol, const Board& ch
     if((rowDifference == 1 && columnDifference == 0) || (rowDifference== 0 && columnDifference == 1)
      || (rowDifference ==1 && columnDifference ==1) ){
         // chessBoard.movePiece(row, col, newRow, newCol);
-        return true
+        return true;
     } else{
 
     cout << "Invalid move, try again" << endl;

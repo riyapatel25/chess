@@ -2,17 +2,18 @@
 #include <string>
 #include "board.h"
 #include "player.h"
-#include "./piece/piece.h"
-#include "./piece/empty.h"
-#include "./piece/king.h"
-#include "./piece/queen.h"
-#include "./piece/bishop.h"
-#include "./piece/horse.h"
-#include "./piece/rook.h"
-#include "./piece/pawn.h"
+#include "piece.h"
+#include "empty.h"
+#include "king.h"
+#include "queen.h"
+#include "bishop.h"
+#include "horse.h"
+#include "rook.h"
+#include "pawn.h"
 #include "human.h"
 #include "computer.h"
 
+class Piece;
 using namespace std;
 
 //----big 5---//
@@ -28,50 +29,50 @@ using namespace std;
     currScore = new Score();
     }
 
-    void Board::setupBoard(bool defaultOrInput){
-
-    if(defaultOrInput){
-        // Create an 8x8 chessboard with empty spaces
+    void Board::setupBoard(bool defaultOrInput) {
+    cout << "hi";
+    if (defaultOrInput) {
+        // // Create an 8x8 chessboard with empty spaces
         currBoard = vector<vector<Piece*>>(8, vector<Piece*>(8, nullptr));
 
-        // Initialize white pieces
-        currBoard[0][0] = new Rook(true);
-        currBoard[0][1] = new Horse(true);
-        currBoard[0][2] = new Bishop(true);
-        currBoard[0][3] = new Queen(true);
-        currBoard[0][4] = new King(true);
-        currBoard[0][5] = new Bishop(true);
-        currBoard[0][6] = new Horse(true);
-        currBoard[0][7] = new Rook(true);
+        // // Initialize white pieces
+        Rook* r1 = new Rook(true);
+        currBoard[0].emplace_back(r1);
+        // currBoard[0].push_back(new Horse(true));
+        // currBoard[0].push_back(new Bishop(true));
+        // currBoard[0].push_back(new Queen(true));
+        // currBoard[0].push_back(new King(true));
+        // currBoard[0].push_back(new Bishop(true));
+        // currBoard[0].push_back(new Horse(true));
+        // currBoard[0].push_back(new Rook(true));
 
-        for (int col = 0; col < 8; col++) {
-            currBoard[1][col] = new Pawn(true);
-        }
+        // for (int col = 0; col < 8; col++) {
+        //     currBoard[1].push_back(new Pawn(true));
+        // }
 
-        // Initialize black pieces
-        currBoard[7][0] = new Rook(false);
-        currBoard[7][1] = new Horse(false);
-        currBoard[7][2] = new Bishop(false);
-        currBoard[7][3] = new Queen(false);
-        currBoard[7][4] = new King(false);
-        currBoard[7][5] = new Bishop(false);
-        currBoard[7][6] = new Horse(false);
-        currBoard[7][7] = new Rook(false);
+        // // Initialize black pieces
+        // currBoard[7].push_back(new Rook(false));
+        // currBoard[7].push_back(new Horse(false));
+        // currBoard[7].push_back(new Bishop(false));
+        // currBoard[7].push_back(new Queen(false));
+        // currBoard[7].push_back(new King(false));
+        // currBoard[7].push_back(new Bishop(false));
+        // currBoard[7].push_back(new Horse(false));
+        // currBoard[7].push_back(new Rook(false));
 
-        for (int col = 0; col < 8; col++) {
-            currBoard[6][col] = new Pawn(false);
-        }
+        // for (int col = 0; col < 8; col++) {
+        //     currBoard[6].push_back(new Pawn(false));
+        // }
 
-        // Fill the rest of the board with empty spaces
-        for (int row = 2; row < 6; row++) {
-            for (int col = 0; col < 8; col++) {
-                currBoard[row][col] = new Empty(0);
-            }
-        }
+        // // Fill the rest of the board with empty spaces
+        // for (int row = 2; row < 6; row++) {
+        //     for (int col = 0; col < 8; col++) {
+        //         currBoard[row].push_back(new Empty(false));
+        //     }
+        // }
 
-    }
-    else{
-        //manual board input
+    } else {
+        // manual board input
         cout << "not implemented yet";
     }
         
@@ -116,14 +117,14 @@ using namespace std;
     
 
     //destructor
-    Board::~Board() {
-    // Implement destructor to delete dynamically allocated pieces
-    for (int i = 0; i < 8; i++) {
-        for (int j = 0; j < 8; j++) {
-            delete currBoard[i][j];
-        }
-    }
-}
+//     Board::~Board() {
+//     // Implement destructor to delete dynamically allocated pieces
+//     for (int i = 0; i < 8; i++) {
+//         for (int j = 0; j < 8; j++) {
+//             delete currBoard[i][j];
+//         }
+//     }
+// }
 
 
 //----big 5---//
@@ -163,7 +164,7 @@ using namespace std;
 //the board contains exactly one white king and exactly one black king; 
 //that no pawns are on the first or last row of the board
 //and that neither king is in check
-    bool isConfigurationValid(){
+    bool Board::isConfigurationValid(){
         return 0;
     }
 
@@ -191,3 +192,11 @@ ostream& operator<<(ostream& os, const Board& chessBoard) {
     }
     return os;
 }
+
+
+   void Board::enterSetupMode(){
+    cout << "enterSetupMode";
+   }
+  void Board::processSetupCommand(string input){
+    cout << "processSetupCommand";
+    }

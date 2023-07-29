@@ -1,6 +1,6 @@
 #include <iostream>
 using namespace std;
-#include "./piece/piece.h"
+#include "piece.h"
 #include "board.h"
 #include <vector>
 
@@ -39,6 +39,7 @@ int main() {
                 std::cout << "Cannot start a game in setup mode.\n";
             } else {
                 // Extract white-player and black-player from the command
+                cout << "in setup mode!"<<endl;
                 std::string whitePlayer = command.substr(5);
                 std::string blackPlayer;
                 size_t spacePos = whitePlayer.find(' ');
