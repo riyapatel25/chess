@@ -10,10 +10,10 @@ protected:
 public:
     // pure virtual
     Piece(bool );
-    virtual void playerMove (int row, int col, int newRow, int newCol, Board& chessBoard) = 0;
+    virtual void playerMove (int row, int col, int newRow, int newCol, const Board& chessBoard) = 0;
     virtual bool canPlayerKill (int row, int col) = 0;
     bool isCheck (int row, int col, int newRow, int newCol);
-    void getPlayerMove (int row, int col, int newRow, int newCol, Board& chessBoard);
+    void getPlayerMove (int row, int col, int newRow, int newCol, const Board& chessBoard);
     virtual ~Piece();
 };
 

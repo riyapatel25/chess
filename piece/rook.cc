@@ -6,7 +6,7 @@ using namespace std;
 
 Rook::Rook(bool playerWhiteOrBlack) : Piece{playerWhiteOrBlack} {}
 
-void Rook::playerMove (int row, int col, int newRow, int newCol, Board& chessBoard){
+void Rook::playerMove (int row, int col, int newRow, int newCol, const Board& chessBoard){
 
     if (!((newRow >= 0 && newRow < 8) && (newCol >=0 && newCol < 8)))
         return;

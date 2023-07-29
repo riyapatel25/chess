@@ -3,6 +3,10 @@
 #include "empty.h"
 using namespace std;
 
-void Empty::playerMove (int row, int col, int newRow, int newCol){};
-bool Empty::canPlayerKill (int row, int col) {};
+void Empty::playerMove (int row, int col, int newRow, int newCol, const Board& chessBoard){
+    return;
+};
+bool Empty::canPlayerKill (int row, int col) {
+    return false;
+};
 

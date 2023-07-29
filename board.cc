@@ -10,27 +10,25 @@
 #include "./piece/horse.h"
 #include "./piece/rook.h"
 #include "./piece/pawn.h"
-#include "./piece/empty.h"
+
 
 using namespace std;
 
 //----big 5---//
     //constructor
     Board::Board(string type1, string type2, bool isDefault, string setupString) { // type1
-    setupBoard(bool isDefault);
+    setupBoard(isDefault);
     turn = true; //white is true
-    whiteWins = 0
-    blackWins = 0
-    initPlayer("human") //take in type1
-    initPlayer("human") //take in type2
-    this.currScore = new Score();
+    initPlayer("human"); //take in type1
+    initPlayer("human"); //take in type2
+    currScore = new Score();
     }
 
-    void Board::setupBoard(bool defaultOrInput, Board& board){
+    void Board::setupBoard(bool defaultOrInput){
 
     if(defaultOrInput){
         // Create an 8x8 chessboard with empty spaces
-        board.currBoard = vector<vector<Piece*>>(8, vector<Piece*>(8, nullptr));
+        currBoard = vector<vector<Piece*>>(8, vector<Piece*>(8, nullptr));
 
         // Initialize white pieces
         currBoard[0][0] = new Rook(true);
@@ -43,7 +41,7 @@ using namespace std;
         currBoard[0][7] = new Rook(true);
 
         for (int col = 0; col < 8; col++) {
-            pieces[1][col] = new Pawn(true);
+            currBoard[1][col] = new Pawn(true);
         }
 
         // Initialize black pieces
@@ -63,7 +61,7 @@ using namespace std;
         // Fill the rest of the board with empty spaces
         for (int row = 2; row < 6; row++) {
             for (int col = 0; col < 8; col++) {
-                currBoard[row][col] = new EmptySpace();
+                currBoard[row][col] = new Empty();
             }
         }
 
@@ -75,22 +73,22 @@ using namespace std;
         
     }
 
-    initPlayer(string type1, string type2){
+     void Board::initPlayer(string type1, string type2){
         if(type1 == "human" && type2 == "human"){
-            this.player1 = new Human(1);
-            this.player2 = new Human(0);
+            *player1 = new Human(1);
+            *player2 = new Human(0);
         } 
         else if(type1 == "computer" && type2 == "computer"){
-            this.player1 = new Computer(1);
-            this.player2 = new Computer(0);
+            *player1 = new Computer(1);
+            *player2 = new Computer(0);
         }
         else if(type1 == "human" && type2 == "computer"){
-            this.player1 = new Human(1);
-            this.player2 = new Computer(0);
+            *player1 = new Human(1);
+            *player2 = new Computer(0);
         }
         else if(type1 == "computer" && type2 == "human"){
-            this.player1 = new Computer(1);
-            this.player2 = new Human(0);
+            *player1 = new Computer(1);
+            *player2 = new Human(0);
         }
         else{
             cerr << "not a valid type";
@@ -108,24 +106,24 @@ using namespace std;
 }
 //----big 5---//
 
-    vector<vector<Piece>> Board::getPieces(){
-        return pieces;
+    vector<vector<Piece*>> Board::getPieces(){
+        return currBoard;
     }
-    bool Board::isCheckmate(turn: bool){
+    bool Board::isCheckmate(bool turn){
           return 0;
     }
     bool Board::getTurn(){
           return this->turn;
     }
     void Board::setPiece(int row, int col){
-          return 0;
+          return;
     }
     void Board::setTurn(bool turn){
-
+        return;
     }
     void Board::play(char letterStart, char numberStart, char letterEnd, char numberEnd){
-        pair <char, char> start = <letterStart, numberStart>;
-        pair <char, char> end = <letterEnd, numberEnd>
+        pair<char, char> start = make_pair(letterStart, numberStart);
+        pair<char, char> end = make_pair(letterEnd, numberEnd);
         //find what the starting and ending coords are based on input (move e1 g1)
         pair <int,int> startCoord = getCoords(start);
         pair <int,int> endCoord = getCoords(end);
@@ -134,40 +132,39 @@ using namespace std;
     bool Board::isTaken(int row, int col){
           return 0;
     }
-    void Board::displayErrorHnadling(message: string){
-          return 0;
+    void Board::displayErrorHandling(string message){
+          return;
     }
   
 
 //the board contains exactly one white king and exactly one black king; 
 //that no pawns are on the first or last row of the board
 //and that neither king is in check
-    bool isConfigurationValid(Board& const board){
+    bool isConfigurationValid(){
         return 0;
     }
 
-const vector<vector<Piece*>>& Board::getPieces() const {
-    return currBoard;
+//  vector<vector<Piece*>>& Board::getPieces() const {
+//     return currBoard;
+// }
+
+pair<int, int> Board::getCoords(pair<char, char>& coords) {
+    int x1 = coords.first - 'a'; // Convert column letter to integer (0-7)
+    int y1 = 8 - (coords.second - '0'); // Convert row number to integer (0-7)
+
+    return make_pair(x1, y1);
 }
 
-pair<int, int> getCoords(pair<char, char>& coords) {
-
-    int x1 = coords.first() - 'a'; // Convert column letter to integer (0-7)
-    int y1 = 8 - coords.second();   // Convert row number to integer (0-7)
-
-    return make_pair(x1, yy1);
-}
 
 
-//output operator
+// output operator
 ostream& operator<<(ostream& os, const Board& chessBoard) {
 
-    for (const auto& row: chessBoard) {
-        for (const auto& column: row) {
-            os << '|' << chessBoard[row][column] << '|';
+    for (const auto& row : chessBoard.currBoard) {
+        for (const auto& piece : row) {
+            os << '|' << piece << '|';
         }
         os << '\n';
     }
     return os;
-
 }

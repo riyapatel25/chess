@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include "playerMove.h"
-#include "board.h"
+class Board;
 using namespace std;
 
 // Abstract class definition
@@ -13,7 +13,7 @@ protected:
     int color;
 public:
     Player(int color);
-    virtual bool makeMove(int row, int col, int newRow, int newCol, Board& const board) const = 0;
+    virtual bool makeMove(int row, int col, int newRow, int newCol, const Board& board) const = 0;
     virtual void levelOne() const = 0;
     virtual ~Player();
 };

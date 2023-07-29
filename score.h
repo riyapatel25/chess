@@ -6,11 +6,11 @@
 
 class Score {
     private:
-    Score();
     int whiteWins;
 	int blackWins;
 
 	public:
+    Score();
 	~Score();
     void updateScore(double score, bool whichPlayer);
     double getWhiteScore(double score);

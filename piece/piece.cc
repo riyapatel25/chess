@@ -15,7 +15,7 @@ using namespace std;
 Piece::Piece(bool color) : color{color} {}
 bool isCheck (int row, int col, int newRow, int newCol) {};
 
-void getPlayerMove (int row, int col, int newRow, int newCol, Board& chessBoard) {
+void getPlayerMove (int row, int col, int newRow, int newCol, const Board& chessBoard) {
 
     /*
     Here,

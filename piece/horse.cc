@@ -7,7 +7,7 @@ using namespace std;
 Horse::Horse(bool playerWhiteOrBlack) : Piece{playerWhiteOrBlack} {}
 
 
-void Horse::playerMove(int row, int col, int newRow, int newCol, Board &chessBoard)
+void Horse::playerMove(int row, int col, int newRow, int newCol, const Board &chessBoard)
 {
 
     if (!((newRow >= 0 && newRow < 8) && (newCol >= 0 && newCol < 8)))
@@ -25,5 +25,5 @@ void Horse::playerMove(int row, int col, int newRow, int newCol, Board &chessBoa
         cout << "Invalid move, try again" << endl;
 }
 bool Horse::canPlayerKill(int row, int col){
-
+    return false;
 };
