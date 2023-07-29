@@ -1,16 +1,13 @@
-#ifndef HUMAN_H_
-#define HUMAN_H_
+#ifndef HUMAN_PLAYER_
+#define HUMAN_PLAYER_
 
-#include <iostream>
 #include "player.h"
+#include "board.h"
 
-using namespace std;
-
-class human : player {
-    public:
-        human(string turn);
-        void makeMove(string input);
-        void levelOne();
+class Human : public Player {
+public:
+    Human (int color);
+    bool makeMove(int row, int col, int newRow, int newCol, Board& const board) const override;
 };
 
-#endif
+#endif 

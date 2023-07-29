@@ -6,9 +6,10 @@
 
 using namespace std;
 
-class computer : player {
+class Computer : Player {
 public:
-    void makeMove(string input);
+    Computer(int color);
+    bool makeMove(string input);
     void levelOne();
 };
 

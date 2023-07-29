@@ -1,3 +1,5 @@
 #include "player.h"
 
-player::~player() {}
+Player::~Player() {}
+
+Player::Player(int color) : color{color} {};

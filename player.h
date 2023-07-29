@@ -3,15 +3,19 @@
 
 #include <iostream>
 #include "playerMove.h"
+#include "board.h"
 using namespace std;
 
 // Abstract class definition
-class player {
+class Player {
+protected:
+    // 0 : black, 1 : white
+    int color;
 public:
-    
-    virtual void makeMove(string input) const = 0;
+    Player(int color);
+    virtual bool makeMove(int row, int col, int newRow, int newCol, Board& const board) const = 0;
     virtual void levelOne() const = 0;
-    virtual ~player();
+    virtual ~Player();
 };
 
 #endif

@@ -2,6 +2,7 @@
     "files.associations": {
         "*.sqc": "sql",
         "xstring": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "utility": "cpp"
     }
 }
