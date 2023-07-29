@@ -3,31 +3,34 @@
 #define __BOARD_H__
 #include <iostream>
 #include <string>
-#include "piece.h"
+#include "score.h"
+#include "player.h"
+#include "./piece/piece.h"
+using namespace std;
 
 class Board {
     private:
-    Board(type1: string, type2: string, isSetup: bool, setupString: string); //Board Constructor
-    void setupBoard(defaultOrInput: bool); //helper for constructor 
+    Board(string type1, string type2, bool isSetup, string setupString); //Board Constructor
+    void setupBoard(bool defaultOrInput); //helper for constructor 
     Score currScore;
     bool turn; //keeps track of who's turn -> white (true), black (false)
-    Player player1; //white player
-    Player player2; //black player
+    Player* player1; //white player
+    Player* player2; //black player
 
     protected:
     Board *currBoard; 
 
 	public:
 	~Board(); //destrcutor
-    void play(input: string); //function to make a move
-    bool isConfigurationValid(board: &Board const); //check is board is setup correctly -> helper for constructor
+    void play(string input); //function to make a move
+    bool isConfigurationValid(Board& const board); //check is board is setup correctly -> helper for constructor
     vector<vector<Piece* >> getPieces();
-    bool isCheckmate(turn: bool);
+    bool isCheckmate(bool turn);
     bool getTurn();
-    void setPiece(row: int, col: int);
-    void setTurn(turn: bool);
-    bool isTaken(row: int, col: int);
-    void displayErrorHandling(message: string);
+    void setPiece(int row, int col);
+    void setTurn(bool turn);
+    bool isTaken(int row, int col);
+    void displayErrorHandling(string message);
    
 };
 #endif
