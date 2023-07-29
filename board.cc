@@ -122,17 +122,13 @@ using namespace std;
     void Board::setTurn(turn: bool){
 
     }
-    void Board::play(input: string){
-
-        
-          //find what the starting and ending coords are based on input (move e1 g1)
-          pair <int,int> startCoord;
-          pair <int,int> endCoord;
-
-        //whos turn
-
-
-
+    void Board::play(char letterStart, char numberStart, char letterEnd, char numberEnd){
+        pair <char, char> start = <letterStart, numberStart>;
+        pair <char, char> end = <letterEnd, numberEnd>
+        //find what the starting and ending coords are based on input (move e1 g1)
+        pair <int,int> startCoord = getCoords(start);
+        pair <int,int> endCoord = getCoords(end);
+        // get whos turn
     }
     bool Board::isTaken(row: int, col: int){
           return 0;
@@ -151,6 +147,14 @@ using namespace std;
 
 const vector<vector<Piece*>>& Board::getPieces() const {
     return currBoard;
+}
+
+pair<int, int> getCoords(pair<char, char>& coords) {
+
+    int x1 = coords.first() - 'a'; // Convert column letter to integer (0-7)
+    int y1 = 8 - coords.second();   // Convert row number to integer (0-7)
+
+    return make_pair(x1, yy1);
 }
 
 
