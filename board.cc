@@ -1,22 +1,23 @@
 #include <iostream>
 #include <string>
 #include "board.h"
-#include "piece.h"
-#include "emptyspace.h"
-#include "king.h"
-#include "queen.h"
-#include "bishop.h"
-#include "knight.h"
-#include "rook.h"
-#include "pawn.h"
-#include "empty.h"
+#include "player.h"
+#include "./piece/piece.h"
+#include "./piece/empty.h"
+#include "./piece/king.h"
+#include "./piece/queen.h"
+#include "./piece/bishop.h"
+#include "./piece/knight.h"
+#include "./piece/rook.h"
+#include "./piece/pawn.h"
+#include "./piece/empty.h"
 
 using namespace std;
 
 //----big 5---//
     //constructor
-    Board::Board(type1: string, type2: string, isDefault: bool, setupString: string) { // type1
-    setupBoard(isDefault: bool);
+    Board::Board(string type1, string type2, bool isDefault, string setupString) { // type1
+    setupBoard(bool isDefault);
     turn = true; //white is true
     whiteWins = 0
     blackWins = 0
@@ -74,7 +75,7 @@ using namespace std;
         
     }
 
-    initPlayer(type1: string, type2: string){
+    initPlayer(string type1, string type2){
         if(type1 == "human" && type2 == "human"){
             this.player1 = new Human(1);
             this.player2 = new Human(0);
@@ -116,10 +117,10 @@ using namespace std;
     bool Board::getTurn(){
           return this->turn;
     }
-    void Board::setPiece(row: int, col: int){
+    void Board::setPiece(int row, int col){
           return 0;
     }
-    void Board::setTurn(turn: bool){
+    void Board::setTurn(bool turn){
 
     }
     void Board::play(char letterStart, char numberStart, char letterEnd, char numberEnd){
@@ -130,7 +131,7 @@ using namespace std;
         pair <int,int> endCoord = getCoords(end);
         // get whos turn
     }
-    bool Board::isTaken(row: int, col: int){
+    bool Board::isTaken(int row, int col){
           return 0;
     }
     void Board::displayErrorHnadling(message: string){
@@ -141,7 +142,7 @@ using namespace std;
 //the board contains exactly one white king and exactly one black king; 
 //that no pawns are on the first or last row of the board
 //and that neither king is in check
-    bool isConfigurationValid(board: &Board const){
+    bool isConfigurationValid(Board& const board){
         return 0;
     }
 

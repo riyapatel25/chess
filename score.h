@@ -12,9 +12,9 @@ class Score {
 
 	public:
 	~Score();
-    void updateScore(score: double, whichPlayer: bool);
-    double getWhiteScore(score: double);
-    double getBlackScore(score: double);
+    void updateScore(double score, bool whichPlayer);
+    double getWhiteScore(double score);
+    double getBlackScore(double score);
     void clearScore();
     bool leadingScore(); //who's winning 
 

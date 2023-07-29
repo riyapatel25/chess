@@ -1,5 +1,8 @@
 #ifndef PIECE_H
 #define PIECE_H
+#include "../board.h"
+
+
 
 class Piece {
 
