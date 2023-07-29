@@ -5,8 +5,9 @@
 Human::Human (int color) : Player{color} {}
 
 bool Human::makeMove(int row, int col, int newRow, int newCol, Board& const board) const {
+    vector<vector<Piece*>> pieces = board.getPieces();
     
-    if(board.currBoard[row][col].getPlayerMove(row, col, newRow, newCol, board)){
+    if(pieces[row][col]->getPlayerMove(row, col, newRow, newCol, board)){
         board.setTurn(!color); 
         return true;
     } else {
