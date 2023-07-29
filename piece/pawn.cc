@@ -3,7 +3,7 @@
 #include "pawn.h"
 using namespace std;
 
-Pawn::Pawn(bool playerWhiteOrBlack) : color{playerWhiteOrBlack} {}
+Pawn::Pawn(bool playerWhiteOrBlack) : Piece{playerWhiteOrBlack} {}
 
 void Pawn::playerMove (int row, int col, int newRow, int newCol, Board& chessBoard) {
 

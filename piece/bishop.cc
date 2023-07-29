@@ -4,7 +4,7 @@
 #include "board.h"
 using namespace std;
 
-Bishop::Bishop(bool playerWhiteOrBlack) : color{playerWhiteOrBlack} {}
+Bishop::Bishop(bool playerWhiteOrBlack) : Piece{playerWhiteOrBlack} {}
 
 void Bishop::playerMove (int row, int col, int newRow, int newCol, Board& chessBoard){
 

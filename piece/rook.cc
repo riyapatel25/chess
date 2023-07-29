@@ -4,7 +4,7 @@
 #include "board.h"
 using namespace std;
 
-Rook::Rook(bool playerWhiteOrBlack) : color{playerWhiteOrBlack} {}
+Rook::Rook(bool playerWhiteOrBlack) : Piece{playerWhiteOrBlack} {}
 
 void Rook::playerMove (int row, int col, int newRow, int newCol, Board& chessBoard){
 

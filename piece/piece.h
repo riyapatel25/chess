@@ -2,14 +2,14 @@
 #define PIECE_H
 #include "../board.h"
 
-
-
 class Piece {
 
 protected:
-    static bool color;
+    bool color;
+
 public:
     // pure virtual
+    Piece(bool );
     virtual void playerMove (int row, int col, int newRow, int newCol, Board& chessBoard) = 0;
     virtual bool canPlayerKill (int row, int col) = 0;
     bool isCheck (int row, int col, int newRow, int newCol);
