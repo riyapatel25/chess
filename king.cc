@@ -4,10 +4,10 @@
 #include "board.h"
 using namespace std;
 
-King::King(bool playerWhiteOrBlack) : Piece{playerWhiteOrBlack} {}
+King::King(bool playerWhiteOrBlack, string pieceType) : Piece{playerWhiteOrBlack, pieceType} {}
 
 
-bool King::playerMove (int row, int col, int newRow, int newCol, const Board& chessBoard){
+bool King::playerMove (int row, int col, int newRow, int newCol, const vector<vector<Piece*>> chessBoard){
 
     if (!((newRow >= 0 && newRow < 8) && (newCol >=0 && newCol < 8)))
         return false;

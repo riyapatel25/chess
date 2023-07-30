@@ -7,7 +7,7 @@
 class Human : public Player {
 public:
     Human (int color);
-    bool makeMove(int row, int col, int newRow, int newCol, Board& board) override;
+    bool makeMove(int row, int col, int newRow, int newCol, vector<vector<Piece*>>  board) override;
 };
 
 #endif 

@@ -3,7 +3,9 @@
 
 #include <iostream>
 #include "playerMove.h"
+#include "piece.h"
 class Board;
+class Piece;
 using namespace std;
 
 // Abstract class definition
@@ -13,7 +15,7 @@ protected:
     int color;
 public:
     Player(int color);
-    virtual bool makeMove(int row, int col, int newRow, int newCol,  Board& board) = 0;
+    virtual bool makeMove(int row, int col, int newRow, int newCol, const vector<vector<Piece*>>  board) = 0;
     // virtual void levelOne() const = 0;
     // virtual ~Player();
 };

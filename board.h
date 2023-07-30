@@ -8,14 +8,17 @@
 #include "player.h"
 using namespace std;
 class Piece;
+class Player;
 
 class Board {
-    // private:
-
-    
-
-    protected:
+    private:
     vector<vector<Piece*>> currBoard; 
+    protected:
+    bool hasWon;
+    Score* currScore;
+    bool turn; //keeps track of who's turn -> white (true), black (false)
+    Player* player1; //white player
+    Player* player2; //black player
 
 	public:
 	// ~Board(); //destrcutor
@@ -25,6 +28,7 @@ class Board {
     vector<vector<Piece*>> getCurrBoard() const;
     bool isCheckmate(bool turn);
     bool getTurn();
+    bool getHasWon();
     void setPiece(int row, int col);
     void setTurn(bool turn);
     bool isTaken(int row, int col);
@@ -37,13 +41,6 @@ class Board {
     int whiteWins;
     int blackWins;
     void setupBoard(bool defaultOrInput); //helper for constructor 
-    //priv
-    Score* currScore;
-    bool turn; //keeps track of who's turn -> white (true), black (false)
-    Player* player1; //white player
-    Player* player2; //black player
-
-
 
 };
 #endif

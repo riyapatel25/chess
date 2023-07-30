@@ -9,7 +9,7 @@ using namespace std;
 class Computer : public Player {
 public:
     Computer(int color);
-    bool makeMove(int row, int col, int newRow, int newCol,  Board& board)  override;
+    bool makeMove(int row, int col, int newRow, int newCol,  vector<vector<Piece*>>  board)  override;
     // void levelOne();
 };
 

@@ -3,9 +3,9 @@
 #include "pawn.h"
 using namespace std;
 
-Pawn::Pawn(bool playerWhiteOrBlack) : Piece{playerWhiteOrBlack} {}
+Pawn::Pawn(bool playerWhiteOrBlack, string pieceType) : Piece{playerWhiteOrBlack, pieceType} {}
 
-bool Pawn::playerMove (int row, int col, int newRow, int newCol, const Board& chessBoard) {
+bool Pawn::playerMove (int row, int col, int newRow, int newCol, const vector<vector<Piece*>>  chessBoard) {
 
     if (!((newRow >= 0 && newRow < 8) && (newCol >=0 && newCol < 8)))
         return false;

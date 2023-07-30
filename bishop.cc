@@ -4,9 +4,9 @@
 #include "board.h"
 using namespace std;
 
-Bishop::Bishop(bool playerWhiteOrBlack) : Piece{playerWhiteOrBlack} {}
+Bishop::Bishop(bool playerWhiteOrBlack, string pieceType) : Piece{playerWhiteOrBlack, pieceType} {}
 
-bool Bishop::playerMove (int row, int col, int newRow, int newCol, const Board& chessBoard){
+bool Bishop::playerMove (int row, int col, int newRow, int newCol, const vector<vector<Piece*>> chessBoard){
 
     if (!((newRow >= 0 && newRow < 8) && (newCol >=0 && newCol < 8)))
         return false;
