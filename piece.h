@@ -17,7 +17,7 @@ public:
     virtual bool canPlayerKill (int row, int col) = 0;
     // bool isCheck (int row, int col, int newRow, int newCol);
     // void getPlayerMove (int row, int col, int newRow, int newCol, const Board& chessBoard);
-    // virtual ~Piece();
+    virtual ~Piece();
 };
 
 #endif

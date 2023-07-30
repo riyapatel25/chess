@@ -43,10 +43,7 @@ class Board {
     void initPlayers(string type1, string type2);
     pair<int, int> getCoords(pair<char, char>& coords);
     friend ostream& operator<<(ostream& os, const Board& chessBoard);
-    // void enterSetupMode();
-    // void processSetupCommand(string input);
-    // void processSetupCommand(string input,  vector<pair<char, pair<int, int>>>& storePieceInfo, bool isSetupComplete);
-    void processSetupCommand(string input, vector<PieceInfo>& storePieceInfo, bool isSetupComplete);
+    int processSetupCommand(string input, vector<PieceInfo>& storePieceInfo);
     int whiteWins;
     int blackWins;
     void setupBoard(); //helper for constructor 

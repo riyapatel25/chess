@@ -14,7 +14,8 @@ using namespace std;
 
 Piece::Piece(int color, string pieceType ) : color{color}, pieceType{pieceType} {}
 bool isCheck (int row, int col, int newRow, int newCol) {};
-
+Piece::~Piece() {
+}
 // bool getPlayerMove (int row, int col, int newRow, int newCol, const Board& chessBoard) {
 
 //     /*

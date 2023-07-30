@@ -11,7 +11,6 @@ using namespace std;
 int main() {
     Board chessGame = Board("human", "human");
     cout << chessGame;
- 
     bool inSetupMode = false;
     bool hasGameBegun = false;
     vector<PieceInfo> storePieceInfo; //for setup mode
@@ -19,10 +18,11 @@ int main() {
     string command;
     while (true) {
         getline(cin, command);
-        if (inSetupMode && command != "done") {
-            chessGame.processSetupCommand(command, storePieceInfo, false);
+        if(inSetupMode){
+
         }
-        else if (command == "resign" || chessGame.getHasWon()) {
+
+        else if ((command == "resign" || chessGame.getHasWon() )&& !inSetupMode) {
             break; // Exit the program if someone wins or resigns 
         }
         else if (command == "setup") {
@@ -30,23 +30,16 @@ int main() {
                 cout << "Already in setup mode.\n";
             } 
             else {
-                inSetupMode = true;
                 cout << "Entered setup mode.\n";
-                chessGame.processSetupCommand(command, storePieceInfo, false);
-            }
-        }
-        else if (command == "done") {
-            if (!inSetupMode) {
-                cout << "Not in setup mode.\n";
-            } 
-            // else if (!chessGame.isConfigurationValid()) {
-            //     cout << "Invalid setup. Please verify the board.\n";
-            // } 
-            else {
-                inSetupMode = false;
-                chessGame.processSetupCommand(command, storePieceInfo, true);
-                cout << "Exited setup mode.\n";
-                cout << chessGame;
+                inSetupMode = true;
+                //delete board default config
+                for (int i = 0; i < currBoard.size(); i++) {
+                    for (int j = 0; j < currBoard[i].size(); j++) {
+                            delete currBoard[i][j]; //delete piece
+                            Empty* e = new Empty(2, " ");
+                            currBoard[i][j] = e; 
+                                }
+                            }
 
             }
         }
@@ -81,11 +74,6 @@ int main() {
                 numberStart = moveParams[1];
                 letterEnd = moveParams[3];
                 numberEnd = moveParams[4];
-
-                // if (moveParams.length() == 7) {
-                //     // Check if promotion piece is specified
-                //     promotionPiece = moveParams[6];
-                // }
 
                 // Call the play() function with the extracted coordinates
                 chessGame.play(letterStart, numberStart, letterEnd, numberEnd);
