@@ -47,6 +47,7 @@ class Board {
     int whiteWins;
     int blackWins;
     void setupBoard(); //helper for constructor 
+    void clearBoard();
 
 };
 #endif

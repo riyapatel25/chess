@@ -19,6 +19,17 @@ int main() {
     while (true) {
         getline(cin, command);
         if(inSetupMode){
+            if(command == "setup"){
+                 cout << "Already in setup mode.\n";
+            }
+            else {
+                int check = chessGame.processSetupCommand(command, storePieceInfo);
+                if(check == 1){
+                    inSetupMode = false;
+                }
+                cout << chessGame;
+
+            }
 
         }
 
@@ -26,22 +37,11 @@ int main() {
             break; // Exit the program if someone wins or resigns 
         }
         else if (command == "setup") {
-            if (inSetupMode) {
-                cout << "Already in setup mode.\n";
-            } 
-            else {
+         
                 cout << "Entered setup mode.\n";
                 inSetupMode = true;
-                //delete board default config
-                for (int i = 0; i < currBoard.size(); i++) {
-                    for (int j = 0; j < currBoard[i].size(); j++) {
-                            delete currBoard[i][j]; //delete piece
-                            Empty* e = new Empty(2, " ");
-                            currBoard[i][j] = e; 
-                                }
-                            }
+                chessGame.clearBoard();
 
-            }
         }
         else if (command.substr(0, 4) == "game") {
            
@@ -84,7 +84,7 @@ int main() {
             }
         }
         else {
-            cout << "Invalid command, try again!";
+            cout << "Invalid command, try again!" <<endl;
         }
     }
 

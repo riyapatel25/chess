@@ -247,7 +247,6 @@ bool Board::getHasWon(){
 
 
 int Board::processSetupCommand(string input, vector<PieceInfo>& storePieceInfo) {
-
         if (input[0] == '+'){
         //  + K e1 
         PieceInfo info;
@@ -257,7 +256,7 @@ int Board::processSetupCommand(string input, vector<PieceInfo>& storePieceInfo) 
         info.number = input[5]; //1
         storePieceInfo.push_back(info);
 
-        pair<char, char> coords = make_pair(letter, number);
+        pair<char, char> coords = make_pair(info.letter, info.number);
         pair<int, int> indices = getCoords(coords);
         int row = indices.first;
         int col = indices.second;
@@ -265,7 +264,7 @@ int Board::processSetupCommand(string input, vector<PieceInfo>& storePieceInfo) 
          // Create the appropriate piece based on the piece type and set it on the board
         Piece* piece = nullptr;
 
-        switch (pieceType) {
+        switch (info.pieceType) {
                 case 'K': piece = new King(1, "K"); break;
                 case 'Q': piece = new Queen(1, "Q"); break;
                 case 'B': piece = new Bishop(1, "B"); break;
@@ -297,11 +296,10 @@ int Board::processSetupCommand(string input, vector<PieceInfo>& storePieceInfo) 
             info.number = input[3]; //1
             storePieceInfo.push_back(info);
 
-            pair<char, char> coords = make_pair(letter, number);
+            pair<char, char> coords = make_pair(info.letter , info.number);
             pair<int, int> indices = getCoords(coords);
             int row = indices.first;
             int col = indices.second;
-
 
             // Remove the piece from the specified position (set it to an empty square)
             if(currBoard[row][col]->pieceType != " "){
@@ -313,6 +311,20 @@ int Board::processSetupCommand(string input, vector<PieceInfo>& storePieceInfo) 
             }
             return 0;
         }
+        else if (input[0] == '=') {
+        // Set the turn based on the specified color
+        char color = input[2]; // 'w' for white, 'b' for black
+        if (color == 'w') {
+            setTurn(true);
+            cout << "Turn set to white." << endl;
+        } else if (color == 'b') {
+            setTurn(false);
+            cout << "Turn set to black." << endl;
+        } else {
+            cout << "Invalid color specified. Use 'w' for white or 'b' for black." << endl;
+        }
+        return 0;
+    } 
         else if(input == "done"){      
             //check if they can leave setup mode -> is configuration is valid
             bool isValidBoard = true;
@@ -335,106 +347,13 @@ int Board::processSetupCommand(string input, vector<PieceInfo>& storePieceInfo) 
  
     
 }
-
-
-// int Board::processSetupCommand(string input, vector<PieceInfo>& storePieceInfo, bool isSetupComplete) {
-
-//     // If isSetupComplete is false, add the piece info to the vector and return
-//     if (!isSetupComplete) {
-
-//         if (input[0] == '+'){
-//         //  + K e1 
-//         PieceInfo info;
-//         info.command = input[0]; // +
-//         info.pieceType = input[2]; //"K"
-//         info.letter = input[4]; //e
-//         info.number = input[5]; //1
-//         storePieceInfo.push_back(info);
-//         return 0; //still in setup mode
-//         }
-//         else if(input[0] == '-'){
-//         PieceInfo info;
-//         info.command = input[0]; //-
-//         info.letter = input[2]; //e
-//         info.number = input[3]; //1
-//         storePieceInfo.push_back(info);
-//         return 0; //still in setup mode
-//         }
-//         else {
-//             cout << input << " is an invalid command for setup mode, try again" << endl;
-//             return 0; //still in setup mode
-//         }
-//     }
-   
-// else {
-
-//      // If isSetupComplete is true, it means we are exiting the setup mode and should update the board configuration
-    
-
-//    // Set board pieces based on the stored piece info
-//     for (const PieceInfo& info : storePieceInfo) {
-//         char command = info.command;
-//         char pieceType = info.pieceType;
-//         char letter = info.letter;
-//         char number = info.number;
-
-//         // Convert letter and number to row and column indices using getCoords function
-//         pair<char, char> coords = make_pair(letter, number);
-//         pair<int, int> indices = getCoords(coords);
-//         int row = indices.first;
-//         int col = indices.second;
-
-//         if (command == '+') {
-//             // Create the appropriate piece based on the piece type and set it on the board
-//             Piece* piece = nullptr;
-
-//             switch (pieceType) {
-//                 case 'K': piece = new King(1, "K"); break;
-//                 case 'Q': piece = new Queen(1, "Q"); break;
-//                 case 'B': piece = new Bishop(1, "B"); break;
-//                 case 'H': piece = new Horse(1, "H"); break;
-//                 case 'R': piece = new Rook(1, "R"); break;
-//                 case 'P': piece = new Pawn(1, "P"); break;
-//                 case 'k': piece = new King(0, "k"); break;
-//                 case 'q': piece = new Queen(0, "q"); break;
-//                 case 'b': piece = new Bishop(0, "b"); break;
-//                 case 'h': piece = new Horse(0, "h"); break;
-//                 case 'r': piece = new Rook(0, "r"); break;
-//                 case 'p': piece = new Pawn(0, "p"); break;
-//                 default: break; // Invalid piece type, do nothing
-//             }
-
-//             // If a valid piece was created, set it on the board
-//             if (piece) {
-//                 currBoard[row][col] = piece;
-//             }
-//         }
-//         else if (command == '-') {
-//             // Remove the piece from the specified position (set it to an empty square)
-//             if(currBoard[row][col]->pieceType != " "){
-//                 delete currBoard[row][col];
-//                 currBoard[row][col] = new Empty(false, " ");
-//             }
-//             else {
-//                 cout << "No piece there to delete!" << endl;
-//             }
-        
-//     }
-//     //check if they can leave setup mode -> is configuration is valid
-//     bool isValidBoard = true;
-//     if(isValidBoard){
-//         // Clear the stored piece info vector as we no longer need it
-//         storePieceInfo.clear();
-//         return 1;
-//     }
-//     else{
-//         //not a valid board -> still in setup mode
-//         cout << "Not a valid board configuration, cannot leave setup mode!" << endl;
-//         return 0;
-//     }
-    
-
-// }
-// }
-
-// }
+void Board::clearBoard(){
+         //delete board default config
+        for (int i = 0; i < currBoard.size(); i++) {
+            for (int j = 0; j < currBoard[i].size(); j++) {
+                    delete currBoard[i][j]; //delete piece
+                    Empty* e = new Empty(2, " ");
+                    currBoard[i][j] = e; 
+                        }
+                    }
+}
