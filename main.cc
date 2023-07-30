@@ -7,19 +7,20 @@
 
 using namespace std;
 
+
 int main() {
-    Board chessGame = Board("human", "human", true, "");
+    Board chessGame = Board("human", "human");
     cout << chessGame;
  
     bool inSetupMode = false;
     bool hasGameBegun = false;
+    vector<PieceInfo> storePieceInfo; //for setup mode
 
     string command;
     while (true) {
         getline(cin, command);
-        if (inSetupMode) {
-            chessGame.processSetupCommand(command);
-            // keep accepting setup commands
+        if (inSetupMode && command != "done") {
+            chessGame.processSetupCommand(command, storePieceInfo, false);
         }
         else if (command == "resign" || chessGame.getHasWon()) {
             break; // Exit the program if someone wins or resigns 
@@ -31,19 +32,22 @@ int main() {
             else {
                 inSetupMode = true;
                 cout << "Entered setup mode.\n";
-                chessGame.enterSetupMode();
+                chessGame.processSetupCommand(command, storePieceInfo, false);
             }
         }
         else if (command == "done") {
             if (!inSetupMode) {
                 cout << "Not in setup mode.\n";
             } 
-            else if (!chessGame.isConfigurationValid()) {
-                cout << "Invalid setup. Please verify the board.\n";
-            } 
+            // else if (!chessGame.isConfigurationValid()) {
+            //     cout << "Invalid setup. Please verify the board.\n";
+            // } 
             else {
                 inSetupMode = false;
+                chessGame.processSetupCommand(command, storePieceInfo, true);
                 cout << "Exited setup mode.\n";
+                cout << chessGame;
+
             }
         }
         else if (command.substr(0, 4) == "game") {
@@ -99,88 +103,3 @@ int main() {
     return 1;
 }
 
-
-// #include <iostream>
-// using namespace std;
-// #include "piece.h"
-// #include "board.h"
-// #include <vector>
-
-// using namespace std;
-
-// int main() {
-
-//     Board chessGame = Board("human", "human", true, "");
-//     bool inSetupMode = false;
-//     bool hasGameBegun = false;
-
-//     string command;
-//     while (true) {
-        
-//         getline(cin, command);
-//          if (inSetupMode) {
-//             chessGame.processSetupCommand(command);
-//             //keep accepting setup commands
-//         }
-//         else if (command == "resign" || !chessGame.hasWon()) {
-//             break; // Exit the program if someone wins or resigns 
-//         } else if (command == "setup") {
-//             if (inSetupMode) {
-//                 cout << "Already in setup mode.\n";
-//             } 
-//             else {
-//                 inSetupMode = true;
-//                 cout << "Entered setup mode.\n";
-//                 chessGame.enterSetupMode();
-//             }
-//         } else if (command == "done") {
-//             if (!inSetupMode) {
-//                 cout << "Not in setup mode.\n";
-//             } else if (chessGame.isConfigurationValid() == false) {
-//                 cout << "Invalid setup. Please verify the board.\n";
-//             } else {
-//                 inSetupMode = false;
-//                 cout << "Exited setup mode.\n";
-//             }
-//         } else if (command.substr(0, 5) == "game") {
-//             hasGameBegun = true;
-//             if (inSetupMode) {
-//                 cout << "Cannot start a game in setup mode.\n";
-//             } 
-//             else if (hasGameBegun){
-//                  cout << "Game has already started.\n";
-//             }
-//             else {
-//                 // Extract white-player and black-player from the command
-//                 cout << "Begin Game!"<< endl;
-//                 hasGameBegun = true;
-//                 // string whitePlayer = command.substr(5);
-//                 // string blackPlayer;
-//                 // size_t spacePos = whitePlayer.find(' ');
-//                 // if ( != string::npos) {
-//                 //     blackPlayer = whitePlayer.substr(spacePos + 1);
-//                 //     whitePlayer = whitePlayer.substr(0, spacePos);
-//                 // } else {
-                    
-//                 //     cout << "Invalid command. Usage: game white-player black-player\n";
-//                 //     continue;
-//                 // }
-
-                
-
-//                 // Start a new game with the specified players
-//                 // chessGame.startNewGame(whitePlayer, blackPlayer);
-//             }
-//         }  
-//         else if(hasGameBegun){
-//             cout << "here is the move: " << command << endl;
-//             chessGame.play();
-//         }
-        
-//         else {
-//             cout << "Invalid command, try again!"
-//         }
-//     }
-
-//     return 0;
-// }

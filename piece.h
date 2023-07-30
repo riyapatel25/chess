@@ -9,10 +9,10 @@ protected:
     
 
 public:
-    bool color; 
+    int color; 
     string pieceType;
     // pure virtual
-    Piece(bool color, string pieceType);
+    Piece(int color, string pieceType);
     virtual bool playerMove (int row, int col, int newRow, int newCol, const vector<vector<Piece*>>  chessBoard) = 0;
     virtual bool canPlayerKill (int row, int col) = 0;
     // bool isCheck (int row, int col, int newRow, int newCol);

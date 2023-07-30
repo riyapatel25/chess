@@ -4,7 +4,7 @@
 #include "board.h"
 using namespace std;
 
-King::King(bool playerWhiteOrBlack, string pieceType) : Piece{playerWhiteOrBlack, pieceType} {}
+King::King(int playerWhiteOrBlack, string pieceType) : Piece{playerWhiteOrBlack, pieceType} {}
 
 
 bool King::playerMove (int row, int col, int newRow, int newCol, const vector<vector<Piece*>> chessBoard){
