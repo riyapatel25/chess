@@ -12,8 +12,12 @@
 
 using namespace std;
 
-Piece::Piece(bool color) : color{color} {}
+Piece::Piece(bool color, string name) : color{color}, name{name} {}
 bool isCheck (int row, int col, int newRow, int newCol) {};
+int Piece::getColor(){
+    return color;
+}
+
 
 // bool getPlayerMove (int row, int col, int newRow, int newCol, const Board& chessBoard) {
 
