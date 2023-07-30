@@ -19,6 +19,8 @@ public:
     int getColor();
     string getName();
     virtual bool isCheck(Move move, vector<vector <Piece*>> board) = 0;
+    bool isAttacked(int row, int col, int currMove);
+
     // bool isCheck (int row, int col, int newRow, int newCol);
     // void getPlayerMove (int row, int col, int newRow, int newCol, const Board& chessBoard);
     // virtual ~Piece();

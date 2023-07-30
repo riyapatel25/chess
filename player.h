@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "playerMove.h"
+#include "piece.h"
 class Board;
 using namespace std;
 

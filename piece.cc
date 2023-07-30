@@ -52,3 +52,32 @@ int Piece::getColor(){
 
 
 // }
+
+bool Piece::isAttacked(int row, int col, int currMove) {
+
+    // Get the opponent's color
+    bool opponentColor = !currMove;
+
+    // Iterate through the board to find the opponent's pieces
+    for (int r = 0; r < 8; ++r) {
+        for (int c = 0; c < 8; ++c) {
+            Piece* currentPiece = currBoard[r][c];
+
+            // Check if there is a piece on the current square and if it belongs to the opponent
+            if (currentPiece->getColor() == opponentColor) {
+                // Generate all possible moves for the current piece
+                std::vector<Move> pieceValidMoves = currentPiece->getValidMovesForPiece(*this, r, c);
+
+                // Check if any of the valid moves target the specified square
+                for (const Move& move : pieceValidMoves) {
+                    if (move.getEndRow() == row && move.getEndCol() == col) {
+                        return true; // The square is being attacked by the opponent's piece
+                    }
+                }
+            }
+        }
+    }
+
+    return false;
+
+}
