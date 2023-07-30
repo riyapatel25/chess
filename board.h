@@ -11,9 +11,6 @@ class Piece;
 
 class Board {
     // private:
-
-    
-
     protected:
     vector<vector<Piece*>> currBoard; 
 

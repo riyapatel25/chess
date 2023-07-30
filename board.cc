@@ -200,3 +200,46 @@ ostream& operator<<(ostream& os, const Board& chessBoard) {
   void Board::processSetupCommand(string input){
     cout << "processSetupCommand";
     }
+
+
+bool Board::isConfigurationValid() {
+    int whiteKings = 0;
+    int blackKings = 0;
+    bool whiteKingInCheck = false;
+    bool blackKingInCheck = false;
+
+    // Check the entire board for kings and pawns in invalid positions
+    for (int row = 0; row < 8; ++row) {
+        for (int col = 0; col < 8; ++col) {
+            Piece* currentPiece = currBoard[row][col];
+
+            if (currentPiece->getColor() == 1 && currentPiece->getName() == "King") {
+                // White king found
+                ++whiteKings;
+                // check if king is in check
+                if (currentPiece->isCheck(Move(row, col, -1, -1), currBoard, 0)) {
+                    whiteKingInCheck = true;
+                }
+            } else if (currentPiece->getColor() == 0 && currentPiece->getName() == "King") {
+                // Black king found
+                ++blackKings;
+                // check if king is in check
+                if (currentPiece->isCheck(Move(row, col, -1, -1), currBoard, 1)) {
+                    blackKingInCheck = true;
+                }
+            } else if (currentPiece->getName() == "Pawn") {
+                // Pawns found on the first or last row
+                if (row == 0 || row == 7) {
+                    return false;
+                }
+            }
+        }
+    }
+
+    // Check the number of kings and if any king is in check
+    if (whiteKings != 1 || blackKings != 1 || whiteKingInCheck || blackKingInCheck) {
+        return false;
+    }
+
+    return true;
+}
