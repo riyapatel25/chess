@@ -5,14 +5,16 @@
 class Piece {
 
 protected:
-    bool color;
+    // Black = 0, White = 1, Empty = 2
+    int color;
+    
 
 public:
     // pure virtual
-    Piece(bool color);
+    Piece(int color);
     virtual bool playerMove (int row, int col, int newRow, int newCol, const Board& chessBoard) = 0;
     virtual bool canPlayerKill (int row, int col) = 0;
-    // bool isCheck (int row, int col, int newRow, int newCol);
+    virtual bool isCheck (int row, int col, int newRow, int newCol, const Board& chessBoard) = 0;
     // void getPlayerMove (int row, int col, int newRow, int newCol, const Board& chessBoard);
     // virtual ~Piece();
 };

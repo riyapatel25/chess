@@ -3,7 +3,7 @@
 #include "empty.h"
 using namespace std;
 
-Empty::Empty(bool playerWhiteOrBlack) : Piece{playerWhiteOrBlack} {}
+Empty::Empty(int playerWhiteOrBlack) : Piece{playerWhiteOrBlack} {}
 
 bool Empty::playerMove (int row, int col, int newRow, int newCol, const Board& chessBoard){
     return false;
