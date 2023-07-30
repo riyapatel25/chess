@@ -23,11 +23,12 @@ int main() {
                  cout << "Already in setup mode.\n";
             }
             else {
-                int check = chessGame.processSetupCommand(command, storePieceInfo);
-                if(check == 1){
-                    inSetupMode = false;
-                }
-                cout << chessGame;
+               
+                    int check = chessGame.processSetupCommand(command, storePieceInfo);
+                    if(check == 1){
+                        inSetupMode = false;
+                    }
+                    cout << chessGame;
 
             }
 
@@ -37,10 +38,15 @@ int main() {
             break; // Exit the program if someone wins or resigns 
         }
         else if (command == "setup") {
-         
+
+             if(hasGameBegun){
+                    cout << "Game has already begun, cannot enter setup mode!" << endl;
+                }
+                else{
                 cout << "Entered setup mode.\n";
                 inSetupMode = true;
                 chessGame.clearBoard();
+                }
 
         }
         else if (command.substr(0, 4) == "game") {
@@ -63,7 +69,7 @@ int main() {
                 string moveParams = command.substr(5);
                 char letterStart, letterEnd;
                 char numberStart, numberEnd;
-                char promotionPiece = ' '; // Default: no promotion
+          
 
                 if (moveParams.length() < 4 || moveParams.length() > 5) {
                     cout << "Invalid move command format.\n";

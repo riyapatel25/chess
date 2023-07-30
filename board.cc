@@ -213,9 +213,9 @@ using namespace std;
 //the board contains exactly one white king and exactly one black king; 
 //that no pawns are on the first or last row of the board
 //and that neither king is in check
-    bool Board::isConfigurationValid(){
-        return 0;
-    }
+    // bool Board::isConfigurationValid(){
+    //     return 0;
+    // }
 
 pair<int, int> Board::getCoords(pair<char, char>& coords) {
     int x1 = coords.first - 'a'; // Convert column letter to integer (0-7)
@@ -327,10 +327,11 @@ int Board::processSetupCommand(string input, vector<PieceInfo>& storePieceInfo) 
     } 
         else if(input == "done"){      
             //check if they can leave setup mode -> is configuration is valid
-            bool isValidBoard = true;
+            bool isValidBoard = this->isConfigurationValid();
             if(isValidBoard){
                 // Clear the stored piece info vector as we no longer need it
                 storePieceInfo.clear();
+                cout << "Leaving setup mode.." << endl;
                 return 1;
             }
             else{
@@ -356,4 +357,49 @@ void Board::clearBoard(){
                     currBoard[i][j] = e; 
                         }
                     }
+}
+
+
+bool Board::isConfigurationValid() {
+    int whiteKings = 0;
+    int blackKings = 0;
+    bool whiteKingInCheck = false;
+    bool blackKingInCheck = false;
+
+    // Check the entire board for kings and pawns in invalid positions
+       for (int row = 0; row < currBoard.size(); row++) {
+        for (int col = 0; col < currBoard[row].size(); col++) {
+
+            Piece* currentPiece = currBoard[row][col];
+ 
+            if (currentPiece->color == 1 && currentPiece->pieceType == "K") {
+                // White king found
+                whiteKings ++;
+                // check if king is in check
+                // if (currentPiece->isCheck(Move(row, col, -1, -1), currBoard, 0)) {
+                //     whiteKingInCheck = true;
+                // }
+            } else if (currentPiece->color == 0 && currentPiece->pieceType == "k") {
+                // Black king found
+                blackKings++;
+                // check if king is in check
+                // if (currentPiece->isCheck(Move(row, col, -1, -1), currBoard, 1)) {
+                //     blackKingInCheck = true;
+                // }
+            } else if ((currentPiece->pieceType == "P") || (currentPiece->pieceType == "p")) {
+                // Pawns found on the first or last row
+                if (row == 0 || row == 7) {
+                    return false;
+                }
+            }
+        }
+    }
+
+    // Check the number of kings and if any king is in check
+    if (whiteKings != 1 || blackKings != 1 || whiteKingInCheck || blackKingInCheck) {
+
+        return false;
+    }
+
+    return true;
 }
