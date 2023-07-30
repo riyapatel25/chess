@@ -1,5 +1,5 @@
 #include "human.h"
-#include "./piece/piece.h"
+#include "piece.h"
 #include "board.h"
 
 Human::Human (int color) : Player{color} {}
