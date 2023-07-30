@@ -27,7 +27,7 @@ Move Computer::levelOne(vector<vector <Piece*>> board)
 
     // Randomly choose a valid move
     srand(static_cast<unsigned int>(time(0)));
-    int randomIndex = rand() % validMoves.size();
+    int randomIndex = 100*rand() % validMoves.size();
     return validMoves[randomIndex];
 }
 

@@ -18,7 +18,6 @@ private:
     Move levelOne(vector<vector <Piece*>> board);
     Move levelTwo(vector<vector <Piece*>> board);
     Move levelThree(vector<vector <Piece*>> board);
-    bool isAttacked()
 };
 
 #endif
