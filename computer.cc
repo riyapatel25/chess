@@ -11,9 +11,9 @@ Move Computer::makeMove(vector<vector <Piece*>> board, bool turn)
     if (level == 1){
         return levelOne(board, turn);
     }
-    // if (level == 2){
-    //     return levelTwo(board);
-    // }
+    if (level == 2){
+        return levelTwo(board, turn);
+    }
     // if (level == 3){
     //     return levelThree(board);
     // }
@@ -42,59 +42,76 @@ Move Computer::levelOne(vector<vector <Piece*>> board, bool turn)
     return validMoves[randomIndex];
 }
 
-// Move Computer::levelTwo(vector<vector <Piece*>> board)
-// {
+Move Computer::levelTwo(vector<vector <Piece*>> board, bool turn)
+{
 
-//     // Handle computer player's move (Level 2)
-//     vector<Move> validMoves = getAllValidMoves(board);
+    // Handle computer player's move (Level 2)
+    vector<Move> validMoves = getAllValidMoves(board, turn);
 
-//     // Evaluate each move and assign scores based on desirability
-//     std::vector<int> moveScores(validMoves.size(), 0);
+    // Evaluate each move and assign scores based on desirability
+    std::vector<int> moveScores(validMoves.size(), 0);
 
-//     // Capture rankings based on the piece type that can be captured
-//     std::unordered_map<std::string, int> captureRankings = {
-//         {"Pawn", 1},
-//         {"Knight", 3},
-//         {"Bishop", 3},
-//         {"Rook", 5},
-//         {"Queen", 9}
-//     };
+    // Capture rankings based on the piece type that can be captured
+    std::unordered_map<std::string, int> captureRankingsWhite = {
+        {"P", 1},
+        {"H", 3},
+        {"B", 3},
+        {"R", 5},
+        {"Q", 9}
+        
+    };
 
-//     // Find the best move with the highest score
-//     int bestScore = INT_MIN;
-//     int bestMoveIndex = -1;
-
-//     for (size_t i = 0; i < validMoves.size(); ++i) {
-
-//         // Check if the move leads to the capture of an opponent's piece
-//         Piece* targetPiece = board[validMoves[i].getEndRow()][validMoves[i].getEndCol()];
-//         if (targetPiece->pieceType != " " && targetPiece->color != board[validMoves[i].getStartRow()][validMoves[i].getStartCol()]->color) {
-//             std::string capturedPieceType = targetPiece->pieceType;
-//             if (captureRankings.find(capturedPieceType) != captureRankings.end()) {
-//                 moveScores[i] += captureRankings[capturedPieceType]; // Assign score based on capture ranking
-//             }
-//         }
-
-//         // Evaluate the move based on avoiding capture, capturing moves, and checks
-//         // if (isCheck(validMoves[i], board, board[validMoves[i].getStartRow][validMoves[i].getStartCol]->color)) {
-//         //     moveScores[i] -= 100; // Avoid moves that lead to check
-//         // }
-//         // if (isCheck(validMoves[i], board, !board[validMoves[i].getStartRow][validMoves[i].getStartCol]->color)) {
-//         //     moveScores[i] += 50; // Prefer capturing moves that put the opponent in check
-//         // }
+    std::unordered_map<std::string, int> captureRankingsBlack = {
+        {"p", 1},
+        {"h", 3},
+        {"b", 3},
+        {"r", 5},
+        {"q", 9}
+    };
 
 
-//         // Update the best move
-//         if (moveScores[i] > bestScore) {
-//             bestScore = moveScores[i];
-//             bestMoveIndex = i;
-//         }
+    // Find the best move with the highest score
+    int bestScore = INT_MIN;
+    int bestMoveIndex = -1;
 
-//     }
+    for (size_t i = 0; i < validMoves.size(); ++i) {
 
-//     // Return the best move
-//     return validMoves[bestMoveIndex];
-// }
+        // Check if the move leads to the capture of an opponent's piece
+        Piece* targetPiece = board[validMoves[i].getEndRow()][validMoves[i].getEndCol()];
+        if (targetPiece->pieceType != " " && targetPiece->color != board[validMoves[i].getStartRow()][validMoves[i].getStartCol()]->color) {
+            std::string capturedPieceType = targetPiece->pieceType;
+
+            if(turn){
+                if (captureRankingsWhite.find(capturedPieceType) != captureRankingsWhite.end()) {
+                    moveScores[i] += captureRankingsWhite[capturedPieceType]; // Assign score based on capture ranking
+                }
+            } else {
+                if (captureRankingsBlack.find(capturedPieceType) != captureRankingsBlack.end()) {
+                    moveScores[i] += captureRankingsBlack[capturedPieceType]; // Assign score based on capture ranking
+                }
+            }
+        }
+
+        // Evaluate the move based on avoiding capture, capturing moves, and checks
+        // if (isCheck(validMoves[i], board, board[validMoves[i].getStartRow][validMoves[i].getStartCol]->color)) {
+        //     moveScores[i] -= 100; // Avoid moves that lead to check
+        // }
+        // if (isCheck(validMoves[i], board, !board[validMoves[i].getStartRow][validMoves[i].getStartCol]->color)) {
+        //     moveScores[i] += 50; // Prefer capturing moves that put the opponent in check
+        // }
+
+
+        // Update the best move
+        if (moveScores[i] > bestScore) {
+            bestScore = moveScores[i];
+            bestMoveIndex = i;
+        }
+
+    }
+
+    // Return the best move
+    return validMoves[bestMoveIndex];
+}
 
 // Move Computer::levelThree(vector<vector <Piece*>> board) {
 
@@ -105,11 +122,16 @@ Move Computer::levelOne(vector<vector <Piece*>> board, bool turn)
 
 //     // Capture rankings based on the piece type that can be captured
 //     std::unordered_map<std::string, int> captureRankings = {
-//         {"Pawn", 1},
-//         {"Knight", 3},
-//         {"Bishop", 3},
-//         {"Rook", 5},
-//         {"Queen", 9}
+//         {"P", 1},
+//         {"H", 3},
+//         {"B", 3},
+//         {"R", 5},
+//         {"Q", 9},
+//         {"p", 1},
+//         {"h", 3},
+//         {"b", 3},
+//         {"r", 5},
+//         {"q", 9},
 //     };
 
 //     // Find the best move with the highest score

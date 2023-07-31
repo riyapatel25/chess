@@ -18,7 +18,7 @@ public:
 private:
     vector<Move> getAllValidMoves(vector<vector <Piece*>> board, bool turn);
     Move levelOne(vector<vector <Piece*>> board, bool turn);
-    // Move levelTwo(vector<vector <Piece*>> board);
+    Move levelTwo(vector<vector <Piece*>> board, bool turn);
     // Move levelThree(vector<vector <Piece*>> board);
 };
 

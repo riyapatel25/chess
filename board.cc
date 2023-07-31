@@ -142,6 +142,7 @@ void Board::initPlayers(string type1, string type2) {
         play1 = "human";
         play2 = "human";
     } else if (type1 == "computer" && type2 == "computer") {
+
         player1 = new Computer(1, level1); // Create a new Computer object with the specified level and assign it to player1
         player2 = new Computer(0, level2); // Create a new Computer object with the specified level and assign it to player2
         play1 = "computer";
