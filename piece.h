@@ -5,16 +5,19 @@
 class Piece {
 
 protected:
-    bool color;
+    
+    
 
 public:
+    int color; 
+    string pieceType;
     // pure virtual
-    Piece(bool color);
-    virtual bool playerMove (int row, int col, int newRow, int newCol, const Board& chessBoard) = 0;
-    virtual bool canPlayerKill (int row, int col) = 0;
-    // bool isCheck (int row, int col, int newRow, int newCol);
-    // void getPlayerMove (int row, int col, int newRow, int newCol, const Board& chessBoard);
-    // virtual ~Piece();
+    Piece(int color, string pieceType);
+    virtual bool playerMove (int row, int col, int newRow, int newCol, const vector<vector<Piece*>>  chessBoard, bool turn) = 0;
+    // virtual bool isCheck (int row, int col, int newRow, int newCol, const vector<vector<Piece*>>  chessBoard) = 0;
+    virtual ~Piece();
+    virtual vector<Move> getValidMovesForPiece(vector<vector <Piece*>> board, int row, int col, bool turn) = 0;
+
 };
 
 #endif
