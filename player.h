@@ -15,10 +15,11 @@ protected:
     int color;
 public:
     Player(int color);
-    virtual bool makeMove(int row, int col, int newRow, int newCol, const vector<vector<Piece*>>  board, bool turn);
     // virtual void levelOne() const ;
     // virtual ~Player();
-    virtual Move makeMove(vector<vector <Piece*>> board, bool turn);
+
+    virtual bool makeMove(int row, int col, int newRow, int newCol, const vector<vector<Piece*>>  board, bool turn) = 0 ;
+    virtual Move makeMove(vector<vector <Piece*>> board, bool turn) = 0 ;
 };
 
 #endif

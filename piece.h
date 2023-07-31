@@ -17,6 +17,7 @@ public:
     // virtual bool isCheck (int row, int col, int newRow, int newCol, const vector<vector<Piece*>>  chessBoard) = 0;
     virtual ~Piece();
     virtual vector<Move> getValidMovesForPiece(vector<vector <Piece*>> board, int row, int col, bool turn) = 0;
+   
 
 };
 

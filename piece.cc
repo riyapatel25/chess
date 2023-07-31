@@ -14,3 +14,4 @@ using namespace std;
 
 Piece::Piece(int color, string pieceType ) : color{color}, pieceType{pieceType} {}
 Piece::~Piece() {}
+
