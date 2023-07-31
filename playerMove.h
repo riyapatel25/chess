@@ -1,8 +1,5 @@
 #ifndef PLAYERMOVE_H_
 #define PLAYERMOVE_H_
-
-#include <iostream>
-
 using namespace std;
 
 class Move {
@@ -23,4 +20,8 @@ private:
 };
 
 
+<<<<<<< HEAD
 #endif
+=======
+#endif
+>>>>>>> 4630f1f996d1ce30183e4b04157cb3ffcde40dc2

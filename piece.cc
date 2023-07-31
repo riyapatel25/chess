@@ -12,6 +12,7 @@
 
 using namespace std;
 
+<<<<<<< HEAD
 Piece::Piece(bool color, string name) : color{color}, name{name} {}
 bool isCheck (int row, int col, int newRow, int newCol) {};
 int Piece::getColor(){
@@ -81,3 +82,7 @@ bool Piece::isAttacked(int row, int col, int currMove) {
     return false;
 
 }
+=======
+Piece::Piece(int color, string pieceType ) : color{color}, pieceType{pieceType} {}
+Piece::~Piece() {}
+>>>>>>> 4630f1f996d1ce30183e4b04157cb3ffcde40dc2
