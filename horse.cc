@@ -44,6 +44,41 @@ bool Horse::playerMove(int row, int col, int newRow, int newCol, const vector<ve
 }
 
 
+vector<Move> Horse::getValidMovesForPiece(vector<vector <Piece*>> board, int row, int col, bool turn) {
+    vector<Move> validMoves;
+
+    // Possible knight moves (relative row and column offsets)
+    int dr[] = {-2, -2, -1, -1, 1, 1, 2, 2};
+    int dc[] = {-1, 1, -2, 2, -2, 2, -1, 1};
+
+    for (int i = 0; i < 8; ++i) {
+        int newRow = row + dr[i];
+        int newCol = col + dc[i];
+
+        // Check if the new position is within the board boundaries
+        if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
+            if (board[newRow][newCol]->pieceType == " " ){
+                if (!board[row][col]->playerMove(row, col, newRow, newCol, board, turn)) {
+                    break;
+                } else {
+                    validMoves.emplace_back(Move(row, col, newRow, newCol));
+                }
+            } 
+            else if (board[newRow][newCol]->color != board[row][col]->color) {
+                // kill
+                if (!board[row][col]->playerMove(row, col, newRow, newCol, board, turn)) {
+                    break;
+                } else {
+                    validMoves.emplace_back(Move(row, col, newRow, newCol));
+                }            
+            }
+        }
+    }
+
+    return validMoves;
+}
+
+
 // bool isCheck (int row, int col, int newRow, int newCol, const Board& chessBoard) {
 
 //     // this checks up-left

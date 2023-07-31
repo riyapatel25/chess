@@ -19,16 +19,21 @@ using namespace std;
 
 //----big 5---//
     //constructor
-    Board::Board(string type1, string type2) {
+    Board::Board() {
     setupBoard();
     turn = true; //white is true
-    initPlayers("human", "human"); //take in type1 and type2
+    // initPlayers("human", "human"); //take in type1 and type2
+    player1 = nullptr;
+    player2 = nullptr;
     whiteWins = 0;
     blackWins = 0;
     // ser1 = new Human(1); // Create a new Human object and assign it to player1
     // player2 = new Human(0);
     currScore = new Score();
     hasWon = false;
+    play1 = "";
+    play2 = "";
+
     }
 
     void Board::setupBoard() {
@@ -110,25 +115,52 @@ using namespace std;
     } 
     
         
+void Board::initPlayers(string type1, string type2) {
+    // Parse the level from the type string for computer players
+    int level1 = 1;
+    int level2 = 1;
 
+    if (type1.substr(0, 8) == "computer") {
+        size_t bracketPos = type1.find("[");
+        if (bracketPos != string::npos) {
+            level1 = stoi(type1.substr(bracketPos + 1, type1.length() - bracketPos - 2));
+            type1 = "computer";
+        }
+    }
 
-     void Board::initPlayers(string type1, string type2){
-    if (type1 == "human" && type2 == "human") {
+    if (type2.substr(0, 8) == "computer") {
+        size_t bracketPos = type2.find("[");
+        if (bracketPos != string::npos) {
+            level2 = stoi(type2.substr(bracketPos + 1, type2.length() - bracketPos - 2));
+            type2 = "computer";
+        }
+    }
+
+     if (type1 == "human" && type2 == "human") {
         player1 = new Human(1); // Create a new Human object and assign it to player1
         player2 = new Human(0); // Create a new Human object and assign it to player2
+        play1 = "human";
+        play2 = "human";
     } else if (type1 == "computer" && type2 == "computer") {
-        player1 = new Computer(1); // Create a new Computer object and assign it to player1
-        player2 = new Computer(0); // Create a new Computer object and assign it to player2
+        player1 = new Computer(1, level1); // Create a new Computer object with the specified level and assign it to player1
+        player2 = new Computer(0, level2); // Create a new Computer object with the specified level and assign it to player2
+        play1 = "computer";
+        play2 = "computer";
     } else if (type1 == "human" && type2 == "computer") {
         player1 = new Human(1); // Create a new Human object and assign it to player1
-        player2 = new Computer(0); // Create a new Computer object and assign it to player2
+        player2 = new Computer(0, level2); // Create a new Computer object with the specified level and assign it to player2
+        play1 = "human";
+        play2 = "computer";
+        
     } else if (type1 == "computer" && type2 == "human") {
-        player1 = new Computer(1); // Create a new Computer object and assign it to player1
+        player1 = new Computer(1, level1); // Create a new Computer object with the specified level and assign it to player1
         player2 = new Human(0); // Create a new Human object and assign it to player2
+        play1 = "computer";
+        play2 = "human";
     } else {
         cerr << "not a valid type";
     }
-     }
+}  
 
 
  
@@ -431,4 +463,52 @@ bool Board::isConfigurationValid() {
     }
 
     return true;
+}
+
+
+void Board::playComputer(){
+    cout << turn << " player turn!" << endl;
+    if(turn){
+    Move m = (*player1).makeMove(currBoard, 1);
+    playHelper(m.getStartRow(), m.getStartCol(), m.getEndRow(), m.getEndCol());
+    }
+    else{
+    Move m = (*player2).makeMove(currBoard, 0);
+    playHelper(m.getStartRow(), m.getStartCol(), m.getEndRow(), m.getEndCol());
+    }
+    
+}
+
+void Board::playHelper(int row, int col, int newRow, int newCol){
+
+        // get whos turn
+        if(turn) { //white
+          
+                //actually move the piece from starting to ending coordinates
+                Piece* pieceToMove = currBoard[row][col];
+                currBoard[row][col] = new Empty(2, " "); // Replace starting position with Empty
+                  if(currBoard[newRow][newCol]->pieceType != " "){
+                    cout << "White Player has captured opponents piece!" << endl;
+                }
+                delete currBoard[newRow][newCol]; 
+                currBoard[newRow][newCol] = pieceToMove; // Place the selected piece in the ending position   
+                setTurn(false);
+                cout << "Piece to move: " << pieceToMove->pieceType <<endl;
+        
+        }
+        else {  //black
+                //actually move 
+                Piece* pieceToMove = currBoard[row][col];
+                currBoard[row][col] = new Empty(2, " "); // Replace starting position with Empty
+                //if we kill opponents piece
+                if(currBoard[newRow][newCol]->pieceType != " "){
+                    cout << "Black Player has captured opponents piece!" << endl;
+                }
+                delete currBoard[newRow][newCol]; 
+                currBoard[newRow][newCol] = pieceToMove; // Place the selected piece in the ending position
+                setTurn(true);
+                cout << "Piece to move: " << pieceToMove->pieceType <<endl;
+        }
+
+
 }

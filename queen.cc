@@ -52,6 +52,40 @@ bool Queen::playerMove (int row, int col, int newRow, int newCol, const vector<v
 
 }
 
+
+
+vector<Move> Queen::getValidMovesForPiece(vector<vector <Piece*>> board, int row, int col, bool turn) {
+    vector<Move> validMoves;
+
+    // The directions a queen can move (up, down, left, right, and diagonals)
+    int dr[] = {-1, -1, -1, 0, 0, 1, 1, 1};
+    int dc[] = {-1, 0, 1, -1, 1, -1, 0, 1};
+
+    for (int i = 0; i < 8; ++i) {
+        int newRow = row + dr[i];
+        int newCol = col + dc[i];
+
+        // Continue moving in the same direction until we find an invalid move
+        while (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
+            if (!board[row][col]->playerMove(row, col, newRow, newCol, board, turn)) {
+                break;
+            }
+
+            validMoves.emplace_back(Move(row, col, newRow, newCol));
+
+            if (board[newRow][newCol]->pieceType != " ") {
+                // If the destination square is occupied, we can't continue moving in this direction
+                break;
+            }
+
+            newRow += dr[i];
+            newCol += dc[i];
+        }
+    }
+
+    return validMoves;
+}
+
 // bool isCheck (int row, int col, int newRow, int newCol, const Board& chessBoard) {
 
 //     int r1 = newRow - 1;

@@ -12,3 +12,6 @@ bool Human::makeMove(int row, int col, int newRow, int newCol, vector<vector<Pie
         return false;
     }
 }
+Move Human::makeMove(vector<vector <Piece*>> board, bool turn){
+    return Move(1,1,1,1);
+}

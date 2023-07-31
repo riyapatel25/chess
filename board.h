@@ -29,8 +29,9 @@ class Board {
 
 	public:
 	// ~Board(); //destrcutor
-    Board(string type1, string type2); //Board Constructor
+    Board(); //Board Constructor
     void play(char letterStart, char numberStart, char letterEnd, char numberEnd); //function to make a move
+    void playComputer();
     bool isConfigurationValid(); //check is board is setup correctly -> helper for constructor
     vector<vector<Piece*>> getCurrBoard() const;
     bool isCheckmate(bool turn);
@@ -48,6 +49,9 @@ class Board {
     int blackWins;
     void setupBoard(); //helper for constructor 
     void clearBoard();
+    string play1;
+    string play2;
+    void playHelper(int row, int col, int newRow, int newCol);
 
 };
 #endif
