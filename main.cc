@@ -10,16 +10,59 @@ using namespace std;
 
 int main() {
     Board chessGame = Board();
-    cout << chessGame;
+    // cout << chessGame;
+    cout << "Board constructed, start entering commands!" << endl;
     bool inSetupMode = false;
     bool hasGameBegun = false;
- 
     vector<PieceInfo> storePieceInfo; //for setup mode
 
     string command;
     while (true) {
+        
         getline(cin, command);
-        if(inSetupMode){
+            if (cin.eof()) {
+            cout << "End of input. Exiting the program." << endl;
+            cout << "FinalScore:" <<endl;
+             pair<double, double> fw = chessGame.finalWins();
+            cout << "White: " << fw.first << endl;
+            cout << "Black: " << fw.second << endl;
+            break;
+        }
+    
+        else if(chessGame.getHasWon().first && !inSetupMode){
+            //if in stalemate
+            if(chessGame.stalemate){
+                cout << "Stalemate!" << endl;
+                chessGame.gameEnded(0.5,2);
+                inSetupMode = false;
+                hasGameBegun = false;
+ 
+            }
+            else{
+            //if 1 -> white won
+            if(chessGame.getHasWon().second  == 1){
+                cout << "Checkmate! White wins!" << endl;
+                chessGame.gameEnded(1,1);
+                inSetupMode = false;
+                hasGameBegun = false;
+ 
+            }
+            //if 0 -> black won
+            else if(chessGame.getHasWon().second  == 0){
+                cout << "Checkmate! Black wins!" << endl;
+                chessGame.gameEnded(1,0);
+                inSetupMode = false;
+                hasGameBegun = false;
+              
+
+            }
+            else{
+                cout << "Not valid win!" << endl;
+            }
+            }
+            
+        }
+        else if(inSetupMode){
             if(command == "setup"){
                  cout << "Already in setup mode.\n";
             }
@@ -33,8 +76,20 @@ int main() {
 
         }
 
-        else if ((command == "resign" || chessGame.getHasWon() )&& !inSetupMode) {
-            break; // Exit the program if someone wins or resigns 
+        else if (command == "resign" && !inSetupMode) {
+            //white resigned
+            if(chessGame.turn){
+                cout << "Black wins!" << endl;
+                chessGame.gameEnded(1,0);
+                hasGameBegun = false;
+            }
+            //black resigned
+            else{
+                cout << "White wins!" << endl;
+                chessGame.gameEnded(1,1);
+                hasGameBegun = false;
+
+            }
         }
         else if (command == "setup") {
 
@@ -67,6 +122,7 @@ int main() {
                     hasGameBegun = true;
                     chessGame.initPlayers(commands[1], commands[2]);
                     cout << "Begin Game!" << endl;
+                    cout << chessGame;
                 } else {
                     hasGameBegun = false;
                     cout << "Invalid game initialization!" <<endl;
@@ -77,7 +133,7 @@ int main() {
         else if (hasGameBegun) {
             if(chessGame.play1 == "human" && chessGame.play2 == "human"){
             // Process the move command and extract starting and ending coordinates
-            if (command.substr(0, 4) == "move") {
+            if (command.substr(0, 4) == "move" && command.length() == 10) {
                 string moveParams = command.substr(5);
                 char letterStart, letterEnd;
                 char numberStart, numberEnd;
@@ -91,8 +147,8 @@ int main() {
                 letterEnd = moveParams[3];
                 numberEnd = moveParams[4];
 
-                // Call the play() function with the extracted coordinates
-                chessGame.play(letterStart, numberStart, letterEnd, numberEnd);
+                // Call the playHuman() function with the extracted coordinates
+                chessGame.playHuman(letterStart, numberStart, letterEnd, numberEnd);
                 cout << chessGame;
     
             }
@@ -113,8 +169,90 @@ int main() {
 
 
             }
+             else if(chessGame.play1 == "human" && chessGame.play2 == "computer"){
+             // if white turn -> human
+             if(chessGame.turn){
+                    // Process the move command and extract starting and ending coordinates
+                   
+                     if (command.substr(0, 4) == "move" && command.length() == 10) {
+                        string moveParams = command.substr(5);
+                        char letterStart, letterEnd;
+                        char numberStart, numberEnd;
+                        if (moveParams.length() < 4 || moveParams.length() > 5) {
+                            cout << "Invalid move command format for human.\n";
+                            continue;
+                        }
+                        letterStart = moveParams[0];
+                        numberStart = moveParams[1];
+                        letterEnd = moveParams[3];
+                        numberEnd = moveParams[4];
+
+                        // Call the playHuman() function with the extracted coordinates
+                        chessGame.playHuman(letterStart, numberStart, letterEnd, numberEnd);
+                        cout << chessGame;
+                    }
+                    else {
+                        cout << "Invalid move command for human.\n";
+                    }
+             }
+             //if black turn -> computer
+             else{
+
+                if(command == "move") {
+                    chessGame.playComputer();
+                    cout << chessGame;
+                    
+                }
+                else {
+                cout << "Invalid move command for computer.\n";
+                }
+
+             }
+
+            }
+
+             else if(chessGame.play1 == "computer" && chessGame.play2 == "human"){
+             // if black turn -> human
+             if(!chessGame.turn){
+                    // Process the move command and extract starting and ending coordinates
+                     if (command.substr(0, 4) == "move" && command.length() == 10) {
+                        string moveParams = command.substr(5);
+                        char letterStart, letterEnd;
+                        char numberStart, numberEnd;
+                        if (moveParams.length() < 4 || moveParams.length() > 5) {
+                            cout << "Invalid move command format for human.\n";
+                            continue;
+                        }
+                        letterStart = moveParams[0];
+                        numberStart = moveParams[1];
+                        letterEnd = moveParams[3];
+                        numberEnd = moveParams[4];
+
+                        // Call the playHuman() function with the extracted coordinates
+                        chessGame.playHuman(letterStart, numberStart, letterEnd, numberEnd);
+                        cout << chessGame;
+                    }
+                    else {
+                        cout << "Invalid move command for human.\n";
+                    }
+             }
+             //if white turn -> computer
+             else{
+
+                if(command == "move") {
+                    chessGame.playComputer();
+                    cout << chessGame;
+                    
+                }
+                else {
+                cout << "Invalid move command for computer.\n";
+                }
+
+             }
+
+            }
             else{
-                cout << "Human VS Comp AND Comp VS Human not implemented yet" << endl;
+                cout << "Not implemented yet" << endl;
             }
 
 

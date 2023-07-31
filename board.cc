@@ -25,15 +25,14 @@ using namespace std;
     // initPlayers("human", "human"); //take in type1 and type2
     player1 = nullptr;
     player2 = nullptr;
-    whiteWins = 0;
-    blackWins = 0;
+ 
     // ser1 = new Human(1); // Create a new Human object and assign it to player1
     // player2 = new Human(0);
     currScore = new Score();
-    hasWon = false;
+    winInfo = make_pair(false, 2);
     play1 = "";
     play2 = "";
-
+    stalemate = false;
     }
 
     void Board::setupBoard() {
@@ -193,7 +192,7 @@ void Board::initPlayers(string type1, string type2) {
     void Board::setTurn(bool turn){
         this->turn = turn;
     }
-    void Board::play(char letterStart, char numberStart, char letterEnd, char numberEnd){
+    void Board::playHuman(char letterStart, char numberStart, char letterEnd, char numberEnd){
         cout << "Entered play function:" << endl;
         cout << turn << " player's turn" << endl;
         pair<char, char> start = make_pair(letterStart, numberStart);
@@ -210,6 +209,7 @@ void Board::initPlayers(string type1, string type2) {
         // get whos turn
         if(turn) { //white
             bool isValid = (*player1).makeMove(startCoord.first, startCoord.second, endCoord.first, endCoord.second, currBoard, turn);
+         
             if(isValid){
                 //actually move the piece from starting to ending coordinates
                 Piece* pieceToMove = currBoard[startCoord.first][startCoord.second];
@@ -293,8 +293,8 @@ ostream& operator<<(ostream& os, const Board& chessBoard) {
     return os;
 }
 
-bool Board::getHasWon(){
-        return hasWon;
+pair<bool, int> Board::getHasWon(){
+        return winInfo;
     }
 
 
@@ -477,7 +477,16 @@ void Board::playComputer(){
     Move m = (*player2).makeMove(currBoard, 0);
     playHelper(m.getStartRow(), m.getStartCol(), m.getEndRow(), m.getEndCol());
     }
-    
+}
+
+void Board::gameEnded(double score, int whichPlayerWon){
+    clearBoard();
+    setupBoard();//setup with defaul config
+    turn = 1;
+    winInfo.first = false;
+    winInfo.second = 2;
+    (*currScore).updateScore(score, whichPlayerWon);//add to score
+    stalemate = false;
 }
 
 void Board::playHelper(int row, int col, int newRow, int newCol){
@@ -513,3 +522,7 @@ void Board::playHelper(int row, int col, int newRow, int newCol){
 
 
 }
+
+ pair<double, double> Board::finalWins(){
+     return (*currScore).getScore();
+ }
