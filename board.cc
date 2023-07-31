@@ -526,3 +526,5 @@ void Board::playHelper(int row, int col, int newRow, int newCol){
  pair<double, double> Board::finalWins(){
      return (*currScore).getScore();
  }
+
+
