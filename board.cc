@@ -25,7 +25,7 @@ using namespace std;
     initPlayers("human", "human"); //take in type1 and type2
     whiteWins = 0;
     blackWins = 0;
-    // player1 = new Human(1); // Create a new Human object and assign it to player1
+    // ser1 = new Human(1); // Create a new Human object and assign it to player1
     // player2 = new Human(0);
     currScore = new Score();
     hasWon = false;
@@ -71,7 +71,6 @@ using namespace std;
         // // Initialize black pieces
         Rook* r3 = new Rook(0, "r");
         currBoard[0][0] = r3;
-
 
         Horse* h3 = new Horse(0, "h");
         currBoard[0][1] = h3;
@@ -163,34 +162,47 @@ using namespace std;
     }
     void Board::play(char letterStart, char numberStart, char letterEnd, char numberEnd){
         cout << "Entered play function:" << endl;
-        cout << letterStart << numberStart << " " << letterEnd << numberEnd <<endl;
+        cout << turn << " player's turn" << endl;
         pair<char, char> start = make_pair(letterStart, numberStart);
         pair<char, char> end = make_pair(letterEnd, numberEnd);
         //find what the starting and ending coords are based on input (move e1 g1)
         pair <int,int> startCoord = getCoords(start);
         pair <int,int> endCoord = getCoords(end);
-        cout <<"turn: " << turn << endl;
+         if(startCoord.first == -1 && startCoord.second == -1){
+            return;
+        }
+         if(endCoord.first == -1 && endCoord.second == -1){
+            return;
+        }
         // get whos turn
         if(turn) { //white
-            bool isValid = (*player1).makeMove(startCoord.first, startCoord.second, endCoord.first, endCoord.second, currBoard);
-            if(true){
+            bool isValid = (*player1).makeMove(startCoord.first, startCoord.second, endCoord.first, endCoord.second, currBoard, turn);
+            if(isValid){
                 //actually move the piece from starting to ending coordinates
                 Piece* pieceToMove = currBoard[startCoord.first][startCoord.second];
-                currBoard[startCoord.first][startCoord.second] = new Empty(false, " "); // Replace starting position with Empty
-                currBoard[endCoord.first][endCoord.second] = pieceToMove; // Place the selected piece in the ending position     
-    
+                currBoard[startCoord.first][startCoord.second] = new Empty(2, " "); // Replace starting position with Empty
+                  if(currBoard[endCoord.first][endCoord.second]->pieceType != " "){
+                    cout << "White Player has captured opponents piece!" << endl;
+                }
+                delete currBoard[endCoord.first][endCoord.second]; 
+                currBoard[endCoord.first][endCoord.second] = pieceToMove; // Place the selected piece in the ending position   
+                setTurn(false);
             }
             else{
-                setTurn(false);
                 cout << "Not a valid move, try again white player!" << endl;
             }
         }
         else {  //black
-        bool isValid = (*player2).makeMove(startCoord.first, startCoord.second, endCoord.first, endCoord.second, currBoard);
-            if(true){ 
+        bool isValid = (*player2).makeMove(startCoord.first, startCoord.second, endCoord.first, endCoord.second, currBoard, turn);
+            if(isValid){ 
                 //actually move 
                 Piece* pieceToMove = currBoard[startCoord.first][startCoord.second];
-                currBoard[startCoord.first][startCoord.second] = new Empty(false, " "); // Replace starting position with Empty
+                currBoard[startCoord.first][startCoord.second] = new Empty(2, " "); // Replace starting position with Empty
+                //if we kill opponents piece
+                if(currBoard[endCoord.first][endCoord.second]->pieceType != " "){
+                    cout << "Black Player has captured opponents piece!" << endl;
+                }
+                delete currBoard[endCoord.first][endCoord.second]; 
                 currBoard[endCoord.first][endCoord.second] = pieceToMove; // Place the selected piece in the ending position
                 setTurn(true);
             
@@ -200,7 +212,6 @@ using namespace std;
             }
         }
 
-        //call makeMove on piece 
     }
     bool Board::isTaken(int row, int col){
           return 0;
@@ -210,14 +221,22 @@ using namespace std;
     }
   
 
-//the board contains exactly one white king and exactly one black king; 
-//that no pawns are on the first or last row of the board
-//and that neither king is in check
-    // bool Board::isConfigurationValid(){
-    //     return 0;
-    // }
 
 pair<int, int> Board::getCoords(pair<char, char>& coords) {
+
+
+   if (coords.first < 'a' || coords.first > 'h') {
+        cout << "Error: Invalid first character. It should be in the range 'a' to 'h'." << endl;
+         return make_pair(-1, -1);
+    }
+
+    // Check if the second character is not in the range '1' to '8'
+    if (coords.second < '1' || coords.second  > '8') {
+        cout << "Error: Invalid second character. It should be in the range '1' to '8'." << endl;
+         return make_pair(-1, -1);
+    }
+
+
     int x1 = coords.first - 'a'; // Convert column letter to integer (0-7)
     int y1 = '8' - coords.second; // Convert row number to integer (0-7) in reverse order (bottom to top)
 
@@ -258,6 +277,9 @@ int Board::processSetupCommand(string input, vector<PieceInfo>& storePieceInfo) 
 
         pair<char, char> coords = make_pair(info.letter, info.number);
         pair<int, int> indices = getCoords(coords);
+        if(indices.first == -1 && indices.second == -1){
+            return 0;
+        }
         int row = indices.first;
         int col = indices.second;
 
@@ -298,13 +320,16 @@ int Board::processSetupCommand(string input, vector<PieceInfo>& storePieceInfo) 
 
             pair<char, char> coords = make_pair(info.letter , info.number);
             pair<int, int> indices = getCoords(coords);
+             if(indices.first == -1 && indices.second == -1){
+            return 0;
+        }
             int row = indices.first;
             int col = indices.second;
 
             // Remove the piece from the specified position (set it to an empty square)
             if(currBoard[row][col]->pieceType != " "){
                 delete currBoard[row][col];
-                currBoard[row][col] = new Empty(false, " ");
+                currBoard[row][col] = new Empty(2, " ");
             }
             else {
                 cout << "No piece there to delete!" << endl;
@@ -359,6 +384,10 @@ void Board::clearBoard(){
                     }
 }
 
+
+//the board contains exactly one white king and exactly one black king; 
+//that no pawns are on the first or last row of the board
+//and that neither king is in check
 
 bool Board::isConfigurationValid() {
     int whiteKings = 0;

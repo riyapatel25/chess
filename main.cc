@@ -63,14 +63,11 @@ int main() {
             }
         }
         else if (hasGameBegun) {
-            cout << "here is the move: " << command << endl;
             // Process the move command and extract starting and ending coordinates
             if (command.substr(0, 4) == "move") {
                 string moveParams = command.substr(5);
                 char letterStart, letterEnd;
                 char numberStart, numberEnd;
-          
-
                 if (moveParams.length() < 4 || moveParams.length() > 5) {
                     cout << "Invalid move command format.\n";
                     continue;
