@@ -1,8 +1,5 @@
 #ifndef PLAYERMOVE_H_
 #define PLAYERMOVE_H_
-
-#include <iostream>
-
 using namespace std;
 
 class Move {

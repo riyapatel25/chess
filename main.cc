@@ -1,90 +1,129 @@
+
 #include <iostream>
-using namespace std;
+#include <string>
 #include "piece.h"
 #include "board.h"
 #include <vector>
+#include <sstream>
+using namespace std;
 
 
 int main() {
-
-    Board chessGame = Board("human", "human", true, "");
+    Board chessGame = Board();
+    cout << chessGame;
     bool inSetupMode = false;
+    bool hasGameBegun = false;
+ 
+    vector<PieceInfo> storePieceInfo; //for setup mode
 
-    std::string command;
+    string command;
     while (true) {
-        
-        std::getline(std::cin, command);
+        getline(cin, command);
+        if(inSetupMode){
+            if(command == "setup"){
+                 cout << "Already in setup mode.\n";
+            }
+            else {
+                    int check = chessGame.processSetupCommand(command, storePieceInfo);
+                    if(check == 1){
+                        inSetupMode = false;
+                    }
+                    cout << chessGame;
+            }
 
-        if (command == "exit") {
-            break; // Exit the program
-        } else if (command == "setup") {
-            if (inSetupMode) {
-                std::cout << "Already in setup mode.\n";
-            } else {
+        }
+
+        else if ((command == "resign" || chessGame.getHasWon() )&& !inSetupMode) {
+            break; // Exit the program if someone wins or resigns 
+        }
+        else if (command == "setup") {
+
+             if(hasGameBegun){
+                    cout << "Game has already begun, cannot enter setup mode!" << endl;
+                }
+                else{
+                cout << "Entered setup mode.\n";
                 inSetupMode = true;
-                chessGame.enterSetupMode();
-                std::cout << "Entered setup mode.\n";
-            }
-        } else if (command == "done") {
-            if (!inSetupMode) {
-                std::cout << "Not in setup mode.\n";
-            } else if (chessGame.isConfigurationValid() == false) {
-                std::cout << "Invalid setup. Please verify the board.\n";
-            } else {
-                inSetupMode = false;
-                std::cout << "Exited setup mode.\n";
-            }
-        } else if (command.substr(0, 5) == "game ") {
+                chessGame.clearBoard();
+                }
+
+        }
+        else if (command.substr(0, 4) == "game") {
+           
             if (inSetupMode) {
-                std::cout << "Cannot start a game in setup mode.\n";
-            } else {
-                // Extract white-player and black-player from the command
-                cout << "in setup mode!"<<endl;
-                std::string whitePlayer = command.substr(5);
-                std::string blackPlayer;
-                size_t spacePos = whitePlayer.find(' ');
-                if (spacePos != std::string::npos) {
-                    blackPlayer = whitePlayer.substr(spacePos + 1);
-                    whitePlayer = whitePlayer.substr(0, spacePos);
+                cout << "Cannot start a game in setup mode.\n";
+            } 
+            else if (hasGameBegun) {
+                cout << "Game has already started.\n";
+            }
+            else {
+                vector<string> commands; 
+                stringstream ss(command);
+                string word;
+                while (ss >> word) {
+                        commands.push_back(word);
+                    }
+                if(commands.size() == 3){
+                    hasGameBegun = true;
+                    chessGame.initPlayers(commands[1], commands[2]);
+                    cout << "Begin Game!" << endl;
                 } else {
-                    std::cout << "Invalid command. Usage: game white-player black-player\n";
+                    hasGameBegun = false;
+                    cout << "Invalid game initialization!" <<endl;
+                }
+
+            }
+        }
+        else if (hasGameBegun) {
+            if(chessGame.play1 == "human" && chessGame.play2 == "human"){
+            // Process the move command and extract starting and ending coordinates
+            if (command.substr(0, 4) == "move") {
+                string moveParams = command.substr(5);
+                char letterStart, letterEnd;
+                char numberStart, numberEnd;
+                if (moveParams.length() < 4 || moveParams.length() > 5) {
+                    cout << "Invalid move command format.\n";
                     continue;
                 }
 
-                // Start a new game with the specified players
-                // chessGame.startNewGame(whitePlayer, blackPlayer);
+                letterStart = moveParams[0];
+                numberStart = moveParams[1];
+                letterEnd = moveParams[3];
+                numberEnd = moveParams[4];
+
+                // Call the play() function with the extracted coordinates
+                chessGame.play(letterStart, numberStart, letterEnd, numberEnd);
+                cout << chessGame;
+    
             }
-        } else if (inSetupMode) {
-            chessGame.processSetupCommand(command);
-        } else {
-            chessGame.play('a', 'b', 'c', 'd');
+            else {
+                cout << "Invalid move command for human vs human.\n";
+            }
+            }
+
+            else if(chessGame.play1 == "computer" && chessGame.play2 == "computer"){
+                if(command == "move") {
+                    chessGame.playComputer();
+                    cout << chessGame;
+                    
+                }
+                else {
+                cout << "Invalid move command for computer vs computer.\n";
+                }
+
+
+            }
+            else{
+                cout << "Human VS Comp AND Comp VS Human not implemented yet" << endl;
+            }
+
+
+        }
+        else {
+            cout << "Invalid command, try again!" <<endl;
         }
     }
 
-    return 0;
-
-// cout << "Chess!" << endl;
-
-
-//     Board myBoard = Board("human", "human", true, "");
-
-//     // Get the pieces on the board
-//     vector<vector<Piece*>> pieces = myBoard.currBoard;
-
-//     // Display the board
-//     for (int row = 7; row >= 0; row--) {
-//         for (int col = 0; col < 8; col++) {
-//             if (pieces[row][col]) {
-//                 cout << pieces[row][col]->getSymbol() << " ";
-//             } else {
-//                 cout << "__ ";
-//             }
-//         }
-//         cout << endl;
-//     }
-
-//     return 0;
-
+    return 1;
 }
-
 
