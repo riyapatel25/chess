@@ -25,6 +25,10 @@ class Xwindow {
   // Draws a string
   void drawString(int x, int y, std::string msg);
 
+  // method to print out the board
+
+  void draw_board(&board board);
+
 };
 
 #endif

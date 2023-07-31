@@ -43,6 +43,9 @@ Xwindow::Xwindow(int width, int height) {
   XSetForeground(d,gc,colours[Black]);
 
   // Make window non-resizeable.
+
+  // This shit doesnt work
+
   XSizeHints hints;
   hints.flags = (USPosition | PSize | PMinSize | PMaxSize );
   hints.height = hints.base_height = hints.min_height = hints.max_height = height;
@@ -69,3 +72,37 @@ void Xwindow::drawString(int x, int y, string msg) {
   XDrawString(d, w, DefaultGC(d, s), x, y, msg.c_str(), msg.length());
 }
 
+void Xwindow::draw_board(&board board){
+  for (int row = 0; row <= 7; row ++){
+    int y = row * 100;
+    for (int col = 0; col <= 7; col ++){
+      int x = col * 100;
+
+      //now, x and y hold the top left corner of the box they want to display
+
+      //check to see if the tile is black or white
+      bool isWhiteTile = false;
+
+      if (row % 2 == 0){
+        // we are on an even number row, 0,2,4,6
+        if (col % 2 == 0){
+          isWhiteTile = true;
+        }
+        else{
+          isWhiteTile = false
+        }
+      }
+      else{
+        if (col%2 == 0){
+          isWhiteTile = false;
+        }
+        else{
+          isWhiteTile = true;
+        }
+      }
+
+      // now we know the tile colour
+      
+    }
+  }
+}
