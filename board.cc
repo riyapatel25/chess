@@ -18,6 +18,27 @@ using namespace std;
 
 
 //----big 5---//
+    //Destructor
+    // Board Destructor
+    Board::~Board() {
+        // Free memory for each Piece object on the board
+        for (int row = 0; row < 8; ++row) {
+            for (int col = 0; col < 8; ++col) {
+                delete currBoard[row][col];
+            }
+        }
+        // Clear the board vector
+        currBoard.clear();
+
+        // Delete player objects
+        delete player1;
+        delete player2;
+
+        // Delete score object
+        delete currScore;
+    }
+
+
     //constructor
     Board::Board() {
     setupBoard();

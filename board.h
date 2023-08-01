@@ -28,7 +28,7 @@ class Board {
     Player* player2; //black player
 
 	public:
-	// ~Board(); //destrcutor
+	~Board(); //destrcutor
     Board(); //Board Constructor
     void play(char letterStart, char numberStart, char letterEnd, char numberEnd); //function to make a move
     void playComputer();
