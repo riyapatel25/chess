@@ -89,7 +89,7 @@ vector<Move> Horse::getValidMovesForPiece(vector<vector <Piece*>> board, int row
 }
 
 
-bool isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessBoard, int color) {
+bool Horse::isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessBoard, int color) {
 
     // this checks up-left
     int r1 = newRow - 2;
@@ -173,8 +173,8 @@ bool isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessBoard, 
 
 
     // this checks right-down
-    int r4 = newRow + 1;
-    int c4 = newCol + 2;    
+    r4 = newRow + 1;
+    c4 = newCol + 2;    
     if (r4<=7 && c4<=7) {
         if(chessBoard[r4][c4]->color != chessBoard[newRow][newCol]->color && 
             ((chessBoard[r4][c4]->pieceType == "K") || 

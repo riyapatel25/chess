@@ -78,7 +78,7 @@ vector<Move> King::getValidMovesForPiece(vector<vector <Piece*>> board, int row,
 }
 
 // // this function checks if the playing King is in check with the opponent player's king.
-bool isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessBoard, int color){
+bool King::isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessBoard, int color){
 
     // this checks bottom left diagonal
     int r1 = newRow - 1;

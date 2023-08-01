@@ -96,7 +96,7 @@ vector<Move> Queen::getValidMovesForPiece(vector<vector <Piece*>> board, int row
     return validMoves;
 }
 
-bool isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessBoard, int color) {
+bool Queen::isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessBoard, int color) {
 
     int r1 = newRow - 1;
     int c1 = newCol - 1;

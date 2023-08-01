@@ -14,6 +14,6 @@ vector<Move> Empty::getValidMovesForPiece(vector<vector <Piece*>> board, int row
     return validMoves;
 }
 
-bool isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessBoard, int color) {
+bool Empty::isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessBoard, int color) {
     return false;
 }

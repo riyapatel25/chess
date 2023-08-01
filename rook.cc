@@ -89,7 +89,7 @@ vector<Move> Rook::getValidMovesForPiece(vector<vector <Piece*>> board, int row,
     return validMoves;
 }
 
-bool isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessBoard, int color) {
+bool Rook::isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessBoard, int color) {
 
     // this checks left
     int r1 = newRow;

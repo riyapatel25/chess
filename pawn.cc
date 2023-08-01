@@ -187,7 +187,7 @@ vector<Move> Pawn::getValidMovesForPiece(vector<vector<Piece *>> board, int row,
 
 // isCheck should be called as the last condition, right before a "return true",
 // if it's returning false, no need to check it
-bool isCheck(int newRow, int newCol, const vector<vector<Piece *>> chessBoard, int color)
+bool Pawn::isCheck(int newRow, int newCol, const vector<vector<Piece *>> chessBoard, int color)
 {
     // Pawn can only be in check with king diagonally, so we check if the king lies anywhere
     // in the diagonal viscinity.

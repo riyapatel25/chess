@@ -146,7 +146,7 @@ bool Bishop::isCheck (int newRow, int newCol, const vector<vector<Piece*>>  ches
             break;
         }
         r3+=1;
-        c3+-1;
+        c3-=1;
     }
 
     // this checks positions to the south-east of the currently placed bishop.
