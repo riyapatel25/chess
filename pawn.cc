@@ -5,18 +5,20 @@ using namespace std;
 
 Pawn::Pawn(int playerWhiteOrBlack, string pieceType) : Piece{playerWhiteOrBlack, pieceType} {}
 
-
-bool Pawn::playerMove(int row, int col, int newRow, int newCol, const vector<vector<Piece*>> chessBoard, bool turn)
+bool Pawn::playerMove(int row, int col, int newRow, int newCol, const vector<vector<Piece *>> chessBoard, bool turn)
 {
-      if (chessBoard[row][col]->color != turn){
+    if (chessBoard[row][col]->color != turn)
+    {
         return false;
-      }
+    }
 
-     if (chessBoard[newRow][newCol]->color == this->color){
-            return false;
-        }
+    if (chessBoard[newRow][newCol]->color == this->color)
+    {
+        return false;
+    }
     // check if the co-ordinates are within bounds.
-    if (!((newRow >= 0 && newRow < 8) && (newCol >= 0 && newCol < 8))){
+    if (!((newRow >= 0 && newRow < 8) && (newCol >= 0 && newCol < 8)))
+    {
         return false;
     }
 
@@ -37,17 +39,43 @@ bool Pawn::playerMove(int row, int col, int newRow, int newCol, const vector<vec
             {
                 return false;
             }
+            // isCheck is here, because the piece is playable, so check for the opponent's.
+            // the last parameter here is redundant.
+            if (isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->color))
+            {
+                if (turn == 0)
+                {
+                    cout << "White is in check." << endl;
+                }
+                else if (turn == 1)
+                {
+                    cout << "Black is in check." << endl;
+                }
+            }
             return true;
         }
-        else{
+        else
+        {
 
             // this indicates attack move, must check if there's a piece there.
             if ((rowDifference == 1) && (columnDifference == -1 || columnDifference == 1))
             {
-                
+
                 if (chessBoard[newRow][newCol]->color == 1)
                 {
-
+                    // isCheck is here, because the piece is playable, so check for the opponent's.
+                    // the last parameter here is redundant.
+                    if (isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->color))
+                    {
+                        if (turn == 0)
+                        {
+                            cout << "White is in check." << endl;
+                        }
+                        else if (turn == 1)
+                        {
+                            cout << "Black is in check." << endl;
+                        }
+                    }
                     return true;
                 }
                 return false;
@@ -68,16 +96,42 @@ bool Pawn::playerMove(int row, int col, int newRow, int newCol, const vector<vec
             {
                 return false;
             }
+            // isCheck is here, because the piece is playable, so check for the opponent's.
+            // the last parameter here is redundant.
+            if (isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->color))
+            {
+                if (turn == 0)
+                {
+                    cout << "White is in check." << endl;
+                }
+                else if (turn == 1)
+                {
+                    cout << "Black is in check." << endl;
+                }
+            }
             return true;
         }
 
         else
             // this indicates attack move, must check if there's a piece there.
-            if ((rowDifference == -1 ) && (columnDifference == -1 || columnDifference == 1))
+            if ((rowDifference == -1) && (columnDifference == -1 || columnDifference == 1))
             {
-    
+
                 if (chessBoard[newRow][newCol]->color == 0)
                 {
+                    // isCheck is here, because the piece is playable, so check for the opponent's.
+                    // the last parameter here is redundant.
+                    if (isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->color))
+                    {
+                        if (turn == 0)
+                        {
+                            cout << "White is in check." << endl;
+                        }
+                        else if (turn == 1)
+                        {
+                            cout << "Black is in check." << endl;
+                        }
+                    }
                     return true;
                 }
                 return false;
@@ -85,7 +139,8 @@ bool Pawn::playerMove(int row, int col, int newRow, int newCol, const vector<vec
     }
 }
 
-vector<Move> Pawn::getValidMovesForPiece(vector<vector <Piece*>> board, int row, int col, bool turn) {
+vector<Move> Pawn::getValidMovesForPiece(vector<vector<Piece *>> board, int row, int col, bool turn)
+{
     vector<Move> validMoves;
     // Piece* pawn = board[row][col];
     // bool isWhite = pawn->color; // returns 1 if white
@@ -97,13 +152,13 @@ vector<Move> Pawn::getValidMovesForPiece(vector<vector <Piece*>> board, int row,
     int newRow = row + direction;
     int newCol = col;
 
-    if (board[row][col]->playerMove(row, col, newRow, newCol, board, turn)) {
+    if (board[row][col]->playerMove(row, col, newRow, newCol, board, turn))
+    {
 
         validMoves.emplace_back(Move(row, col, newRow, newCol));
     }
     // if (newRow >= 0 && newRow < 8 && board[newRow][newCol]->pieceType == " ") {
     //     validMoves.emplace_back(Move(row, col, newRow, newCol));
-
 
     //     // If it is the pawn's first move, it can move two squares forward
     //     // Only works for default board right now
@@ -130,10 +185,9 @@ vector<Move> Pawn::getValidMovesForPiece(vector<vector <Piece*>> board, int row,
     return validMoves;
 }
 
-
 // isCheck should be called as the last condition, right before a "return true",
 // if it's returning false, no need to check it
-bool isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessBoard, int color) 
+bool isCheck(int newRow, int newCol, const vector<vector<Piece *>> chessBoard, int color)
 {
     // Pawn can only be in check with king diagonally, so we check if the king lies anywhere
     // in the diagonal viscinity.

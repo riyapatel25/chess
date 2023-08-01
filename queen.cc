@@ -42,6 +42,16 @@ bool Queen::playerMove (int row, int col, int newRow, int newCol, const vector<v
             if (chessBoard[newRow][newCol]->color == this->color){
             return false;
         }
+        // isCheck is here, because the piece is playable, so check for the opponent's.
+        // the last parameter here is redundant.
+        if(isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->color)){
+            if(turn == 0){
+                cout << "White is in check." << endl;
+            }
+            else if (turn == 1) {
+                cout << "Black is in check." << endl;
+            }
+        }
         return true;
     }
     else {
