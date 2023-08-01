@@ -113,6 +113,10 @@ Move Computer::levelTwo(vector<vector <Piece*>> board, bool turn)
         return validMoves[randomIndex];
     }
 
+    if(bestMoveIndex == -1){
+        cerr << "no more valid moves we should never enter here once isCheck and isCheckmate are implemented" <<endl;
+    }
+
 
     return validMoves[bestMoveIndex];
 }
@@ -210,6 +214,10 @@ Move Computer::levelThree(vector<vector <Piece*>> board, bool turn) {
         srand(static_cast<unsigned int>(time(0)));
         int randomIndex = rand() % validMoves.size();
         return validMoves[randomIndex];
+    }
+
+    if(bestMoveIndex == -1){
+        cerr << "no more valid moves we should never enter here once isCheck and isCheckmate are implemented" <<endl;
     }
 
     return validMoves[bestMoveIndex];

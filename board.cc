@@ -58,9 +58,16 @@ using namespace std;
 
     void Board::setupBoard() {
 
-
         //Create an 8x8 chessboard with empty spaces
         currBoard = vector<vector<Piece*>>(8, vector<Piece*>(8, nullptr));
+
+// ADDED
+        // for (int row = 0; row < currBoard.size(); row++) {
+        //     for (int col = 0; col < currBoard[row].size(); col++) {
+        //         currBoard[row][col] = new Empty(2, " ");
+        //     }
+        // }
+
 
         // Initialize white pieces
         Rook* r1 = new Rook(1, "R");
@@ -99,7 +106,6 @@ using namespace std;
 
         Horse* h3 = new Horse(0, "h");
         currBoard[0][1] = h3;
-
 
         Bishop* b3 = new Bishop(0, "b");
         currBoard[0][2] = b3;
@@ -306,8 +312,10 @@ ostream& operator<<(ostream& os, const Board& chessBoard) {
  
     for (int i = 0; i < chessBoard.currBoard.size(); i++) {
         for (int j = 0; j < chessBoard.currBoard[i].size(); j++) {
+            if(chessBoard.currBoard[i][j]){
        
-            os << '|' << (*(chessBoard.currBoard[i][j])).pieceType << '|'; // Print the piece letter if it exists
+                os << '|' << (*(chessBoard.currBoard[i][j])).pieceType << '|'; // Print the piece letter if it exists
+            }
         }
         os << '\n';
     }
@@ -320,6 +328,7 @@ pair<bool, int> Board::getHasWon(){
 
 
 int Board::processSetupCommand(string input, vector<PieceInfo>& storePieceInfo) {
+
         if (input[0] == '+'){
         //  + K e1 
         PieceInfo info;
@@ -359,12 +368,14 @@ int Board::processSetupCommand(string input, vector<PieceInfo>& storePieceInfo) 
             // If a valid piece was created, set it on the board
             if (piece) {
                 // Delete the old piece at the location if it exists
-                if (currBoard[row][col]) {
+                if (currBoard[row][col] != nullptr) {
                     delete currBoard[row][col];
                 }
                 currBoard[row][col] = piece;
-                // currBoard[row][col] = piece;
             }
+
+
+
             else{
                 cout << "Not a valid piece to add to the board!" << endl;
             }
@@ -386,11 +397,10 @@ int Board::processSetupCommand(string input, vector<PieceInfo>& storePieceInfo) 
             int col = indices.second;
 
             // Remove the piece from the specified position (set it to an empty square)
-            if(currBoard[row][col]->pieceType != " "){
+            if (currBoard[row][col]->pieceType != " ") {
                 delete currBoard[row][col];
                 currBoard[row][col] = new Empty(2, " ");
-            }
-            else {
+            } else {
                 cout << "No piece there to delete!" << endl;
             }
             return 0;
@@ -415,6 +425,19 @@ int Board::processSetupCommand(string input, vector<PieceInfo>& storePieceInfo) 
             if(isValidBoard){
                 // Clear the stored piece info vector as we no longer need it
                 storePieceInfo.clear();
+
+                // Iterate through the rows and columns of currBoard
+                for (int row = 0; row < currBoard.size(); row++) {
+                    for (int col = 0; col < currBoard[row].size(); col++) {
+                        // Check if the element is nullptr
+                        if (currBoard[row][col] == nullptr) {
+                            // If it is nullptr, create a new Empty piece and assign it to that location
+                            currBoard[row][col] = new Empty(2, " ");
+                        }
+                    }
+                }
+
+
                 cout << "Leaving setup mode.." << endl;
                 return 1;
             }
@@ -428,8 +451,6 @@ int Board::processSetupCommand(string input, vector<PieceInfo>& storePieceInfo) 
             cout << input << " is an invalid command for setup mode, try again" << endl;
             return 0;
         }
-    
- 
     
 }
 void Board::clearBoard(){
@@ -463,31 +484,35 @@ bool Board::isConfigurationValid() {
     int blackKings = 0;
     bool whiteKingInCheck = false;
     bool blackKingInCheck = false;
-
+ 
     // Check the entire board for kings and pawns in invalid positions
+    cout << "currBoard.size: " << currBoard.size() << endl;
        for (int row = 0; row < currBoard.size(); row++) {
         for (int col = 0; col < currBoard[row].size(); col++) {
-
-            Piece* currentPiece = currBoard[row][col];
- 
-            if (currentPiece->color == 1 && currentPiece->pieceType == "K") {
-                // White king found
-                whiteKings ++;
-                // check if king is in check
-                // if (currentPiece->isCheck(Move(row, col, -1, -1), currBoard, 0)) {
-                //     whiteKingInCheck = true;
-                // }
-            } else if (currentPiece->color == 0 && currentPiece->pieceType == "k") {
-                // Black king found
-                blackKings++;
-                // check if king is in check
-                // if (currentPiece->isCheck(Move(row, col, -1, -1), currBoard, 1)) {
-                //     blackKingInCheck = true;
-                // }
-            } else if ((currentPiece->pieceType == "P") || (currentPiece->pieceType == "p")) {
-                // Pawns found on the first or last row
-                if (row == 0 || row == 7) {
-                    return false;
+            Piece* currentPiece = nullptr;
+            if(currBoard[row][col]){
+                currentPiece = currBoard[row][col];
+                
+    
+                if (currentPiece->color == 1 && currentPiece->pieceType == "K") {
+                    // White king found
+                    whiteKings ++;
+                    // check if king is in check
+                    // if (currentPiece->isCheck(Move(row, col, -1, -1), currBoard, 0)) {
+                    //     whiteKingInCheck = true;
+                    // }
+                } else if (currentPiece->color == 0 && currentPiece->pieceType == "k") {
+                    // Black king found
+                    blackKings++;
+                    // check if king is in check
+                    // if (currentPiece->isCheck(Move(row, col, -1, -1), currBoard, 1)) {
+                    //     blackKingInCheck = true;
+                    // }
+                } else if ((currentPiece->pieceType == "P") || (currentPiece->pieceType == "p")) {
+                    // Pawns found on the first or last row
+                    if (row == 0 || row == 7) {
+                        return false;
+                    }
                 }
             }
         }
