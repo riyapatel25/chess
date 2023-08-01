@@ -5,6 +5,7 @@
 #include "board.h"
 #include <vector>
 #include <sstream>
+#include "window.h"
 
 
 using namespace std;
@@ -12,14 +13,15 @@ using namespace std;
 
 int main() {
     Board chessGame = Board();
-    // cout << chessGame;
     cout << "Board constructed, start entering commands!" << endl;
     bool inSetupMode = false;
     bool hasGameBegun = false;
     vector<PieceInfo> storePieceInfo; //for setup mode
-
+    Xwindow window = Xwindow(800,800);
     string command;
     while (true) {
+    window.draw_board(chessGame);
+
         
         getline(cin, command);
             if (cin.eof()) {

@@ -528,3 +528,7 @@ void Board::playHelper(int row, int col, int newRow, int newCol){
  }
 
 
+string Board::getPieceType(int row, int col){
+   return currBoard[row][col]->pieceType;
+
+}

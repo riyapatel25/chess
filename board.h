@@ -19,7 +19,6 @@ struct PieceInfo {
 
 class Board {
     private:
-    vector<vector<Piece*>> currBoard; 
     protected:
     // bool hasWon;
     pair<bool, int> winInfo;
@@ -29,6 +28,7 @@ class Board {
     Player* player2; //black player
 
 	public:
+    vector<vector<Piece*>> currBoard; 
     bool turn; //keeps track of who's turn -> white (true), black (false)
     bool stalemate;
 	// ~Board(); //destrcutor
@@ -54,7 +54,8 @@ class Board {
     string play1;
     string play2;
     void playHelper(int row, int col, int newRow, int newCol);
-     pair<double, double> finalWins();
+    pair<double, double> finalWins();
+    string getPieceType(int row, int col);
 
 };
 #endif

@@ -3,7 +3,8 @@
 #include <X11/Xlib.h>
 #include <iostream>
 #include <string>
-
+#include "piece.h"
+using namespace std;
 class Xwindow {
   Display *d;
   Window w;
@@ -14,8 +15,8 @@ class Xwindow {
  public:
   Xwindow(int width=500, int height=500);  // Constructor; displays the window.
   ~Xwindow();                              // Destructor; destroys the window.
-  Xwindow(const Xwindow&) = delete;
-  Xwindow &operator=(const Xwindow&) = delete;
+  // Xwindow(const Xwindow&) = delete;
+  // Xwindow &operator=(const Xwindow&) = delete;
 
   enum {White=0, Black, Red, Green, Blue}; // Available colours.
 
@@ -23,11 +24,13 @@ class Xwindow {
   void fillRectangle(int x, int y, int width, int height, int colour=Black);
 
   // Draws a string
-  void drawString(int x, int y, std::string msg);
+  // void drawString(int x, int y, std::string msg);
+  void drawString( int x, int y, string msg, int fontsize, string fontcolor);
+
 
   // method to print out the board
 
-  void draw_board(&board board);
+  void draw_board(Board &board);
 
 };
 
