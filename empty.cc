@@ -13,3 +13,7 @@ vector<Move> Empty::getValidMovesForPiece(vector<vector <Piece*>> board, int row
     vector<Move> validMoves;
     return validMoves;
 }
+
+bool isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessBoard, int color) {
+    return false;
+}

@@ -79,77 +79,100 @@ vector<Move> Horse::getValidMovesForPiece(vector<vector <Piece*>> board, int row
 }
 
 
-// bool isCheck (int row, int col, int newRow, int newCol, const Board& chessBoard) {
+bool isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessBoard, int color) {
 
-//     // this checks up-left
-//     int r1 = newRow - 2;
-//     int c1 = newCol - 1;
+    // this checks up-left
+    int r1 = newRow - 2;
+    int c1 = newCol - 1;
     
-//     if (r1>=0 && (c1>=0 && c1<=7)) {
-//         if(chessBoard.getCurrBoard[r1][c1].color != this.color && 
-//         ((chessBoard.getCurrBoard[r1][c1].name == 'K') || 
-//         (chessBoard.getCurrBoard[r1][c1].name == 'k'))) {
-//             return true;
-//         }
-//     }
+    if (r1>=0 && c1>=0 ) {
+        if(chessBoard[r1][c1]->color != chessBoard[newRow][newCol]->color && 
+        ((chessBoard[r1][c1]->pieceType == "K") || 
+        (chessBoard[r1][c1]->pieceType == "k"))) {
+            return true;
+        }
+    }
 
-//     //  up-right
-//     int r2 = newRow - 2;
-//     int c2 = newCol + 1;
+    //  up-right
+    int r2 = newRow - 2;
+    int c2 = newCol + 1;
     
-//     if (r2>=0 && (c2>=0 && c2<=7)) {
-//         if(chessBoard.getCurrBoard[r2][c2].color != this.color && 
-//         ((chessBoard.getCurrBoard[r2][c2].name == 'K') || 
-//         (chessBoard.getCurrBoard[r2][c2].name == 'k'))) {
-//             return true;
-//         }
-//     }
+    if (r2>=0 && c2<=7) {
+        if(chessBoard[r2][c2]->color != chessBoard[newRow][newCol]->color && 
+        ((chessBoard[r2][c2]->pieceType == "K") || 
+        (chessBoard[r2][c2]->pieceType == "k"))) {
+            return true;
+        }
+    }
 
-//     // this checks down-left, down-right
-//     int r2 = newRow + 2;
-//     int c2 = newCol - 1;    
-//     if (r2<=7 && (c2>=0 && c2<=7)) {
-//         if(chessBoard.getCurrBoard[r2][c2].color != this.color && 
-//         ((chessBoard.getCurrBoard[r2][c2].name == 'K') || 
-//         (chessBoard.getCurrBoard[r2][c2].name == 'k'))) {
-//             return true;
-//         }
-//         c2+=2;
-//     }
+    // this checks down-left
+    r2 = newRow + 2;
+    c2 = newCol - 1;    
+    if (r2<=7 && c2>=0) {
+        if(chessBoard[r2][c2]->color != chessBoard[newRow][newCol]->color && 
+        ((chessBoard[r2][c2]->pieceType == "K") || 
+        (chessBoard[r2][c2]->pieceType == "k"))) {
+            return true;
+        }
+    }
 
-//     int r3 = newRow + 2;
-//     int c3 = newCol - 1;    
-//     if (r3<=7 && (c3>=0 && c3<=7)) {
-//         if(chessBoard.getCurrBoard[r3][c3].color != this.color && 
-//         ((chessBoard.getCurrBoard[r3][c3].name == 'K') || 
-//         (chessBoard.getCurrBoard[r3][c3].name == 'k'))) {
-//             return true;
-//         }
-//         c2+=2;
-//     }
+    // this checks down-right
+    int r3 = newRow + 2;
+    int c3 = newCol + 1;    
+    if (r3<=7 && c3<=7) {
+        if(chessBoard[r3][c3]->color != chessBoard[newRow][newCol]->color && 
+        ((chessBoard[r3][c3]->pieceType == "K") || 
+        (chessBoard[r3][c3]->pieceType == "k"))) {
+            return true;
+        }
+    }
 
-//     // this checks left-down, left-up
-//     int r3 = newRow - 1;
-//     int c3 = newCol - 2;
-//     if ((r3>=0 && r3<=7) && c3>=0) {
-//         if(chessBoard.getCurrBoard[r3][c3].color != this.color && 
-//         ((chessBoard.getCurrBoard[r3][c3].name == 'K') || 
-//         (chessBoard.getCurrBoard[r3][c3].name == 'k'))) {
-//             return true;
-//         }
-//         r3+=2;
-//     }
+    // this checks left-down
+    r3 = newRow + 1;
+    c3 = newCol - 2;
+    if (r3<=7 && c3>=0) {
+        if(chessBoard[r3][c3]->color != chessBoard[newRow][newCol]->color && 
+        ((chessBoard[r3][c3]->pieceType == "K") || 
+        (chessBoard[r3][c3]->pieceType == "k"))) {
+            return true;
+        }
+    }
 
-//     // this checks right-down, right-up
-//     int r4 = newRow - 1;
-//     int c4 = newCol + 2;    
-//     if (r4>=0 && c4>=7) {
-//         if(chessBoard.getCurrBoard[r4][c4].color != this.color && 
-//             ((chessBoard.getCurrBoard[r4][c4].name == 'K') || 
-//             (chessBoard.getCurrBoard[r4][c4].name == 'k'))) {
-//             return true;
-//         }
-//         r4+=2;
-//     }
-//     return false;
-// }
+    // this checks left-up
+    r3 = newRow - 1;
+    c3 = newCol - 2;
+    if (r3>=0 && c3>=0) {
+        if(chessBoard[r3][c3]->color != chessBoard[newRow][newCol]->color && 
+        ((chessBoard[r3][c3]->pieceType == "K") || 
+        (chessBoard[r3][c3]->pieceType == "k"))) {
+            return true;
+        }
+    }
+
+
+    // this checks right-up
+    int r4 = newRow - 1;
+    int c4 = newCol + 2;    
+    if (r4>=0 && c4<=7) {
+        if(chessBoard[r4][c4]->color != chessBoard[newRow][newCol]->color && 
+            ((chessBoard[r4][c4]->pieceType == "K") || 
+            (chessBoard[r4][c4]->pieceType == "k"))) {
+            return true;
+        }
+    }
+
+
+    // this checks right-down
+    int r4 = newRow + 1;
+    int c4 = newCol + 2;    
+    if (r4<=7 && c4<=7) {
+        if(chessBoard[r4][c4]->color != chessBoard[newRow][newCol]->color && 
+            ((chessBoard[r4][c4]->pieceType == "K") || 
+            (chessBoard[r4][c4]->pieceType == "k"))) {
+            return true;
+        }
+    }
+
+    return false;
+
+}

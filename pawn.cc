@@ -131,73 +131,74 @@ vector<Move> Pawn::getValidMovesForPiece(vector<vector <Piece*>> board, int row,
 }
 
 
-// // isCheck should be called as the last condition, right before a "return true",
-// // if it's returning false, no need to check it
-// bool Pawn::isCheck(int row, int col, int newRow, int newCol, const Board &chessBoard)
-// {
-//     // Pawn can only be in check with king diagonally, so we check if the king lies anywhere
-//     // in the diagonal viscinity.
+// isCheck should be called as the last condition, right before a "return true",
+// if it's returning false, no need to check it
+bool isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessBoard, int color) 
+{
+    // Pawn can only be in check with king diagonally, so we check if the king lies anywhere
+    // in the diagonal viscinity.
 
-//     // If the color is black, Pawn is moving downwards, so only check 2 spaces
-//     if (chessBoard.getCurrBoard[newRow][newCol].color == 0)
-//     {
-//         int r1 = newRow + 1;
-//         int c1 = newCol + 1;
+    // If the color is black, Pawn is moving downwards, so only check 2 spaces
+    if (chessBoard[newRow][newCol]->color == 0)
+    {
+        int r1 = newRow + 1;
+        int c1 = newCol + 1;
 
-//         if (r1 <= 7 && c1 <= 7)
-//         {
-//             if (chessBoard.getCurrBoard[r1][c1].color != this.color &&
-//                 ((chessBoard.getCurrBoard[r1][c1].name == 'K') ||
-//                  (chessBoard.getCurrBoard[r1][c1].name == 'k')))
-//             {
-//                 return true;
-//             }
-//         }
-//         else
-//         {
-//             int r2 = newRow + 1;
-//             int c2 = newCol + 1;
-//             if (r2 <= 7 && c2 >= 0)
-//             {
-//                 if (chessBoard.getCurrBoard[r2][c2].color != this.color &&
-//                     ((chessBoard.getCurrBoard[r2][c2].name == 'K') ||
-//                      (chessBoard.getCurrBoard[r2][c2].name == 'k')))
-//                 {
-//                     return true;
-//                 }
-//             }
-//         }
-//     }
-//     else
-//         // if the pawn is white, it's moving up, should look for black pawns diagonally
-//         if (chessBoard.getCurrBoard[newRow][newCol].color == 1)
-//         {
-//             int r1 = newRow - 1;
-//             int c1 = newCol - 1;
+        if (r1 <= 7 && c1 <= 7)
+        {
+            if (chessBoard[r1][c1]->color != chessBoard[newRow][newCol]->color &&
+                ((chessBoard[r1][c1]->pieceType == "K") ||
+                 (chessBoard[r1][c1]->pieceType == "k")))
+            {
+                return true;
+            }
+        }
+        else
+        {
+            int r2 = newRow + 1;
+            int c2 = newCol - 1;
+            if (r2 <= 7 && c2 >= 0)
+            {
+                if (chessBoard[r2][c2]->color != chessBoard[newRow][newCol]->color &&
+                    ((chessBoard[r2][c2]->pieceType == "K") ||
+                     (chessBoard[r2][c2]->pieceType == "k")))
+                {
+                    return true;
+                }
+            }
+        }
+    }
+    else
+        // if the pawn is white, it's moving up, should look for black pawns diagonally
+        if (chessBoard[newRow][newCol]->color == 1)
+        {
+            int r1 = newRow - 1;
+            int c1 = newCol - 1;
 
-//             if (r1 >= 0 && c1 >= 0)
-//             {
-//                 if (chessBoard.getCurrBoard[r1][c1].color != this.color &&
-//                     ((chessBoard.getCurrBoard[r1][c1].name == 'K') ||
-//                      (chessBoard.getCurrBoard[r1][c1].name == 'k')))
-//                 {
-//                     return true;
-//                 }
-//             }
-//             else
-//             {
-//                 int r2 = newRow - 1;
-//                 int c2 = newCol + 1;
-//                 if (r2 >= 0 && c2 <= 7)
-//                 {
-//                     if (chessBoard.getCurrBoard[r2][c2].color != this.color &&
-//                         ((chessBoard.getCurrBoard[r2][c2].name == 'K') ||
-//                          (chessBoard.getCurrBoard[r2][c2].name == 'k')))
-//                     {
-//                         return true;
-//                     }
-//                 }
-//             }
-//         }
-//     return false;
-// }
+            if (r1 >= 0 && c1 >= 0)
+            {
+                if (chessBoard[r1][c1]->color != chessBoard[newRow][newCol]->color &&
+                    ((chessBoard[r1][c1]->pieceType == "K") ||
+                     (chessBoard[r1][c1]->pieceType == "k")))
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                int r2 = newRow - 1;
+                int c2 = newCol + 1;
+                if (r2 >= 0 && c2 <= 7)
+                {
+                    if (chessBoard[r2][c2]->color != chessBoard[newRow][newCol]->color &&
+                        ((chessBoard[r2][c2]->pieceType == "K") ||
+                         (chessBoard[r2][c2]->pieceType == "k")))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+    return false;
+}
