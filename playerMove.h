@@ -6,7 +6,6 @@ class Move {
 public:
     Move(int startRow, int startCol, int endRow, int endCol)
         : startRow(startRow), startCol(startCol), endRow(endRow), endCol(endCol) {}
-
     int getStartRow() const { return startRow; }
     int getStartCol() const { return startCol; }
     int getEndRow() const { return endRow; }

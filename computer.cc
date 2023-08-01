@@ -25,17 +25,16 @@ Move Computer::levelOne(vector<vector <Piece*>> board, bool turn)
     // Handle computer player's move (Level 1)
     std::vector<Move> validMoves = getAllValidMoves(board, turn);
     
-    for (const auto& move : validMoves) {
-        // Access elements of move here
-        // Example:
-        // std::cout << "From: (" << move.getStartRow() << ", " << move.getStartCol() << ") ";
-        // std::cout << "To: (" << move.getEndRow() << ", " << move.getEndCol() << ")" << std::endl;
-    }
+    // for (const auto& move : validMoves) {
+    //     // Access elements of move here
+    //     // Example:
+    //     // std::cout << "From: (" << move.getStartRow() << ", " << move.getStartCol() << ") ";
+    //     // std::cout << "To: (" << move.getEndRow() << ", " << move.getEndCol() << ")" << std::endl;
+    // }
 
     // Randomly choose a valid move
     srand(static_cast<unsigned int>(time(0)));
     int randomIndex = 100*rand() % validMoves.size();
-    cout << "valid moves size: " << validMoves.size() << endl;
     cout << "Random Move is: " <<endl;
     std::cout << "From: (" << validMoves[randomIndex].getStartRow() << ", " << validMoves[randomIndex].getStartCol() << ") ";
         std::cout << "To: (" << validMoves[randomIndex].getEndRow() << ", " << validMoves[randomIndex].getEndCol() << ")" << std::endl;
