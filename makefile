@@ -1,14 +1,12 @@
-CXX = g++
-CXXFLAGS = -std=c++14 -Wall -g -MMD
-EXEC = chess
-CCFILES = $(wildcard *.cc) $(wildcard */*.cc)
-OBJECTS = ${CCFILES:.cc=.o}
-DEPENDS = ${CCFILES:.cc=.d}
-X11FLAGS = -I/opt/X11/include
-X11LIBS = -L/opt/X11/lib -lX11
+CXX=g++
+CXXFLAGS=-std=c++14 -Wall -g -MMD
+EXEC=chess
+CCFILES=$(wildcard *.cc)
+OBJECTS=${CCFILES:.cc=.o}
+DEPENDS=${CCFILES:.cc=.d}
 
 ${EXEC}: ${OBJECTS}
-	${CXX} ${X11FLAGS} ${OBJECTS} ${X11LIBS} -o ${EXEC}
+	${CXX} ${OBJECTS} -o ${EXEC}
 
 -include ${DEPENDS}
 

@@ -1,4 +1,5 @@
 #include "piece.h"
+#include "playerMove.h"
 
 class Rook: public Piece {
     public:

@@ -5,7 +5,7 @@
 #include "board.h"
 #include <vector>
 #include <sstream>
-#include "window.h"
+// #include "window.h"
 
 
 using namespace std;
@@ -17,10 +17,10 @@ int main() {
     bool inSetupMode = false;
     bool hasGameBegun = false;
     vector<PieceInfo> storePieceInfo; //for setup mode
-    Xwindow window = Xwindow(800,800);
+    // Xwindow window = Xwindow(800,800);
     string command;
     while (true) {
-    window.draw_board(chessGame);
+    // window.draw_board(chessGame);
 
         
         getline(cin, command);

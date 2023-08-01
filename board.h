@@ -28,6 +28,7 @@ class Board {
     Player* player2; //black player
 
 	public:
+	~Board(); //destrcutor
     vector<vector<Piece*>> currBoard; 
     bool turn; //keeps track of who's turn -> white (true), black (false)
     bool stalemate;
