@@ -180,9 +180,9 @@ bool Queen::isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chess
 
     // this checks right
      r2 = newRow;
-     c2 = newCol + 1;    
+     c2 = newCol + 1;  
     while (c2<=7) {
-        if(chessBoard[r2][c2]->color != chessBoard[newRow][newCol]->color && 
+        if(chessBoard[r2][c2]->color != chessBoard[newRow][newCol]->color &&
         ((chessBoard[r2][c2]->pieceType == "K") || 
         (chessBoard[r2][c2]->pieceType == "k"))) {
             return true;

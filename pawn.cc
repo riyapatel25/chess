@@ -3,7 +3,7 @@
 #include "pawn.h"
 using namespace std;
 
-Pawn::Pawn(int playerWhiteOrBlack, string pieceType) : Piece{playerWhiteOrBlack, pieceType} {}
+Pawn::Pawn(int playerWhiteOrBlack, string pieceType, bool hasMoved) : Piece{playerWhiteOrBlack, pieceType}, hasMovedBefore{hasMoved} {}
 
 bool Pawn::playerMove(int row, int col, int newRow, int newCol, const vector<vector<Piece *>> chessBoard, bool turn)
 {
@@ -31,7 +31,8 @@ bool Pawn::playerMove(int row, int col, int newRow, int newCol, const vector<vec
     // therefore, can only move rows downward
     if (turn == 0)
     {
-        if (rowDifference == 1 && columnDifference == 0)
+        if ((rowDifference == 1 && columnDifference == 0) || 
+            (rowDifference == 2 && columnDifference == 0 && this->hasMovedBefore == false))
         {
             // check if there's a piece in front of the pawn, if there is, then return false else true
             if (chessBoard[newRow][newCol]->color == 0 ||
@@ -52,6 +53,7 @@ bool Pawn::playerMove(int row, int col, int newRow, int newCol, const vector<vec
                     cout << "Black is in check." << endl;
                 }
             }
+            this->hasMovedBefore = true;
             return true;
         }
         else
@@ -76,6 +78,7 @@ bool Pawn::playerMove(int row, int col, int newRow, int newCol, const vector<vec
                             cout << "Black is in check." << endl;
                         }
                     }
+                    this->hasMovedBefore = true;
                     return true;
                 }
                 return false;
@@ -87,7 +90,8 @@ bool Pawn::playerMove(int row, int col, int newRow, int newCol, const vector<vec
     // therefore, can only move rows upward
     else if (turn == 1)
     {
-        if (rowDifference == -1 && columnDifference == 0)
+        if ((rowDifference == -1 && columnDifference == 0) || 
+            (rowDifference == -2 && columnDifference == 0 && this->hasMovedBefore == false))
         {
 
             // check if there's a piece in front of the pawn, if there is, then return false else true
@@ -109,6 +113,7 @@ bool Pawn::playerMove(int row, int col, int newRow, int newCol, const vector<vec
                     cout << "Black is in check." << endl;
                 }
             }
+            this->hasMovedBefore = true;
             return true;
         }
 
@@ -132,6 +137,7 @@ bool Pawn::playerMove(int row, int col, int newRow, int newCol, const vector<vec
                             cout << "Black is in check." << endl;
                         }
                     }
+                    this->hasMovedBefore = true;
                     return true;
                 }
                 return false;
