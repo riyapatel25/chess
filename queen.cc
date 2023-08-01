@@ -10,7 +10,7 @@ using namespace std;
 
 Queen::Queen(int playerWhiteOrBlack, string pieceType) : Piece{playerWhiteOrBlack, pieceType} {}
 
-bool Queen::playerMove (int row, int col, int newRow, int newCol, const vector<vector<Piece*>> chessBoard, bool turn){
+bool Queen::playerMove (int row, int col, int newRow, int newCol, const vector<vector<Piece*>> chessBoard, bool turn, bool vCheck){
 
     if (chessBoard[row][col]->color != turn){
         return false;
@@ -44,7 +44,7 @@ bool Queen::playerMove (int row, int col, int newRow, int newCol, const vector<v
         }
         // isCheck is here, because the piece is playable, so check for the opponent's.
         // the last parameter here is redundant.
-        if(isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->color)){
+        if(isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->color) && vCheck!= true){
             if(turn == 0){
                 cout << "White is in check." << endl;
             }
@@ -66,6 +66,7 @@ bool Queen::playerMove (int row, int col, int newRow, int newCol, const vector<v
 
 vector<Move> Queen::getValidMovesForPiece(vector<vector <Piece*>> board, int row, int col, bool turn) {
     vector<Move> validMoves;
+    bool vCheck = true;
     // The directions a queen can move (up, down, left, right, and diagonals)
     int dr[] = {-1, -1, -1, 0, 0, 1, 1, 1};
     int dc[] = {-1, 0, 1, -1, 1, -1, 0, 1};
@@ -76,7 +77,7 @@ vector<Move> Queen::getValidMovesForPiece(vector<vector <Piece*>> board, int row
 
         // Continue moving in the same direction until we find an invalid move
         while (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
-            if (!board[row][col]->playerMove(row, col, newRow, newCol, board, turn)) {
+            if (!board[row][col]->playerMove(row, col, newRow, newCol, board, turn, vCheck)) {
                 break;
             }
 

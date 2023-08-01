@@ -5,7 +5,7 @@ using namespace std;
 
 Pawn::Pawn(int playerWhiteOrBlack, string pieceType, bool hasMoved) : Piece{playerWhiteOrBlack, pieceType}, hasMovedBefore{hasMoved} {}
 
-bool Pawn::playerMove(int row, int col, int newRow, int newCol, const vector<vector<Piece *>> chessBoard, bool turn)
+bool Pawn::playerMove(int row, int col, int newRow, int newCol, const vector<vector<Piece *>> chessBoard, bool turn, bool vCheck)
 {
     if (chessBoard[row][col]->color != turn)
     {
@@ -46,17 +46,14 @@ bool Pawn::playerMove(int row, int col, int newRow, int newCol, const vector<vec
             }
             // isCheck is here, because the piece is playable, so check for the opponent's.
             // the last parameter here is redundant.
-            if (isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->color))
-            {
-                if (turn == 0)
-                {
-                    cout << "White is in check." << endl;
-                }
-                else if (turn == 1)
-                {
-                    cout << "Black is in check." << endl;
-                }
+        if(isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->color) && vCheck!= true){
+            if(turn == 0){
+                cout << "White is in check." << endl;
             }
+            else if (turn == 1) {
+                cout << "Black is in check." << endl;
+            }
+        }
             this->hasMovedBefore = true;
             return true;
         }
@@ -71,14 +68,11 @@ bool Pawn::playerMove(int row, int col, int newRow, int newCol, const vector<vec
                 {
                     // isCheck is here, because the piece is playable, so check for the opponent's.
                     // the last parameter here is redundant.
-                    if (isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->color))
-                    {
-                        if (turn == 0)
-                        {
+                    if(isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->color) && vCheck!= true){
+                        if(turn == 0){
                             cout << "White is in check." << endl;
                         }
-                        else if (turn == 1)
-                        {
+                        else if (turn == 1) {
                             cout << "Black is in check." << endl;
                         }
                     }
@@ -110,17 +104,14 @@ bool Pawn::playerMove(int row, int col, int newRow, int newCol, const vector<vec
             }
             // isCheck is here, because the piece is playable, so check for the opponent's.
             // the last parameter here is redundant.
-            if (isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->color))
-            {
-                if (turn == 0)
-                {
-                    cout << "White is in check." << endl;
-                }
-                else if (turn == 1)
-                {
-                    cout << "Black is in check." << endl;
-                }
+        if(isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->color) && vCheck!= true){
+            if(turn == 0){
+                cout << "White is in check." << endl;
             }
+            else if (turn == 1) {
+                cout << "Black is in check." << endl;
+            }
+        }
             this->hasMovedBefore = true;
             return true;
         }
@@ -134,14 +125,11 @@ bool Pawn::playerMove(int row, int col, int newRow, int newCol, const vector<vec
                 {
                     // isCheck is here, because the piece is playable, so check for the opponent's.
                     // the last parameter here is redundant.
-                    if (isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->color))
-                    {
-                        if (turn == 0)
-                        {
+                    if(isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->color) && vCheck!= true){
+                        if(turn == 0){
                             cout << "White is in check." << endl;
                         }
-                        else if (turn == 1)
-                        {
+                        else if (turn == 1) {
                             cout << "Black is in check." << endl;
                         }
                     }
@@ -155,6 +143,7 @@ bool Pawn::playerMove(int row, int col, int newRow, int newCol, const vector<vec
 
 vector<Move> Pawn::getValidMovesForPiece(vector<vector<Piece *>> board, int row, int col, bool turn)
 {
+    bool vCheck = true;
     vector<Move> validMoves;
     // Piece* pawn = board[row][col];
     // bool isWhite = pawn->color; // returns 1 if white
@@ -166,7 +155,7 @@ vector<Move> Pawn::getValidMovesForPiece(vector<vector<Piece *>> board, int row,
     int newRow = row + direction;
     int newCol = col;
 
-    if (board[row][col]->playerMove(row, col, newRow, newCol, board, turn))
+    if (board[row][col]->playerMove(row, col, newRow, newCol, board, turn, vCheck))
     {
 
         validMoves.emplace_back(Move(row, col, newRow, newCol));

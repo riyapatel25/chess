@@ -7,7 +7,7 @@ using namespace std;
 King::King(int playerWhiteOrBlack, string pieceType) : Piece{playerWhiteOrBlack, pieceType} {}
 
 
-bool King::playerMove (int row, int col, int newRow, int newCol, const vector<vector<Piece*>> chessBoard, bool turn) {
+bool King::playerMove (int row, int col, int newRow, int newCol, const vector<vector<Piece*>> chessBoard, bool turn, bool vCheck) {
 
 
   if (chessBoard[row][col]->color != turn){
@@ -31,7 +31,7 @@ bool King::playerMove (int row, int col, int newRow, int newCol, const vector<ve
     || (rowDifference ==1 && columnDifference ==1)) {
         // isCheck is here, because the piece is playable, so check for the opponent's.
         // the last parameter here is redundant.
-        if(isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->color)){
+        if(isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->color) && vCheck!= true){
             if(turn == 0){
                 cout << "White is in check." << endl;
             }
@@ -49,7 +49,7 @@ bool King::playerMove (int row, int col, int newRow, int newCol, const vector<ve
 
 vector<Move> King::getValidMovesForPiece(vector<vector <Piece*>> board, int row, int col, bool turn) {
     vector<Move> validMoves;
-
+    bool vCheck = true;
     // The directions a king can move (up, down, left, right, and diagonals)
     int dr[] = {-1, -1, -1, 0, 0, 1, 1, 1};
     int dc[] = {-1, 0, 1, -1, 1, -1, 0, 1};
@@ -61,7 +61,7 @@ vector<Move> King::getValidMovesForPiece(vector<vector <Piece*>> board, int row,
         // Check if the new position is within the bounds of the board
         if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
 
-            if (!board[row][col]->playerMove(row, col, newRow, newCol, board, turn)) {
+            if (!board[row][col]->playerMove(row, col, newRow, newCol, board, turn, vCheck)) {
                 break;
             }
             // Check if the new position is not occupied by a piece of the same color

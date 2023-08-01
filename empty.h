@@ -5,7 +5,7 @@
 class Empty: public Piece {
     public:
     Empty(int playerWhiteOrBlack, string pieceType);
-    bool playerMove (int row, int col, int newRow, int newCol, const vector<vector<Piece*>> chessBoard , bool turn) override;
+    bool playerMove (int row, int col, int newRow, int newCol, const vector<vector<Piece*>> chessBoard , bool turn, bool vCheck) override;
     vector<Move> getValidMovesForPiece(vector<vector <Piece*>> board, int row, int col, bool turn) override;
     bool isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessBoard, int color) override;
 

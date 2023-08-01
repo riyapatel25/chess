@@ -5,7 +5,7 @@
 using namespace std;
 
 Bishop::Bishop(int playerWhiteOrBlack, string pieceType) : Piece{playerWhiteOrBlack, pieceType} {}
-bool Bishop::playerMove (int row, int col, int newRow, int newCol, const vector<vector<Piece*>> chessBoard, bool turn){
+bool Bishop::playerMove (int row, int col, int newRow, int newCol, const vector<vector<Piece*>> chessBoard, bool turn, bool vCheck){
 
     if (chessBoard[row][col]->color != turn){
         return false;
@@ -42,7 +42,7 @@ bool Bishop::playerMove (int row, int col, int newRow, int newCol, const vector<
         }
         // isCheck is here, because the piece is playable, so check for the opponent's.
         // the last parameter here is redundant.
-        if(isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->color)){
+        if(isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->color) && vCheck!= true){
             if(turn == 0){
                 cout << "White is in check." << endl;
             }
@@ -62,7 +62,7 @@ bool Bishop::playerMove (int row, int col, int newRow, int newCol, const vector<
 
 vector<Move> Bishop::getValidMovesForPiece(vector<vector <Piece*>> board, int row, int col, bool turn) {
     vector<Move> validMoves;
-
+    bool vCheck = true;
     // The directions a bishop can move (diagonals)
     int dr[] = {-1, -1, 1, 1};
     int dc[] = {-1, 1, -1, 1};
@@ -73,7 +73,7 @@ vector<Move> Bishop::getValidMovesForPiece(vector<vector <Piece*>> board, int ro
 
         // Continue moving in the same direction until we find an invalid move
         while (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
-            if (!board[row][col]->playerMove(row, col, newRow, newCol, board, turn)) {
+            if (!board[row][col]->playerMove(row, col, newRow, newCol, board, turn, vCheck)) {
                 break;
             }
 
