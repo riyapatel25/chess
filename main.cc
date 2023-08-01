@@ -75,7 +75,7 @@ int main() {
                     if(check == 1){
                         inSetupMode = false;
                     }
-                    // cout << chessGame;
+                    cout << chessGame;
             }
 
         }
