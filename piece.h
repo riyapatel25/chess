@@ -17,7 +17,7 @@ public:
     virtual bool isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessBoard, int color) = 0;
     virtual ~Piece();
     virtual vector<Move> getValidMovesForPiece(vector<vector <Piece*>> board, int row, int col, bool turn) = 0;
-    bool checkable(const vector<vector<Piece*>>& chessBoard);
+    // bool checkable(const vector<vector<Piece*>>& chessBoard);
 
 };
 

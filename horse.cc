@@ -9,23 +9,18 @@ Horse::Horse(int playerWhiteOrBlack, string pieceType) : Piece{playerWhiteOrBlac
 
 bool Horse::playerMove(int row, int col, int newRow, int newCol, const vector<vector<Piece*>> chessBoard, bool turn)
 {
-     if (chessBoard[row][col]->color != turn){
-        cout << "cook4"<<endl;
-            return false;
+    //  if (chessBoard[row][col]->color != turn){
+    //         return false;
         
-     }
+    //  }
 
      if (chessBoard[newRow][newCol]->color == this->color){
-        cout << "cook1"<<endl;
-        cout << "color: " << this->color<<endl;
 
             return false;
         }
 
     // check if it is within bounds.
-    if (!((newRow >= 0 && newRow < 8) && (newCol >= 0 && newCol < 8))){
-        cout << "cook3"<<endl;
-        
+    if (!((newRow >= 0 && newRow < 8) && (newCol >= 0 && newCol < 8))){        
         return false;
     }
 
@@ -45,7 +40,6 @@ bool Horse::playerMove(int row, int col, int newRow, int newCol, const vector<ve
                 cout << "Black is in check." << endl;
             }
         }
-        checkable(chessBoard);
         return true;
     }
     else{

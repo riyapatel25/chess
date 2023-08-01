@@ -50,7 +50,6 @@ bool Bishop::playerMove (int row, int col, int newRow, int newCol, const vector<
                 cout << "Black is in check." << endl;
             }
         }
-        checkable(chessBoard);
         return true;
     } 
     else 

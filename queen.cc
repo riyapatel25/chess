@@ -52,7 +52,6 @@ bool Queen::playerMove (int row, int col, int newRow, int newCol, const vector<v
                 cout << "Black is in check." << endl;
             }
         }
-        checkable(chessBoard);
         return true;
     }
     else {
