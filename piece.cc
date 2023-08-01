@@ -9,8 +9,8 @@
 #include "empty.h"
 #include "bishop.h"
 #include "board.h"
-
 using namespace std;
 
 Piece::Piece(int color, string pieceType ) : color{color}, pieceType{pieceType} {}
 Piece::~Piece() {}
+

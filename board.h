@@ -19,24 +19,27 @@ struct PieceInfo {
 
 class Board {
     private:
-    vector<vector<Piece*>> currBoard; 
     protected:
-    bool hasWon;
+    // bool hasWon;
+    pair<bool, int> winInfo;
+    
     Score* currScore;
-    bool turn; //keeps track of who's turn -> white (true), black (false)
     Player* player1; //white player
     Player* player2; //black player
 
 	public:
+    vector<vector<Piece*>> currBoard; 
+    bool turn; //keeps track of who's turn -> white (true), black (false)
+    bool stalemate;
 	// ~Board(); //destrcutor
     Board(); //Board Constructor
-    void play(char letterStart, char numberStart, char letterEnd, char numberEnd); //function to make a move
+    void playHuman(char letterStart, char numberStart, char letterEnd, char numberEnd); //function to make a move
     void playComputer();
     bool isConfigurationValid(); //check is board is setup correctly -> helper for constructor
     vector<vector<Piece*>> getCurrBoard() const;
     bool isCheckmate(bool turn);
     bool getTurn();
-    bool getHasWon();
+    pair<bool, int> getHasWon();
     void setPiece(int row, int col);
     void setTurn(bool turn);
     bool isTaken(int row, int col);
@@ -45,13 +48,14 @@ class Board {
     pair<int, int> getCoords(pair<char, char>& coords);
     friend ostream& operator<<(ostream& os, const Board& chessBoard);
     int processSetupCommand(string input, vector<PieceInfo>& storePieceInfo);
-    int whiteWins;
-    int blackWins;
     void setupBoard(); //helper for constructor 
     void clearBoard();
+    void gameEnded(double score, int whichPlayerWon);
     string play1;
     string play2;
     void playHelper(int row, int col, int newRow, int newCol);
+    pair<double, double> finalWins();
+    string getPieceType(int row, int col);
 
 };
 #endif
