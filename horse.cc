@@ -9,10 +9,10 @@ Horse::Horse(int playerWhiteOrBlack, string pieceType) : Piece{playerWhiteOrBlac
 
 bool Horse::playerMove(int row, int col, int newRow, int newCol, const vector<vector<Piece*>> chessBoard, bool turn)
 {
-    //  if (chessBoard[row][col]->color != turn){
-    //         return false;
+     if (chessBoard[row][col]->color != turn){
+            return false;
         
-    //  }
+     }
 
      if (chessBoard[newRow][newCol]->color == this->color){
 
