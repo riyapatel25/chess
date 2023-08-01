@@ -85,6 +85,15 @@ bool Pawn::playerMove(int row, int col, int newRow, int newCol, const vector<vec
     }
 }
 
+<<<<<<< HEAD
+vector<Move> Pawn::getValidMovesForPiece(vector<vector <Piece*>> board, int row, int col) {
+    vector<Move> validMoves;
+    Piece* pawn = board[row][col];
+    bool isWhite = pawn->getColor(); // returns 1 if white
+
+    // Define the direction the pawn moves based on its color
+    int direction = (isWhite) ? -1 : 1;
+=======
 vector<Move> Pawn::getValidMovesForPiece(vector<vector <Piece*>> board, int row, int col, bool turn) {
     vector<Move> validMoves;
     // Piece* pawn = board[row][col];
@@ -92,10 +101,38 @@ vector<Move> Pawn::getValidMovesForPiece(vector<vector <Piece*>> board, int row,
 
     // Define the direction the pawn moves based on its color
     int direction = (turn) ? -1 : 1;
+>>>>>>> 4630f1f996d1ce30183e4b04157cb3ffcde40dc2
 
     // Check if the square in front of the pawn is empty
     int newRow = row + direction;
     int newCol = col;
+<<<<<<< HEAD
+    if (newRow >= 0 && newRow < 8 && !board.isTaken(newRow, newCol)) {
+        validMoves.emplace_back(Move(row, col, newRow, newCol));
+
+
+        // If it is the pawn's first move, it can move two squares forward
+        // Only works for default board right now
+        if ((isWhite && row == 1) || (!isWhite && row == 6)) {
+            newRow += direction;
+            if (newRow >= 0 && newRow < 8 && !board.isTaken(newRow, newCol)) {
+                validMoves.emplace_back(Move(row, col, newRow, newCol));
+            }
+        }
+    }
+
+    // Check if the pawn can capture diagonally
+    int captureCols[] = {col - 1, col + 1};
+    for (int i = 0; i < 2; i++) {
+        newCol = captureCols[i];
+        if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
+            Piece* targetPiece = board[newRow][newCol];
+            if (targetPiece && targetPiece->getColor() != isWhite) {
+                validMoves.emplace_back(Move(row, col, newRow, newCol));
+            }
+        }
+    }
+=======
 
     if (board[row][col]->playerMove(row, col, newRow, newCol, board, turn)) {
 
@@ -126,10 +163,13 @@ vector<Move> Pawn::getValidMovesForPiece(vector<vector <Piece*>> board, int row,
     //         }
     //     }
     // }
+>>>>>>> 4630f1f996d1ce30183e4b04157cb3ffcde40dc2
 
     return validMoves;
 }
 
+<<<<<<< HEAD
+=======
 
 // // isCheck should be called as the last condition, right before a "return true",
 // // if it's returning false, no need to check it
@@ -201,3 +241,4 @@ vector<Move> Pawn::getValidMovesForPiece(vector<vector <Piece*>> board, int row,
 //         }
 //     return false;
 // }
+>>>>>>> 4630f1f996d1ce30183e4b04157cb3ffcde40dc2

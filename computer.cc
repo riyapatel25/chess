@@ -2,6 +2,7 @@
 #include "piece.h"
 #include <climits>
 #include <unordered_map>
+Computer::Computer(int color, int level) : Player{color}, level{level} {}
 
 Computer::Computer(int color, int level) : Player{color}, level{level} {}
 

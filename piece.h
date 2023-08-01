@@ -1,6 +1,8 @@
 #ifndef PIECE_H
 #define PIECE_H
 #include "board.h"
+#include "playerMove.h"
+#include <vector>
 
 class Piece {
 
