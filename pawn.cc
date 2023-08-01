@@ -34,11 +34,15 @@ bool Pawn::playerMove(int row, int col, int newRow, int newCol, const vector<vec
         if ((rowDifference == 1 && columnDifference == 0) || 
             (rowDifference == 2 && columnDifference == 0 && this->hasMovedBefore == false))
         {
-            // check if there's a piece in front of the pawn, if there is, then return false else true
-            if (chessBoard[newRow][newCol]->color == 0 ||
-                chessBoard[newRow][newCol]->color == 1)
-            {
-                return false;
+            // check if there's a piece in front of the pawn, if there is, then return false
+            int i = row + 1;
+            while (i <= newRow){
+                if (chessBoard[i][newCol]->color == 0 ||
+                    chessBoard[i][newCol]->color == 1)
+                {
+                    return false;
+                }
+                i+=1;
             }
             // isCheck is here, because the piece is playable, so check for the opponent's.
             // the last parameter here is redundant.
@@ -95,10 +99,14 @@ bool Pawn::playerMove(int row, int col, int newRow, int newCol, const vector<vec
         {
 
             // check if there's a piece in front of the pawn, if there is, then return false else true
-            if (chessBoard[newRow][newCol]->color == 0 ||
-                chessBoard[newRow][newCol]->color == 1)
-            {
-                return false;
+            int i = row - 1;
+            while (i >= newRow){
+                if (chessBoard[i][newCol]->color == 0 ||
+                    chessBoard[i][newCol]->color == 1)
+                {
+                    return false;
+                }
+                i-=1;
             }
             // isCheck is here, because the piece is playable, so check for the opponent's.
             // the last parameter here is redundant.

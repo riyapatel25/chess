@@ -45,7 +45,7 @@ bool Horse::playerMove(int row, int col, int newRow, int newCol, const vector<ve
                 cout << "Black is in check." << endl;
             }
         }
-
+        checkable(chessBoard);
         return true;
     }
     else{
