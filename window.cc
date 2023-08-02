@@ -84,7 +84,6 @@ void Xwindow::drawString(int x, int y, string msg, int fontsize, string fontcolo
   // Load the font and set the font size
   string fontname = "fixed"; // Change this to your desired font name if needed
   XFontStruct *font = XLoadQueryFont(d, fontname.c_str());
-  // 
 
   // Draw the string centered within each grid
   int textWidth = XTextWidth(font, msg.c_str(), msg.length());

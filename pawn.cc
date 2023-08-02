@@ -7,12 +7,12 @@ Pawn::Pawn(int playerWhiteOrBlack, string pieceType, bool hasMoved) : Piece{play
 
 bool Pawn::playerMove(int row, int col, int newRow, int newCol, const vector<vector<Piece *>> chessBoard, bool turn, bool vCheck)
 {
-    if (chessBoard[row][col]->color != turn)
+    if (chessBoard[row][col]->getColor() != turn)
     {
         return false;
     }
 
-    if (chessBoard[newRow][newCol]->color == this->color)
+    if (chessBoard[newRow][newCol]->getColor() == this->getColor())
     {
         return false;
     }
@@ -24,11 +24,7 @@ bool Pawn::playerMove(int row, int col, int newRow, int newCol, const vector<vec
 
     int rowDifference = newRow - row;
     int columnDifference = newCol - col;
-    // a columnDifference = rowDifference = 1 indicates an attack move, so must make sure that
-    // there is a piece at that position, otherwise it will not be a valid move.
 
-    // This indicates a black player, for now the pieces will occupy rows 6,7
-    // therefore, can only move rows downward
     if (turn == 0)
     {
         if ((rowDifference == 1 && columnDifference == 0) || 
@@ -37,8 +33,8 @@ bool Pawn::playerMove(int row, int col, int newRow, int newCol, const vector<vec
             // check if there's a piece in front of the pawn, if there is, then return false
             int i = row + 1;
             while (i <= newRow){
-                if (chessBoard[i][newCol]->color == 0 ||
-                    chessBoard[i][newCol]->color == 1)
+                if (chessBoard[i][newCol]->getColor() == 0 ||
+                    chessBoard[i][newCol]->getColor() == 1)
                 {
                     return false;
                 }
@@ -46,7 +42,7 @@ bool Pawn::playerMove(int row, int col, int newRow, int newCol, const vector<vec
             }
             // isCheck is here, because the piece is playable, so check for the opponent's.
             // the last parameter here is redundant.
-        if(isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->color) && vCheck!= true){
+        if(isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->getColor()) && vCheck!= true){
             if(turn == 0){
                 cout << "White is in check." << endl;
             }
@@ -64,11 +60,11 @@ bool Pawn::playerMove(int row, int col, int newRow, int newCol, const vector<vec
             if ((rowDifference == 1) && (columnDifference == -1 || columnDifference == 1))
             {
 
-                if (chessBoard[newRow][newCol]->color == 1)
+                if (chessBoard[newRow][newCol]->getColor() == 1)
                 {
                     // isCheck is here, because the piece is playable, so check for the opponent's.
                     // the last parameter here is redundant.
-                    if(isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->color) && vCheck!= true){
+                    if(isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->getColor()) && vCheck!= true){
                         if(turn == 0){
                             cout << "White is in check." << endl;
                         }
@@ -95,8 +91,8 @@ bool Pawn::playerMove(int row, int col, int newRow, int newCol, const vector<vec
             // check if there's a piece in front of the pawn, if there is, then return false else true
             int i = row - 1;
             while (i >= newRow){
-                if (chessBoard[i][newCol]->color == 0 ||
-                    chessBoard[i][newCol]->color == 1)
+                if (chessBoard[i][newCol]->getColor() == 0 ||
+                    chessBoard[i][newCol]->getColor() == 1)
                 {
                     return false;
                 }
@@ -104,7 +100,7 @@ bool Pawn::playerMove(int row, int col, int newRow, int newCol, const vector<vec
             }
             // isCheck is here, because the piece is playable, so check for the opponent's.
             // the last parameter here is redundant.
-        if(isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->color) && vCheck!= true){
+        if(isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->getColor()) && vCheck!= true){
             if(turn == 0){
                 cout << "White is in check." << endl;
             }
@@ -121,11 +117,11 @@ bool Pawn::playerMove(int row, int col, int newRow, int newCol, const vector<vec
             if ((rowDifference == -1) && (columnDifference == -1 || columnDifference == 1))
             {
 
-                if (chessBoard[newRow][newCol]->color == 0)
+                if (chessBoard[newRow][newCol]->getColor() == 0)
                 {
                     // isCheck is here, because the piece is playable, so check for the opponent's.
                     // the last parameter here is redundant.
-                    if(isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->color) && vCheck!= true){
+                    if(isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->getColor()) && vCheck!= true){
                         if(turn == 0){
                             cout << "White is in check." << endl;
                         }
@@ -145,8 +141,6 @@ vector<Move> Pawn::getValidMovesForPiece(vector<vector<Piece *>> board, int row,
 {
     bool vCheck = true;
     vector<Move> validMoves;
-    // Piece* pawn = board[row][col];
-    // bool isWhite = pawn->color; // returns 1 if white
 
     // Define the direction the pawn moves based on its color
     int direction = (turn) ? -1 : 1;
@@ -160,31 +154,7 @@ vector<Move> Pawn::getValidMovesForPiece(vector<vector<Piece *>> board, int row,
 
         validMoves.emplace_back(Move(row, col, newRow, newCol));
     }
-    // if (newRow >= 0 && newRow < 8 && board[newRow][newCol]->pieceType == " ") {
-    //     validMoves.emplace_back(Move(row, col, newRow, newCol));
-
-    //     // If it is the pawn's first move, it can move two squares forward
-    //     // Only works for default board right now
-    //     if ((isWhite && row == 1) || (!isWhite && row == 6)) {
-    //         newRow += direction;
-    //         if (newRow >= 0 && newRow < 8 && board[newRow][newCol]->pieceType == " ") {
-    //             validMoves.emplace_back(Move(row, col, newRow, newCol));
-    //         }
-    //     }
-    // }
-
-    // // Check if the pawn can capture diagonally
-    // int captureCols[] = {col - 1, col + 1};
-    // for (int i = 0; i < 2; i++) {
-    //     newCol = captureCols[i];
-    //     if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
-    //         Piece* targetPiece = board[newRow][newCol];
-    //         if (targetPiece && targetPiece->color != isWhite) {
-    //             validMoves.emplace_back(Move(row, col, newRow, newCol));
-    //         }
-    //     }
-    // }
-
+ 
     return validMoves;
 }
 
@@ -196,16 +166,16 @@ bool Pawn::isCheck(int newRow, int newCol, const vector<vector<Piece *>> chessBo
     // in the diagonal viscinity.
 
     // If the color is black, Pawn is moving downwards, so only check 2 spaces
-    if (chessBoard[newRow][newCol]->color == 0)
+    if (chessBoard[newRow][newCol]->getColor() == 0)
     {
         int r1 = newRow + 1;
         int c1 = newCol + 1;
 
         if (r1 <= 7 && c1 <= 7)
         {
-            if (chessBoard[r1][c1]->color != chessBoard[newRow][newCol]->color &&
-                ((chessBoard[r1][c1]->pieceType == "K") ||
-                 (chessBoard[r1][c1]->pieceType == "k")))
+            if (chessBoard[r1][c1]->getColor() != chessBoard[newRow][newCol]->getColor() &&
+                ((chessBoard[r1][c1]->getPieceType() == "K") ||
+                 (chessBoard[r1][c1]->getPieceType() == "k")))
             {
                 return true;
             }
@@ -216,9 +186,9 @@ bool Pawn::isCheck(int newRow, int newCol, const vector<vector<Piece *>> chessBo
             int c2 = newCol - 1;
             if (r2 <= 7 && c2 >= 0)
             {
-                if (chessBoard[r2][c2]->color != chessBoard[newRow][newCol]->color &&
-                    ((chessBoard[r2][c2]->pieceType == "K") ||
-                     (chessBoard[r2][c2]->pieceType == "k")))
+                if (chessBoard[r2][c2]->getColor() != chessBoard[newRow][newCol]->getColor() &&
+                    ((chessBoard[r2][c2]->getPieceType() == "K") ||
+                     (chessBoard[r2][c2]->getPieceType() == "k")))
                 {
                     return true;
                 }
@@ -227,16 +197,16 @@ bool Pawn::isCheck(int newRow, int newCol, const vector<vector<Piece *>> chessBo
     }
     else
         // if the pawn is white, it's moving up, should look for black pawns diagonally
-        if (chessBoard[newRow][newCol]->color == 1)
+        if (chessBoard[newRow][newCol]->getColor() == 1)
         {
             int r1 = newRow - 1;
             int c1 = newCol - 1;
 
             if (r1 >= 0 && c1 >= 0)
             {
-                if (chessBoard[r1][c1]->color != chessBoard[newRow][newCol]->color &&
-                    ((chessBoard[r1][c1]->pieceType == "K") ||
-                     (chessBoard[r1][c1]->pieceType == "k")))
+                if (chessBoard[r1][c1]->getColor() != chessBoard[newRow][newCol]->getColor() &&
+                    ((chessBoard[r1][c1]->getPieceType() == "K") ||
+                     (chessBoard[r1][c1]->getPieceType() == "k")))
                 {
                     return true;
                 }
@@ -247,9 +217,9 @@ bool Pawn::isCheck(int newRow, int newCol, const vector<vector<Piece *>> chessBo
                 int c2 = newCol + 1;
                 if (r2 >= 0 && c2 <= 7)
                 {
-                    if (chessBoard[r2][c2]->color != chessBoard[newRow][newCol]->color &&
-                        ((chessBoard[r2][c2]->pieceType == "K") ||
-                         (chessBoard[r2][c2]->pieceType == "k")))
+                    if (chessBoard[r2][c2]->getColor() != chessBoard[newRow][newCol]->getColor() &&
+                        ((chessBoard[r2][c2]->getPieceType() == "K") ||
+                         (chessBoard[r2][c2]->getPieceType() == "k")))
                     {
                         return true;
                     }

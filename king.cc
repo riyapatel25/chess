@@ -10,11 +10,11 @@ King::King(int playerWhiteOrBlack, string pieceType) : Piece{playerWhiteOrBlack,
 bool King::playerMove (int row, int col, int newRow, int newCol, const vector<vector<Piece*>> chessBoard, bool turn, bool vCheck) {
 
 
-  if (chessBoard[row][col]->color != turn){
+  if (chessBoard[row][col]->getColor() != turn){
         return false;
   }
 
-  if (chessBoard[newRow][newCol]->color == this->color){
+  if (chessBoard[newRow][newCol]->getColor() == this->getColor()){
             return false;
         }
 
@@ -31,7 +31,7 @@ bool King::playerMove (int row, int col, int newRow, int newCol, const vector<ve
     || (rowDifference ==1 && columnDifference ==1)) {
         // isCheck is here, because the piece is playable, so check for the opponent's.
         // the last parameter here is redundant.
-        if(isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->color) && vCheck!= true){
+        if(isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->getColor()) && vCheck!= true){
             if(turn == 0){
                 cout << "White is in check." << endl;
             }
@@ -65,9 +65,9 @@ vector<Move> King::getValidMovesForPiece(vector<vector <Piece*>> board, int row,
                 break;
             }
             // Check if the new position is not occupied by a piece of the same color
-            if (board[newRow][newCol]->pieceType == " ") {
+            if (board[newRow][newCol]->getPieceType() == " ") {
                 validMoves.emplace_back(Move(row, col, newRow, newCol));
-            } else if (board[newRow][newCol]->color != board[row][col]->color) {
+            } else if (board[newRow][newCol]->getColor() != board[row][col]->getColor()) {
                 // kill
                 validMoves.emplace_back(Move(row, col, newRow, newCol));
             }
@@ -85,9 +85,9 @@ bool King::isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessB
     int c1 = newCol - 1;
     
     if (r1>=0 && c1>=0) {
-        if(chessBoard[r1][c1]->color != chessBoard[newRow][newCol]->color && 
-        ((chessBoard[r1][c1]->pieceType == "K") || 
-        (chessBoard[r1][c1]->pieceType == "k"))) {
+        if(chessBoard[r1][c1]->getColor() != chessBoard[newRow][newCol]->getColor() && 
+        ((chessBoard[r1][c1]->getPieceType() == "K") || 
+        (chessBoard[r1][c1]->getPieceType() == "k"))) {
             return true;
         }
     }
@@ -96,9 +96,9 @@ bool King::isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessB
     int r2 = newRow + 1;
     int c2 = newCol + 1;    
     if (r2<=7 && c2<=7) {
-        if(chessBoard[r2][c2]->color != chessBoard[newRow][newCol]->color && 
-        ((chessBoard[r2][c2]->pieceType == "K") || 
-        (chessBoard[r2][c2]->pieceType == "k"))) {
+        if(chessBoard[r2][c2]->getColor() != chessBoard[newRow][newCol]->getColor() && 
+        ((chessBoard[r2][c2]->getPieceType() == "K") || 
+        (chessBoard[r2][c2]->getPieceType() == "k"))) {
             return true;
         }
     }
@@ -107,9 +107,9 @@ bool King::isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessB
     int r3 = newRow + 1;
     int c3 = newCol - 1;    
     if (r3<=7 && c3>=0) {
-        if(chessBoard[r3][c3]->color != chessBoard[newRow][newCol]->color && 
-        ((chessBoard[r3][c3]->pieceType == "K") || 
-        (chessBoard[r3][c3]->pieceType == "k"))) {
+        if(chessBoard[r3][c3]->getColor() != chessBoard[newRow][newCol]->getColor() && 
+        ((chessBoard[r3][c3]->getPieceType() == "K") || 
+        (chessBoard[r3][c3]->getPieceType() == "k"))) {
             return true;
         }
     }
@@ -117,9 +117,9 @@ bool King::isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessB
     int r4 = newRow - 1;
     int c4 = newCol + 1;    
     if (r4>=0 && c4<=7) {
-        if(chessBoard[r4][c4]->color != chessBoard[newRow][newCol]->color && 
-            ((chessBoard[r4][c4]->pieceType == "K") || 
-            (chessBoard[r4][c4]->pieceType == "k"))) {
+        if(chessBoard[r4][c4]->getColor() != chessBoard[newRow][newCol]->getColor() && 
+            ((chessBoard[r4][c4]->getPieceType() == "K") || 
+            (chessBoard[r4][c4]->getPieceType() == "k"))) {
             return true;
         }
     }
@@ -129,9 +129,9 @@ bool King::isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessB
     c1 = newCol - 1;
     
     if (c1>=0) {
-        if(chessBoard[r1][c1]->color != chessBoard[newRow][newCol]->color && 
-        ((chessBoard[r1][c1]->pieceType == "K") || 
-        (chessBoard[r1][c1]->pieceType == "k"))) {
+        if(chessBoard[r1][c1]->getColor() != chessBoard[newRow][newCol]->getColor() && 
+        ((chessBoard[r1][c1]->getPieceType() == "K") || 
+        (chessBoard[r1][c1]->getPieceType() == "k"))) {
             return true;
         }
     }
@@ -140,9 +140,9 @@ bool King::isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessB
     r2 = newRow;
     c2 = newCol + 1;    
     if (c2<=7) {
-        if(chessBoard[r2][c2]->color != chessBoard[newRow][newCol]->color && 
-        ((chessBoard[r2][c2]->pieceType == "K") || 
-        (chessBoard[r2][c2]->pieceType == "k"))) {
+        if(chessBoard[r2][c2]->getColor() != chessBoard[newRow][newCol]->getColor() && 
+        ((chessBoard[r2][c2]->getPieceType() == "K") || 
+        (chessBoard[r2][c2]->getPieceType() == "k"))) {
             return true;
         }
     }
@@ -151,9 +151,9 @@ bool King::isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessB
     r3 = newRow + 1;
     c3 = newCol;
     if (r3 <= 7) {
-        if(chessBoard[r3][c3]->color != chessBoard[newRow][newCol]->color && 
-        ((chessBoard[r3][c3]->pieceType == "K") || 
-        (chessBoard[r3][c3]->pieceType == "k"))) {
+        if(chessBoard[r3][c3]->getColor() != chessBoard[newRow][newCol]->getColor() && 
+        ((chessBoard[r3][c3]->getPieceType() == "K") || 
+        (chessBoard[r3][c3]->getPieceType() == "k"))) {
             return true;
         }
     }
@@ -162,9 +162,9 @@ bool King::isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessB
     r4 = newRow - 1;
     c4 = newCol;    
     if (r4 >= 0) {
-        if(chessBoard[r4][c4]->color != chessBoard[newRow][newCol]->color && 
-        ((chessBoard[r4][c4]->pieceType == "K") || 
-        (chessBoard[r4][c4]->pieceType == "k"))) {
+        if(chessBoard[r4][c4]->getColor() != chessBoard[newRow][newCol]->getColor() && 
+        ((chessBoard[r4][c4]->getPieceType() == "K") || 
+        (chessBoard[r4][c4]->getPieceType() == "k"))) {
             return true;
         }
     }

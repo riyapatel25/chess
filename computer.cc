@@ -24,20 +24,12 @@ Move Computer::levelOne(vector<vector <Piece*>> board, bool turn)
 
     // Handle computer player's move (Level 1)
     std::vector<Move> validMoves = getAllValidMoves(board, turn);
-    
-    // for (const auto& move : validMoves) {
-    //     // Access elements of move here
-    //     // Example:
-    //     // std::cout << "From: (" << move.getStartRow() << ", " << move.getStartCol() << ") ";
-    //     // std::cout << "To: (" << move.getEndRow() << ", " << move.getEndCol() << ")" << std::endl;
-    // }
+
 
     // Randomly choose a valid move
     srand(static_cast<unsigned int>(time(0)));
     int randomIndex = 100*rand() % validMoves.size();
-    cout << "Random Move is: " <<endl;
-    std::cout << "From: (" << validMoves[randomIndex].getStartRow() << ", " << validMoves[randomIndex].getStartCol() << ") ";
-        std::cout << "To: (" << validMoves[randomIndex].getEndRow() << ", " << validMoves[randomIndex].getEndCol() << ")" << std::endl;
+    
     return validMoves[randomIndex];
 }
 
@@ -73,22 +65,13 @@ Move Computer::levelTwo(vector<vector <Piece*>> board, bool turn)
 
         // Check if the move leads to the capture of an opponent's piece
         Piece* targetPiece = board[validMoves[i].getEndRow()][validMoves[i].getEndCol()];
-        if (targetPiece->pieceType != " " && targetPiece->color != board[validMoves[i].getStartRow()][validMoves[i].getStartCol()]->color) {
-            std::string capturedPieceType = targetPiece->pieceType;
+        if (targetPiece->getPieceType() != " " && targetPiece->getColor() != board[validMoves[i].getStartRow()][validMoves[i].getStartCol()]->getColor()) {
+            std::string capturedPieceType = targetPiece->getPieceType();
 
             if (captureRankings.find(capturedPieceType) != captureRankings.end()) {
                 moveScores[i] += captureRankings[capturedPieceType]; // Assign score based on capture ranking
             }
         }
-
-        // Evaluate the move based on avoiding capture, capturing moves, and checks
-        // if (isCheck(validMoves[i], board, board[validMoves[i].getStartRow][validMoves[i].getStartCol]->color)) {
-        //     moveScores[i] -= 100; // Avoid moves that lead to check
-        // }
-        // if (isCheck(validMoves[i], board, !board[validMoves[i].getStartRow][validMoves[i].getStartCol]->color)) {
-        //     moveScores[i] += 50; // Prefer capturing moves that put the opponent in check
-        // }
-
 
         // Update the best move
         if (moveScores[i] > bestScore) {
@@ -99,14 +82,9 @@ Move Computer::levelTwo(vector<vector <Piece*>> board, bool turn)
     }
 
     // Return the best move
-    cout << "Best Score is: " << bestScore<< endl;
-    for(int i = 0; i < moveScores.size(); i++){
-        cout << "score: " << moveScores[i]<<endl;
-    }
 
     // Return the best move
     if(bestScore == 0){
-        cout << " Randomly choose a valid move" <<endl;
         // Randomly choose a valid move
         srand(static_cast<unsigned int>(time(0)));
         int randomIndex = 100*rand() % validMoves.size();
@@ -149,36 +127,26 @@ Move Computer::levelThree(vector<vector <Piece*>> board, bool turn) {
 
     for (size_t i = 0; i < validMoves.size(); ++i) {
 
-        // Evaluate the move based on avoiding capture, capturing moves, and checks
-        // if (isCheck(validMoves[i], board, board[validMoves[i].getStartRow][validMoves[i].getStartCol]->color)) {
-        //     moveScores[i] -= 100; // Avoid moves that lead to check
-        // }
-        // if (isCheck(validMoves[i], board, !board[validMoves[i].getStartRow][validMoves[i].getStartCol]->color)) {
-        //     moveScores[i] += 50; // Prefer capturing moves that put the opponent in check
-        // }
 
         // Check if the move leads to the capture of an opponent's piece
         Piece* targetPiece = board[validMoves[i].getEndRow()][validMoves[i].getEndCol()];
-        if (targetPiece->pieceType != " " && targetPiece->color != board[validMoves[i].getStartRow()][validMoves[i].getStartCol()]->color) {
-            string capturedPieceType = targetPiece->pieceType;
+        if (targetPiece->getPieceType() != " " && targetPiece->getColor() != board[validMoves[i].getStartRow()][validMoves[i].getStartCol()]->getColor()) {
+            string capturedPieceType = targetPiece->getPieceType();
             if (captureRankings.find(capturedPieceType) != captureRankings.end()) {
                 moveScores[i] += captureRankings[capturedPieceType]; // Assign score based on capture ranking
             } else {
-                cout << "Error: piece not found in ranking" << endl;
             }
         }
 
         // Check if the move puts the piece in danger of being captured
-        if (isAttacked(validMoves[i].getEndRow(), validMoves[i].getEndCol(), board[validMoves[i].getStartRow()][validMoves[i].getStartCol()]->color, board)) {
+        if (isAttacked(validMoves[i].getEndRow(), validMoves[i].getEndCol(), board[validMoves[i].getStartRow()][validMoves[i].getStartCol()]->getColor(), board)) {
             // We can change how we rank and in what order
-            cout << "if you move: " <<  board[validMoves[i].getStartRow()][validMoves[i].getStartCol()]->pieceType << " from: " << "(" << validMoves[i].getStartRow() << "," << validMoves[i].getStartCol() << ")" << " -> " << "(" << validMoves[i].getEndRow() << "," << validMoves[i].getEndCol() << ")" <<endl;
             Piece* pieceToMove = board[validMoves[i].getStartRow()][validMoves[i].getStartCol()];
 
-            string willBecapturedPieceType = pieceToMove->pieceType;
+            string willBecapturedPieceType = pieceToMove->getPieceType();
             if (captureRankings.find(willBecapturedPieceType) != captureRankings.end()) {
                 moveScores[i] -= captureRankings[willBecapturedPieceType]; // Assign score based on capture ranking
             } else {
-                cout << "Error: piece not found in ranking" << endl;
             }
 
         }
@@ -190,11 +158,6 @@ Move Computer::levelThree(vector<vector <Piece*>> board, bool turn) {
         }
     }
 
-    // Return the best move
-    cout << "Best Score is: " << bestScore<< endl;
-    for(int i = 0; i < moveScores.size(); i++){
-        cout << "score: " << moveScores[i]<<endl;
-    }
 
 
     // Return the best move if all moves have the same rank, choose randomly
@@ -209,7 +172,6 @@ Move Computer::levelThree(vector<vector <Piece*>> board, bool turn) {
     }
 
     if(isEqualRank){
-        cout << " Randomly choose a valid move" <<endl;
         // Randomly choose a valid move
         srand(static_cast<unsigned int>(time(0)));
         int randomIndex = rand() % validMoves.size();
@@ -236,7 +198,7 @@ vector<Move> Computer::getAllValidMoves(vector<vector <Piece*>> board, bool turn
             Piece *currentPiece = board[row][col];
 
             // Check if there is a piece on the current square and if it belongs to the current player
-            if (currentPiece->pieceType != " " && currentPiece->color == color)
+            if (currentPiece->getPieceType() != " " && currentPiece->getColor() == color)
             {
                 // Generate all possible moves for the current piece
                 vector<Move> pieceValidMoves = currentPiece->getValidMovesForPiece(board, row, col, turn);
@@ -257,12 +219,9 @@ bool Computer::makeMove(int row, int col, int newRow, int newCol, const vector<v
 
 
 bool Computer::isAttacked(int row, int col, int currMove, const vector<vector<Piece*>>  board) {
-    cout << "color: " << currMove <<endl;
 
     // Get the opponent's color
     int opponentColor = !currMove;
-
-    cout << "opponents color: " << opponentColor <<endl;
 
 
     // Iterate through the board to find the opponent's pieces
@@ -271,15 +230,13 @@ bool Computer::isAttacked(int row, int col, int currMove, const vector<vector<Pi
             Piece* currentPiece = board[r][c];
 
             // Check if there is a piece on the current square and if it belongs to the opponent
-            if (currentPiece->color == opponentColor) {
+            if (currentPiece->getColor() == opponentColor) {
                 // Generate all possible moves for the current piece
                 std::vector<Move> pieceValidMoves = currentPiece->getValidMovesForPiece(board, r, c, opponentColor);
 
                 // Check if any of the valid moves target the specified square
                 for (const Move& move : pieceValidMoves) {
                     if (move.getEndRow() == row && move.getEndCol() == col) {
-                        
-                        cout << "dangerous move for peice:  "<<  currentPiece->pieceType <<" (" << move.getStartRow() << "," << move.getStartCol() << ") -> (" << move.getEndRow() << "," << move.getEndCol() << ")"<<endl;
                         return true; // The square is being attacked by the opponent's piece
                     }
                 }

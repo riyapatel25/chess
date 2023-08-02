@@ -11,13 +11,9 @@ using namespace std;
 // Abstract class definition
 class Player {
 protected:
-    // 0 : black, 1 : white
     int color;
 public:
     Player(int color);
-    // virtual void levelOne() const ;
-    // virtual ~Player();
-
     virtual bool makeMove(int row, int col, int newRow, int newCol, const vector<vector<Piece*>>  board, bool turn) = 0 ;
     virtual Move makeMove(vector<vector <Piece*>> board, bool turn) = 0 ;
 };
