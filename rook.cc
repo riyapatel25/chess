@@ -131,4 +131,3 @@ vector<Move> Rook::getValidMovesForPiece(vector<vector <Piece*>> board, int row,
 
 //     return false;
 // }
-
