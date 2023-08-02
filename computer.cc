@@ -65,8 +65,8 @@ Move Computer::levelTwo(vector<vector <Piece*>> board, bool turn)
 
         // Check if the move leads to the capture of an opponent's piece
         Piece* targetPiece = board[validMoves[i].getEndRow()][validMoves[i].getEndCol()];
-        if (targetPiece->pieceType != " " && targetPiece->color != board[validMoves[i].getStartRow()][validMoves[i].getStartCol()]->color) {
-            std::string capturedPieceType = targetPiece->pieceType;
+        if (targetPiece->getPieceType() != " " && targetPiece->getColor() != board[validMoves[i].getStartRow()][validMoves[i].getStartCol()]->getColor()) {
+            std::string capturedPieceType = targetPiece->getPieceType();
 
             if (captureRankings.find(capturedPieceType) != captureRankings.end()) {
                 moveScores[i] += captureRankings[capturedPieceType]; // Assign score based on capture ranking
@@ -130,8 +130,8 @@ Move Computer::levelThree(vector<vector <Piece*>> board, bool turn) {
 
         // Check if the move leads to the capture of an opponent's piece
         Piece* targetPiece = board[validMoves[i].getEndRow()][validMoves[i].getEndCol()];
-        if (targetPiece->pieceType != " " && targetPiece->color != board[validMoves[i].getStartRow()][validMoves[i].getStartCol()]->color) {
-            string capturedPieceType = targetPiece->pieceType;
+        if (targetPiece->getPieceType() != " " && targetPiece->getColor() != board[validMoves[i].getStartRow()][validMoves[i].getStartCol()]->getColor()) {
+            string capturedPieceType = targetPiece->getPieceType();
             if (captureRankings.find(capturedPieceType) != captureRankings.end()) {
                 moveScores[i] += captureRankings[capturedPieceType]; // Assign score based on capture ranking
             } else {
@@ -139,11 +139,11 @@ Move Computer::levelThree(vector<vector <Piece*>> board, bool turn) {
         }
 
         // Check if the move puts the piece in danger of being captured
-        if (isAttacked(validMoves[i].getEndRow(), validMoves[i].getEndCol(), board[validMoves[i].getStartRow()][validMoves[i].getStartCol()]->color, board)) {
+        if (isAttacked(validMoves[i].getEndRow(), validMoves[i].getEndCol(), board[validMoves[i].getStartRow()][validMoves[i].getStartCol()]->getColor(), board)) {
             // We can change how we rank and in what order
             Piece* pieceToMove = board[validMoves[i].getStartRow()][validMoves[i].getStartCol()];
 
-            string willBecapturedPieceType = pieceToMove->pieceType;
+            string willBecapturedPieceType = pieceToMove->getPieceType();
             if (captureRankings.find(willBecapturedPieceType) != captureRankings.end()) {
                 moveScores[i] -= captureRankings[willBecapturedPieceType]; // Assign score based on capture ranking
             } else {
@@ -198,7 +198,7 @@ vector<Move> Computer::getAllValidMoves(vector<vector <Piece*>> board, bool turn
             Piece *currentPiece = board[row][col];
 
             // Check if there is a piece on the current square and if it belongs to the current player
-            if (currentPiece->pieceType != " " && currentPiece->color == color)
+            if (currentPiece->getPieceType() != " " && currentPiece->getColor() == color)
             {
                 // Generate all possible moves for the current piece
                 vector<Move> pieceValidMoves = currentPiece->getValidMovesForPiece(board, row, col, turn);
@@ -230,7 +230,7 @@ bool Computer::isAttacked(int row, int col, int currMove, const vector<vector<Pi
             Piece* currentPiece = board[r][c];
 
             // Check if there is a piece on the current square and if it belongs to the opponent
-            if (currentPiece->color == opponentColor) {
+            if (currentPiece->getColor() == opponentColor) {
                 // Generate all possible moves for the current piece
                 std::vector<Move> pieceValidMoves = currentPiece->getValidMovesForPiece(board, r, c, opponentColor);
 

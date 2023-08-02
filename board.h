@@ -1,12 +1,13 @@
-
 #ifndef __BOARD_H__
 #define __BOARD_H__
+
 #include <iostream>
 #include <vector>
 #include <string>
 #include "score.h"
 #include "player.h"
 using namespace std;
+
 class Piece;
 class Player;
 
@@ -18,26 +19,25 @@ struct PieceInfo {
 };
 
 class Board {
-    private:
-    protected:
-    // bool hasWon;
-    pair<bool, int> winInfo;
-    
+private:
     Score* currScore;
-    Player* player1; //white player
-    Player* player2; //black player
+    Player* player1; // White player
+    Player* player2; // Black player
 
-	public:
-	~Board(); //destrcutor
+protected:
+    pair<bool, int> winInfo;
     vector<vector<Piece*>> currBoard; 
-    bool turn; //keeps track of who's turn -> white (true), black (false)
+
+public:
+    ~Board(); // Destructor
+    string play1;
+    string play2;
+    bool turn; // Keeps track of who's turn -> white (true), black (false)
     bool stalemate;
-	// ~Board(); //destrcutor
-    Board(); //Board Constructor
-    void playHuman(char letterStart, char numberStart, char letterEnd, char numberEnd); //function to make a move
+    Board(); // Board Constructor
+    void playHuman(char letterStart, char numberStart, char letterEnd, char numberEnd); // Function to make a move
     void playComputer();
-    bool isConfigurationValid(); //check is board is setup correctly -> helper for constructor
-    vector<vector<Piece*>> getCurrBoard() const;
+    bool isConfigurationValid(); // Check if the board is set up correctly -> Helper for constructor
     bool isCheckmate(bool turn);
     bool getTurn();
     pair<bool, int> getHasWon();
@@ -49,14 +49,12 @@ class Board {
     pair<int, int> getCoords(pair<char, char>& coords);
     friend ostream& operator<<(ostream& os, const Board& chessBoard);
     int processSetupCommand(string input, vector<PieceInfo>& storePieceInfo);
-    void setupBoard(); //helper for constructor 
+    void setupBoard(); // Helper for constructor 
     void clearBoard();
     void gameEnded(double score, int whichPlayerWon);
-    string play1;
-    string play2;
     void playHelper(int row, int col, int newRow, int newCol);
     pair<double, double> finalWins();
     string getPieceType(int row, int col);
-
 };
+
 #endif

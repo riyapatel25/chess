@@ -13,3 +13,10 @@ using namespace std;
 
 Piece::Piece(int color, string pieceType ) : color{color}, pieceType{pieceType} {}
 Piece::~Piece() {}
+
+string Piece::getPieceType() {
+        return pieceType;
+    }
+int Piece::getColor() {
+        return color;
+    }

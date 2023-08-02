@@ -17,8 +17,6 @@ class Piece;
 using namespace std;
 
 
-//----big 5---//
-    //Destructor
     // Board Destructor
     Board::~Board() {
         // Free memory for each Piece object on the board
@@ -60,14 +58,6 @@ using namespace std;
 
         //Create an 8x8 chessboard with empty spaces
         currBoard = vector<vector<Piece*>>(8, vector<Piece*>(8, nullptr));
-
-// ADDED
-        // for (int row = 0; row < currBoard.size(); row++) {
-        //     for (int col = 0; col < currBoard[row].size(); col++) {
-        //         currBoard[row][col] = new Empty(2, " ");
-        //     }
-        // }
-
 
         // Initialize white pieces
         Rook* r1 = new Rook(1, "R");
@@ -187,25 +177,7 @@ void Board::initPlayers(string type1, string type2) {
     } else {
         cerr << "not a valid type";
     }
-}  
-
-
- 
-//----big 5---//
-
-
-//     Board::~Board() {
-//     // Implement destructor to delete dynamically allocated pieces
-//     for (int i = 0; i < 8; i++) {
-//         for (int j = 0; j < 8; j++) {
-//             delete currBoard[i][j];
-//         }
-//     }
-// }
-
-    vector<vector<Piece*>> Board::getCurrBoard() const {
-        return currBoard;
-    }
+}
 
     bool Board::isCheckmate(bool turn){
           return 0;
@@ -249,7 +221,7 @@ void Board::initPlayers(string type1, string type2) {
                 //actually move the piece from starting to ending coordinates
                 Piece* pieceToMove = currBoard[startCoord.first][startCoord.second];
                 currBoard[startCoord.first][startCoord.second] = new Empty(2, " "); // Replace starting position with Empty
-                  if(currBoard[endCoord.first][endCoord.second]->pieceType != " "){
+                  if(currBoard[endCoord.first][endCoord.second]->getPieceType() != " "){
                     cout << "White Player has captured opponents piece!" << endl;
                 }
                 delete currBoard[endCoord.first][endCoord.second]; 
@@ -267,7 +239,7 @@ void Board::initPlayers(string type1, string type2) {
                 Piece* pieceToMove = currBoard[startCoord.first][startCoord.second];
                 currBoard[startCoord.first][startCoord.second] = new Empty(2, " "); // Replace starting position with Empty
                 //if we kill opponents piece
-                if(currBoard[endCoord.first][endCoord.second]->pieceType != " "){
+                if(currBoard[endCoord.first][endCoord.second]->getPieceType() != " "){
                     cout << "Black Player has captured opponents piece!" << endl;
                 }
                 delete currBoard[endCoord.first][endCoord.second]; 
@@ -322,7 +294,7 @@ ostream& operator<<(ostream& os, const Board& chessBoard) {
         for (int j = 0; j < chessBoard.currBoard[i].size(); j++) {
             if(chessBoard.currBoard[i][j]){
        
-                os << '|' << (*(chessBoard.currBoard[i][j])).pieceType << '|'; // Print the piece letter if it exists
+                os << '|' << (*(chessBoard.currBoard[i][j])).getPieceType() << '|'; // Print the piece letter if it exists
             }
         }
         os << '\n';
@@ -405,7 +377,7 @@ int Board::processSetupCommand(string input, vector<PieceInfo>& storePieceInfo) 
             int col = indices.second;
 
             // Remove the piece from the specified position (set it to an empty square)
-            if (currBoard[row][col]->pieceType != " ") {
+            if (currBoard[row][col]->getPieceType() != " ") {
                 delete currBoard[row][col];
                 currBoard[row][col] = new Empty(2, " ");
             } else {
@@ -469,24 +441,15 @@ void Board::clearBoard(){
             currBoard[row][col] = nullptr; // Set the pointer to nullptr to avoid accessing invalid memory
         }
     }
-
-    // Note: If you have any other dynamically allocated resources in your Board class, make sure to deallocate them here as well.
-    // Delete player objects
-
     // Clear the currBoard vector
     currBoard.clear();
 
     // Reinitialize the currBoard vector with empty pieces
     currBoard = vector<vector<Piece*>>(8, vector<Piece*>(8, nullptr));
 
-    // Note: If there are other members in the Board class that need cleanup, do it here as well.
 }
 
-
-//the board contains exactly one white king and exactly one black king; 
-//that no pawns are on the first or last row of the board
-//and that neither king is in check
-
+//for setup mode, check is its a valid board config
 bool Board::isConfigurationValid() {
     int whiteKings = 0;
     int blackKings = 0;
@@ -499,23 +462,14 @@ bool Board::isConfigurationValid() {
             Piece* currentPiece = nullptr;
             if(currBoard[row][col]){
                 currentPiece = currBoard[row][col];
-                
-    
-                if (currentPiece->color == 1 && currentPiece->pieceType == "K") {
+                if (currentPiece->getColor() == 1 && currentPiece->getPieceType() == "K") {
                     // White king found
                     whiteKings ++;
-                    // check if king is in check
-                    // if (currentPiece->isCheck(Move(row, col, -1, -1), currBoard, 0)) {
-                    //     whiteKingInCheck = true;
-                    // }
-                } else if (currentPiece->color == 0 && currentPiece->pieceType == "k") {
+                } else if (currentPiece->getColor() == 0 && currentPiece->getPieceType() == "k") {
                     // Black king found
                     blackKings++;
-                    // check if king is in check
-                    // if (currentPiece->isCheck(Move(row, col, -1, -1), currBoard, 1)) {
-                    //     blackKingInCheck = true;
-                    // }
-                } else if ((currentPiece->pieceType == "P") || (currentPiece->pieceType == "p")) {
+                  
+                } else if ((currentPiece->getPieceType() == "P") || (currentPiece->getPieceType() == "p")) {
                     // Pawns found on the first or last row
                     if (row == 0 || row == 7) {
                         return false;
@@ -575,13 +529,13 @@ void Board::playHelper(int row, int col, int newRow, int newCol){
                 //actually move the piece from starting to ending coordinates
                 Piece* pieceToMove = currBoard[row][col];
                 currBoard[row][col] = new Empty(2, " "); // Replace starting position with Empty
-                  if(currBoard[newRow][newCol]->pieceType != " "){
+                  if(currBoard[newRow][newCol]->getPieceType() != " "){
                     cout << "White Player has captured opponents piece!" << endl;
                 }
                 delete currBoard[newRow][newCol]; 
                 currBoard[newRow][newCol] = pieceToMove; // Place the selected piece in the ending position   
                 setTurn(false);
-                cout << "Piece to move: " << pieceToMove->pieceType <<endl;
+                cout << "Piece to move: " << pieceToMove->getPieceType()<<endl;
         
         }
         else {  //black
@@ -589,7 +543,7 @@ void Board::playHelper(int row, int col, int newRow, int newCol){
                 Piece* pieceToMove = currBoard[row][col];
                 currBoard[row][col] = new Empty(2, " "); // Replace starting position with Empty
                 //if we kill opponents piece
-                if(currBoard[newRow][newCol]->pieceType != " "){
+                if(currBoard[newRow][newCol]->getPieceType() != " "){
                     cout << "Black Player has captured opponents piece!" << endl;
                 }
                 delete currBoard[newRow][newCol]; 
@@ -606,6 +560,6 @@ void Board::playHelper(int row, int col, int newRow, int newCol){
 
 
 string Board::getPieceType(int row, int col){
-   return currBoard[row][col]->pieceType;
+   return currBoard[row][col]->getPieceType();
 
 }

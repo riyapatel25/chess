@@ -9,7 +9,7 @@ Rook::Rook(int playerWhiteOrBlack, string pieceType) : Piece{playerWhiteOrBlack,
 bool Rook::playerMove (int row, int col, int newRow, int newCol, const  vector<vector<Piece*>>  chessBoard, bool turn, bool vCheck){
 
 
-    if (chessBoard[row][col]->color != turn){
+    if (chessBoard[row][col]->getColor() != turn){
         return false;
     }
 
@@ -31,16 +31,16 @@ bool Rook::playerMove (int row, int col, int newRow, int newCol, const  vector<v
             // Check each cell along the path
             int checkRow = row + i * rowStep;
             int checkCol = col + i * colStep;
-            if (chessBoard[checkRow][checkCol]->color != 2) {
+            if (chessBoard[checkRow][checkCol]->getColor() != 2) {
                 return false;
             }
         }
-         if (chessBoard[newRow][newCol]->color == this->color){
+         if (chessBoard[newRow][newCol]->getColor() == this->getColor()){
             return false;
         }
         // isCheck is here, because the piece is playable, so check for the opponent's.
         // the last parameter here is redundant.
-        if(isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->color) && vCheck!= true){
+        if(isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->getColor()) && vCheck!= true){
             if(turn == 0){
                 cout << "White is in check." << endl;
             }
@@ -76,7 +76,7 @@ vector<Move> Rook::getValidMovesForPiece(vector<vector <Piece*>> board, int row,
 
             validMoves.emplace_back(Move(row, col, newRow, newCol));
 
-            if (board[newRow][newCol]->pieceType != " ") {
+            if (board[newRow][newCol]->getPieceType() != " ") {
                 // If the destination square is occupied, we can't continue moving in this direction
                 break;
             }
@@ -96,12 +96,12 @@ bool Rook::isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessB
     int c1 = newCol - 1;
     
     while (c1>=0) {
-        if(chessBoard[r1][c1]->color != chessBoard[newRow][newCol]->color && 
-        ((chessBoard[r1][c1]->pieceType == "K") || 
-        (chessBoard[r1][c1]->pieceType == "k"))) {
+        if(chessBoard[r1][c1]->getColor() != chessBoard[newRow][newCol]->getColor() && 
+        ((chessBoard[r1][c1]->getPieceType() == "K") || 
+        (chessBoard[r1][c1]->getPieceType() == "k"))) {
             return true;
         }  else 
-        if (chessBoard[r1][c1]->pieceType != " ") {
+        if (chessBoard[r1][c1]->getPieceType() != " ") {
             break;
         }
         c1-=1;
@@ -111,12 +111,12 @@ bool Rook::isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessB
     int r2 = newRow;
     int c2 = newCol + 1;    
     while (c2<=7) {
-        if(chessBoard[r2][c2]->color != chessBoard[newRow][newCol]->color && 
-        ((chessBoard[r2][c2]->pieceType == "K") || 
-        (chessBoard[r2][c2]->pieceType == "k"))) {
+        if(chessBoard[r2][c2]->getColor() != chessBoard[newRow][newCol]->getColor() && 
+        ((chessBoard[r2][c2]->getPieceType() == "K") || 
+        (chessBoard[r2][c2]->getPieceType() == "k"))) {
             return true;
         }  else 
-        if (chessBoard[r2][c2]->pieceType != " ") {
+        if (chessBoard[r2][c2]->getPieceType() != " ") {
             break;
         }
         c2+=1;
@@ -126,12 +126,12 @@ bool Rook::isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessB
     int r3 = newRow + 1;
     int c3 = newCol;    
     while (r3<=7) {
-        if(chessBoard[r3][c3]->color != chessBoard[newRow][newCol]->color && 
-        ((chessBoard[r3][c3]->pieceType == "K") || 
-        (chessBoard[r3][c3]->pieceType == "k"))) {
+        if(chessBoard[r3][c3]->getColor() != chessBoard[newRow][newCol]->getColor() && 
+        ((chessBoard[r3][c3]->getPieceType() == "K") || 
+        (chessBoard[r3][c3]->getPieceType() == "k"))) {
             return true;
         }  else 
-        if (chessBoard[r3][c3]->pieceType != " ") {
+        if (chessBoard[r3][c3]->getPieceType() != " ") {
             break;
         }
         r3+=1;
@@ -141,12 +141,12 @@ bool Rook::isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessB
     int r4 = newRow - 1;
     int c4 = newCol;    
     while (r4 >= 0) {
-        if(chessBoard[r4][c4]->color != chessBoard[newRow][newCol]->color && 
-        ((chessBoard[r4][c4]->pieceType == "K") || 
-        (chessBoard[r4][c4]->pieceType == "k"))) {
+        if(chessBoard[r4][c4]->getColor() != chessBoard[newRow][newCol]->getColor() && 
+        ((chessBoard[r4][c4]->getPieceType() == "K") || 
+        (chessBoard[r4][c4]->getPieceType() == "k"))) {
             return true;
         }  else 
-        if (chessBoard[r4][c4]->pieceType != " ") {
+        if (chessBoard[r4][c4]->getPieceType() != " ") {
             break;
         }
         r4-=1;
