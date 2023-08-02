@@ -10,7 +10,7 @@ using namespace std;
 
 Queen::Queen(int playerWhiteOrBlack, string pieceType) : Piece{playerWhiteOrBlack, pieceType} {}
 
-bool Queen::playerMove (int row, int col, int newRow, int newCol, const vector<vector<Piece*>> chessBoard, bool turn){
+bool Queen::playerMove (int row, int col, int newRow, int newCol, const vector<vector<Piece*>> chessBoard, bool turn, bool vCheck){
 
     if (chessBoard[row][col]->color != turn){
         return false;
@@ -42,6 +42,16 @@ bool Queen::playerMove (int row, int col, int newRow, int newCol, const vector<v
             if (chessBoard[newRow][newCol]->color == this->color){
             return false;
         }
+        // isCheck is here, because the piece is playable, so check for the opponent's.
+        // the last parameter here is redundant.
+        if(isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->color) && vCheck!= true){
+            if(turn == 0){
+                cout << "White is in check." << endl;
+            }
+            else if (turn == 1) {
+                cout << "Black is in check." << endl;
+            }
+        }
         return true;
     }
     else {
@@ -56,7 +66,7 @@ bool Queen::playerMove (int row, int col, int newRow, int newCol, const vector<v
 
 vector<Move> Queen::getValidMovesForPiece(vector<vector <Piece*>> board, int row, int col, bool turn) {
     vector<Move> validMoves;
-
+    bool vCheck = true;
     // The directions a queen can move (up, down, left, right, and diagonals)
     int dr[] = {-1, -1, -1, 0, 0, 1, 1, 1};
     int dc[] = {-1, 0, 1, -1, 1, -1, 0, 1};
@@ -67,7 +77,7 @@ vector<Move> Queen::getValidMovesForPiece(vector<vector <Piece*>> board, int row
 
         // Continue moving in the same direction until we find an invalid move
         while (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
-            if (!board[row][col]->playerMove(row, col, newRow, newCol, board, turn)) {
+            if (!board[row][col]->playerMove(row, col, newRow, newCol, board, turn, vCheck)) {
                 break;
             }
 
@@ -86,106 +96,132 @@ vector<Move> Queen::getValidMovesForPiece(vector<vector <Piece*>> board, int row
     return validMoves;
 }
 
-// bool isCheck (int row, int col, int newRow, int newCol, const Board& chessBoard) {
+bool Queen::isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessBoard, int color) {
 
-//     int r1 = newRow - 1;
-//     int c1 = newCol - 1;
+    int r1 = newRow - 1;
+    int c1 = newCol - 1;
+    // this checks a diagonal
+    // the else condition checks to see if there's a piece blocking its path that is not a king, then not
+    // checkable for this particular direction
+
+    while (r1>=0 && c1>=0) {
+        if(chessBoard[r1][c1]->color != chessBoard[newRow][newCol]->color && 
+        ((chessBoard[r1][c1]->pieceType == "K") || 
+        (chessBoard[r1][c1]->pieceType == "k"))) {
+            return true;
+        } else 
+        if (chessBoard[r1][c1]->pieceType != " ") {
+            break;
+        }
+        r1-=1;
+        c1-=1;
+    }
+
+    int r2 = newRow + 1;
+    int c2 = newCol + 1;    
+    while (r2<=7 && c2<=7) {
+        if(chessBoard[r2][c2]->color != chessBoard[newRow][newCol]->color && 
+        ((chessBoard[r2][c2]->pieceType == "K") || 
+        (chessBoard[r2][c2]->pieceType == "k"))) {
+            return true;
+        } else 
+        if (chessBoard[r2][c2]->pieceType != " ") {
+            break;
+        }
+        r2+=1;
+        c2+=1;
+    }
+
+    int r3 = newRow + 1;
+    int c3 = newCol - 1;    
+    while (r3<=7 && c3>=0) {
+        if(chessBoard[r3][c3]->color != chessBoard[newRow][newCol]->color && 
+        ((chessBoard[r3][c3]->pieceType == "K") || 
+        (chessBoard[r3][c3]->pieceType == "k"))) {
+            return true;
+        } else 
+        if (chessBoard[r3][c3]->pieceType != " ") {
+            break;
+        }
+        r3+=1;
+        c3-=1;
+    }
+
+
+    int r4 = newRow - 1;
+    int c4 = newCol + 1;    
+    while (r4>=0 && c4<=7) {
+        if(chessBoard[r4][c4]->color !=  chessBoard[newRow][newCol]->color && 
+            ((chessBoard[r4][c4]->pieceType == "K") || 
+            (chessBoard[r4][c4]->pieceType == "k"))) {
+            return true;
+        } else 
+        if (chessBoard[r4][c4]->pieceType != " ") {
+            break;
+        }
+        r4-=1;
+        c4+=1;
+    }
+    // this checks left
+    r1 = newRow;
+    c1 = newCol - 1;
     
-//     while (r1>=0 && c1>=0) {
-//         if(chessBoard.getCurrBoard[r1][c1].color != this.color && 
-//         ((chessBoard.getCurrBoard[r1][c1].name == 'K') || 
-//         (chessBoard.getCurrBoard[r1][c1].name == 'k'))) {
-//             return true;
-//         }
-//         r1-=1;
-//         c1-=1;
-//     }
+    while (c1>=0) {
+        if(chessBoard[r1][c1]->color != chessBoard[newRow][newCol]->color && 
+        ((chessBoard[r1][c1]->pieceType == "K") || 
+        (chessBoard[r1][c1]->pieceType == "k"))) {
+            return true;
+        } else 
+        if (chessBoard[r1][c1]->pieceType != " ") {
+            break;
+        }
+        c1-=1;
+    }
 
-//     int r2 = newRow + 1;
-//     int c2 = newCol + 1;    
-//     while (r2<=7 && c2<=7) {
-//         if(chessBoard.getCurrBoard[r2][c2].color != this.color && 
-//         ((chessBoard.getCurrBoard[r2][c2].name == 'K') || 
-//         (chessBoard.getCurrBoard[r2][c2].name == 'k'))) {
-//             return true;
-//         }
-//         r2+=1;
-//         c2+=1;
-//     }
+    // this checks right
+     r2 = newRow;
+     c2 = newCol + 1;  
+    while (c2<=7) {
+        if(chessBoard[r2][c2]->color != chessBoard[newRow][newCol]->color &&
+        ((chessBoard[r2][c2]->pieceType == "K") || 
+        (chessBoard[r2][c2]->pieceType == "k"))) {
+            return true;
+        } else 
+        if (chessBoard[r2][c2]->pieceType != " ") {
+            break;
+        }
+        c2+=1;
+    }
 
-//     int r3 = newRow + 1;
-//     int c3 = newCol - 1;    
-//     while (r3<=7 && c3>=0) {
-//         if(chessBoard.getCurrBoard[r3][c3].color != this.color && 
-//         ((chessBoard.getCurrBoard[r3][c3].name == 'K') || 
-//         (chessBoard.getCurrBoard[r3][c3].name == 'k'))) {
-//             return true;
-//         }
-//         r3+=1;
-//         c3+-1;
-//     }
+    // this checks down
+     r3 = newRow + 1;
+     c3 = newCol;    
+    while (r3<=7) {
+        if(chessBoard[r3][c3]->color != chessBoard[newRow][newCol]->color && 
+        ((chessBoard[r3][c3]->pieceType == "K") || 
+        (chessBoard[r3][c3]->pieceType == "k"))) {
+            return true;
+        } else 
+        if (chessBoard[r3][c3]->pieceType != " ") {
+            break;
+        }
+        r3+=1;
+    }
 
+    // this checks up
+     r4 = newRow - 1;
+     c4 = newCol;    
+    while (r4 >= 0) {
+        if(chessBoard[r4][c4]->color != chessBoard[newRow][newCol]->color && 
+        ((chessBoard[r4][c4]->pieceType == "K") || 
+        (chessBoard[r4][c4]->pieceType == "k"))) {
+            return true;
+        } else 
+        if (chessBoard[r4][c4]->pieceType != " ") {
+            break;
+        }
+        r4-=1;
+    }
 
-//     int r4 = newRow - 1;
-//     int c4 = newCol + 1;    
-//     while (r4>=0 && c4>=7) {
-//         if(chessBoard.getCurrBoard[r4][c4].color != this.color && 
-//             ((chessBoard.getCurrBoard[r4][c4].name == 'K') || 
-//             (chessBoard.getCurrBoard[r4][c4].name == 'k'))) {
-//             return true;
-//         }
-//         r4-=1;
-//         c4+=1;
-//     }
-//         // this checks left
-//     int r1 = newRow;
-//     int c1 = newCol - 1;
-    
-//     while (c1>=0) {
-//         if(chessBoard.getCurrBoard[r1][c1].color != this.color && 
-//         ((chessBoard.getCurrBoard[r1][c1].name == 'K') || 
-//         (chessBoard.getCurrBoard[r1][c1].name == 'k'))) {
-//             return true;
-//         }
-//         c1-=1;
-//     }
-
-//     // this checks right
-//     int r2 = newRow;
-//     int c2 = newCol + 1;    
-//     while (c2<=7) {
-//         if(chessBoard.getCurrBoard[r2][c2].color != this.color && 
-//         ((chessBoard.getCurrBoard[r2][c2].name == 'K') || 
-//         (chessBoard.getCurrBoard[r2][c2].name == 'k'))) {
-//             return true;
-//         }
-//         c2+=1;
-//     }
-
-//     // this checks down
-//     int r3 = newRow + 1;
-//     int c3 = newCol;    
-//     while (r3<=7) {
-//         if(chessBoard.getCurrBoard[r3][c3].color != this.color && 
-//         ((chessBoard.getCurrBoard[r3][c3].name == 'K') || 
-//         (chessBoard.getCurrBoard[r3][c3].name == 'k'))) {
-//             return true;
-//         }
-//         r3+=1;
-//     }
-
-//     // this checks up
-//     int r4 = newRow - 1;
-//     int c4 = newCol;    
-//     while (r4 >=0) {
-//         if(chessBoard.getCurrBoard[r4][c4].color != this.color && 
-//         ((chessBoard.getCurrBoard[r4][c4].name == 'K') || 
-//         (chessBoard.getCurrBoard[r4][c4].name == 'k'))) {
-//             return true;
-//         }
-//         r4-=1;
-//     }
-
-
-//     return false;
-// }
+    return false;
+}

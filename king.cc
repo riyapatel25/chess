@@ -7,7 +7,7 @@ using namespace std;
 King::King(int playerWhiteOrBlack, string pieceType) : Piece{playerWhiteOrBlack, pieceType} {}
 
 
-bool King::playerMove (int row, int col, int newRow, int newCol, const vector<vector<Piece*>> chessBoard, bool turn) {
+bool King::playerMove (int row, int col, int newRow, int newCol, const vector<vector<Piece*>> chessBoard, bool turn, bool vCheck) {
 
 
   if (chessBoard[row][col]->color != turn){
@@ -29,6 +29,16 @@ bool King::playerMove (int row, int col, int newRow, int newCol, const vector<ve
     if((rowDifference == 1 && columnDifference == 0) 
     || (rowDifference== 0 && columnDifference == 1)
     || (rowDifference ==1 && columnDifference ==1)) {
+        // isCheck is here, because the piece is playable, so check for the opponent's.
+        // the last parameter here is redundant.
+        if(isCheck(newRow, newCol, chessBoard, chessBoard[newRow][newCol]->color) && vCheck!= true){
+            if(turn == 0){
+                cout << "White is in check." << endl;
+            }
+            else if (turn == 1) {
+                cout << "Black is in check." << endl;
+            }
+        }
         return true;
     } else
     {
@@ -39,7 +49,7 @@ bool King::playerMove (int row, int col, int newRow, int newCol, const vector<ve
 
 vector<Move> King::getValidMovesForPiece(vector<vector <Piece*>> board, int row, int col, bool turn) {
     vector<Move> validMoves;
-
+    bool vCheck = true;
     // The directions a king can move (up, down, left, right, and diagonals)
     int dr[] = {-1, -1, -1, 0, 0, 1, 1, 1};
     int dc[] = {-1, 0, 1, -1, 1, -1, 0, 1};
@@ -51,7 +61,7 @@ vector<Move> King::getValidMovesForPiece(vector<vector <Piece*>> board, int row,
         // Check if the new position is within the bounds of the board
         if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
 
-            if (!board[row][col]->playerMove(row, col, newRow, newCol, board, turn)) {
+            if (!board[row][col]->playerMove(row, col, newRow, newCol, board, turn, vCheck)) {
                 break;
             }
             // Check if the new position is not occupied by a piece of the same color
@@ -68,105 +78,96 @@ vector<Move> King::getValidMovesForPiece(vector<vector <Piece*>> board, int row,
 }
 
 // // this function checks if the playing King is in check with the opponent player's king.
-// bool isCheck (int row, int col, int newRow, int newCol, const Board& chessBoard) {
+bool King::isCheck (int newRow, int newCol, const vector<vector<Piece*>>  chessBoard, int color){
 
-//     int r1 = newRow - 1;
-//     int c1 = newCol - 1;
+    // this checks bottom left diagonal
+    int r1 = newRow - 1;
+    int c1 = newCol - 1;
     
-//     if (r1>=0 && c1>=0) {
-//         if(chessBoard.getCurrBoard[r1][c1].color != this.color && 
-//         ((chessBoard.getCurrBoard[r1][c1].name == 'K') || 
-//         (chessBoard.getCurrBoard[r1][c1].name == 'k'))) {
-//             return true;
-//         }
-//         r1-=1;
-//         c1-=1;
-//     }
+    if (r1>=0 && c1>=0) {
+        if(chessBoard[r1][c1]->color != chessBoard[newRow][newCol]->color && 
+        ((chessBoard[r1][c1]->pieceType == "K") || 
+        (chessBoard[r1][c1]->pieceType == "k"))) {
+            return true;
+        }
+    }
 
-//     int r2 = newRow + 1;
-//     int c2 = newCol + 1;    
-//     if (r2<=7 && c2<=7) {
-//         if(chessBoard.getCurrBoard[r2][c2].color != this.color && 
-//         ((chessBoard.getCurrBoard[r2][c2].name == 'K') || 
-//         (chessBoard.getCurrBoard[r2][c2].name == 'k'))) {
-//             return true;
-//         }
-//         r2+=1;
-//         c2+=1;
-//     }
+    // this checks top-right diagonal
+    int r2 = newRow + 1;
+    int c2 = newCol + 1;    
+    if (r2<=7 && c2<=7) {
+        if(chessBoard[r2][c2]->color != chessBoard[newRow][newCol]->color && 
+        ((chessBoard[r2][c2]->pieceType == "K") || 
+        (chessBoard[r2][c2]->pieceType == "k"))) {
+            return true;
+        }
+    }
 
-//     int r3 = newRow + 1;
-//     int c3 = newCol - 1;    
-//     if (r3<=7 && c3>=0) {
-//         if(chessBoard.getCurrBoard[r3][c3].color != this.color && 
-//         ((chessBoard.getCurrBoard[r3][c3].name == 'K') || 
-//         (chessBoard.getCurrBoard[r3][c3].name == 'k'))) {
-//             return true;
-//         }
-//         r3+=1;
-//         c3+-1;
-//     }
+    // checks a diagonal
+    int r3 = newRow + 1;
+    int c3 = newCol - 1;    
+    if (r3<=7 && c3>=0) {
+        if(chessBoard[r3][c3]->color != chessBoard[newRow][newCol]->color && 
+        ((chessBoard[r3][c3]->pieceType == "K") || 
+        (chessBoard[r3][c3]->pieceType == "k"))) {
+            return true;
+        }
+    }
 
-//     int r4 = newRow - 1;
-//     int c4 = newCol + 1;    
-//     if (r4>=0 && c4>=7) {
-//         if(chessBoard.getCurrBoard[r4][c4].color != this.color && 
-//             ((chessBoard.getCurrBoard[r4][c4].name == 'K') || 
-//             (chessBoard.getCurrBoard[r4][c4].name == 'k'))) {
-//             return true;
-//         }
-//         r4-=1;
-//         c4+=1;
-//     }
+    int r4 = newRow - 1;
+    int c4 = newCol + 1;    
+    if (r4>=0 && c4<=7) {
+        if(chessBoard[r4][c4]->color != chessBoard[newRow][newCol]->color && 
+            ((chessBoard[r4][c4]->pieceType == "K") || 
+            (chessBoard[r4][c4]->pieceType == "k"))) {
+            return true;
+        }
+    }
 
-//     // this checks left
-//     int r1 = newRow;
-//     int c1 = newCol - 1;
+    // this checks left
+    r1 = newRow;
+    c1 = newCol - 1;
     
-//     if (c1>=0) {
-//         if(chessBoard.getCurrBoard[r1][c1].color != this.color && 
-//         ((chessBoard.getCurrBoard[r1][c1].name == 'K') || 
-//         (chessBoard.getCurrBoard[r1][c1].name == 'k'))) {
-//             return true;
-//         }
-//         c1-=1;
-//     }
+    if (c1>=0) {
+        if(chessBoard[r1][c1]->color != chessBoard[newRow][newCol]->color && 
+        ((chessBoard[r1][c1]->pieceType == "K") || 
+        (chessBoard[r1][c1]->pieceType == "k"))) {
+            return true;
+        }
+    }
 
-//     // this checks right
-//     int r2 = newRow;
-//     int c2 = newCol + 1;    
-//     if (c2<=7) {
-//         if(chessBoard.getCurrBoard[r2][c2].color != this.color && 
-//         ((chessBoard.getCurrBoard[r2][c2].name == 'K') || 
-//         (chessBoard.getCurrBoard[r2][c2].name == 'k'))) {
-//             return true;
-//         }
-//         c2+=1;
-//     }
+    // this checks right
+    r2 = newRow;
+    c2 = newCol + 1;    
+    if (c2<=7) {
+        if(chessBoard[r2][c2]->color != chessBoard[newRow][newCol]->color && 
+        ((chessBoard[r2][c2]->pieceType == "K") || 
+        (chessBoard[r2][c2]->pieceType == "k"))) {
+            return true;
+        }
+    }
 
-//     // this checks down
-//     int r3 = newRow + 1;
-//     int c3 = newCol;    
-//     if (r3<=7) {
-//         if(chessBoard.getCurrBoard[r3][c3].color != this.color && 
-//         ((chessBoard.getCurrBoard[r3][c3].name == 'K') || 
-//         (chessBoard.getCurrBoard[r3][c3].name == 'k'))) {
-//             return true;
-//         }
-//         r3+=1;
-//     }
+    // this checks down
+    r3 = newRow + 1;
+    c3 = newCol;
+    if (r3 <= 7) {
+        if(chessBoard[r3][c3]->color != chessBoard[newRow][newCol]->color && 
+        ((chessBoard[r3][c3]->pieceType == "K") || 
+        (chessBoard[r3][c3]->pieceType == "k"))) {
+            return true;
+        }
+    }
 
-//     // this checks up
-//     int r4 = newRow - 1;
-//     int c4 = newCol;    
-//     if (r4 >=0) {
-//         if(chessBoard.getCurrBoard[r4][c4].color != this.color && 
-//         ((chessBoard.getCurrBoard[r4][c4].name == 'K') || 
-//         (chessBoard.getCurrBoard[r4][c4].name == 'k'))) {
-//             return true;
-//         }
-//         r4-=1;
-//     }
+    // this checks up
+    r4 = newRow - 1;
+    c4 = newCol;    
+    if (r4 >= 0) {
+        if(chessBoard[r4][c4]->color != chessBoard[newRow][newCol]->color && 
+        ((chessBoard[r4][c4]->pieceType == "K") || 
+        (chessBoard[r4][c4]->pieceType == "k"))) {
+            return true;
+        }
+    }
 
-//     return false;
-// }
+    return false;
+}
