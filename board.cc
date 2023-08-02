@@ -220,7 +220,6 @@ void Board::initPlayers(string type1, string type2) {
         this->turn = turn;
     }
     void Board::playHuman(char letterStart, char numberStart, char letterEnd, char numberEnd){
-        cout << "Entered play function:" << endl;
         string playerTurnString =  "";
 
         if(turn){
@@ -495,7 +494,6 @@ bool Board::isConfigurationValid() {
     bool blackKingInCheck = false;
  
     // Check the entire board for kings and pawns in invalid positions
-    cout << "currBoard.size: " << currBoard.size() << endl;
        for (int row = 0; row < currBoard.size(); row++) {
         for (int col = 0; col < currBoard[row].size(); col++) {
             Piece* currentPiece = nullptr;
@@ -597,7 +595,6 @@ void Board::playHelper(int row, int col, int newRow, int newCol){
                 delete currBoard[newRow][newCol]; 
                 currBoard[newRow][newCol] = pieceToMove; // Place the selected piece in the ending position
                 setTurn(true);
-                cout << "Piece to move: " << pieceToMove->pieceType <<endl;
         }
 
 
