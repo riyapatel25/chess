@@ -190,9 +190,6 @@ void Board::initPlayers(string type1, string type2) {
 }  
 
 
-    bool Board::isCheckmate(bool turn){
-          return 0;
-    }
     bool Board::getTurn(){
           return this->turn;
     }
