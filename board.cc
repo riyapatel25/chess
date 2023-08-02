@@ -190,23 +190,6 @@ void Board::initPlayers(string type1, string type2) {
 }  
 
 
- 
-//----big 5---//
-
-
-//     Board::~Board() {
-//     // Implement destructor to delete dynamically allocated pieces
-//     for (int i = 0; i < 8; i++) {
-//         for (int j = 0; j < 8; j++) {
-//             delete currBoard[i][j];
-//         }
-//     }
-// }
-
-    vector<vector<Piece*>> Board::getCurrBoard() const {
-        return currBoard;
-    }
-
     bool Board::isCheckmate(bool turn){
           return 0;
     }

@@ -37,7 +37,6 @@ class Board {
     void playHuman(char letterStart, char numberStart, char letterEnd, char numberEnd); //function to make a move
     void playComputer();
     bool isConfigurationValid(); //check is board is setup correctly -> helper for constructor
-    vector<vector<Piece*>> getCurrBoard() const;
     bool isCheckmate(bool turn);
     bool getTurn();
     pair<bool, int> getHasWon();
