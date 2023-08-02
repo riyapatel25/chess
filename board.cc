@@ -221,7 +221,16 @@ void Board::initPlayers(string type1, string type2) {
     }
     void Board::playHuman(char letterStart, char numberStart, char letterEnd, char numberEnd){
         cout << "Entered play function:" << endl;
-        cout << turn << " player's turn" << endl;
+        string playerTurnString =  "";
+
+        if(turn){
+            playerTurnString = "White";
+        }
+        if(!turn){
+            playerTurnString = "Black";
+        }
+
+        cout << playerTurnString << " player's turn" << endl;
         pair<char, char> start = make_pair(letterStart, numberStart);
         pair<char, char> end = make_pair(letterEnd, numberEnd);
         //find what the starting and ending coords are based on input (move e1 g1)

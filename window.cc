@@ -111,3 +111,4 @@ void Xwindow::draw_board(Board &board) {
     }
   }
 }
+
